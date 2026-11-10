@@ -1,7 +1,13 @@
 package POOproject;
 
-import javax.swing.JPanel;
+import javax.swing.JFrame;
 
-public class PainelLogin extends JPanel {
-
+public class PainelLogin extends JFrame {
+	
+	public PainelLogin() {
+		
+	}
+	
+	JTextFiel 
+	
 }

@@ -3,8 +3,7 @@ package POOproject;
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		PainelLogin painel = new PainelLogin();
 	}
 
 }
