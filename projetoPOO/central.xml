@@ -1,0 +1,32 @@
+<aqueceProjeto.CentralDeInformacoes>
+  <todosOsJogadores>
+    <aqueceProjeto.Jogador>
+      <nome>sonic louco</nome>
+      <sexo>M</sexo>
+      <CPF>12321324412</CPF>
+      <email>jonatas31000@gmail.com</email>
+    </aqueceProjeto.Jogador>
+  </todosOsJogadores>
+  <palavras>
+    <aqueceProjeto.Palavra>
+      <palavra>computador</palavra>
+      <dica>usado para códigos</dica>
+      <dificuldade>difícil</dificuldade>
+    </aqueceProjeto.Palavra>
+    <aqueceProjeto.Palavra>
+      <palavra>faca</palavra>
+      <dica>corta as coisa</dica>
+      <dificuldade>difícil</dificuldade>
+    </aqueceProjeto.Palavra>
+    <aqueceProjeto.Palavra>
+      <palavra>carro</palavra>
+      <dica>usado para locomoção</dica>
+      <dificuldade>difícil</dificuldade>
+    </aqueceProjeto.Palavra>
+    <aqueceProjeto.Palavra>
+      <palavra>cu prensado</palavra>
+      <dica>sexo</dica>
+      <dificuldade>difícil</dificuldade>
+    </aqueceProjeto.Palavra>
+  </palavras>
+</aqueceProjeto.CentralDeInformacoes>
