@@ -1,5 +1,7 @@
 package POOproject;
 
+import java.awt.Color;
+
 import javax.swing.JTextField;
 
 public class Inputs {
@@ -9,10 +11,13 @@ public class Inputs {
 		return tfCampoPadrao;
 	}
 	
-	public static class tfCampoP extends JTextField {
+	public static class tfCampoPadrao extends JTextField {
 		
-		public tfCampoP() {
-			
+		public tfCampoPadrao(String nome, int x, int y, int largura, int altura) {
+			setText(nome);
+			setBackground(new Color(255, 0 , 0));
+			//setBorder();
+			setBounds(x, y, largura, altura);
 		}
 	}
 	
