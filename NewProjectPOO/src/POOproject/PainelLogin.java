@@ -8,7 +8,7 @@ public class PainelLogin extends JFrame {
 	
 	JTextField tfEmail;
 	JTextField tfSsenha;
-	JLabel lbEemail;
+	JLabel lbEmail;
 	JLabel lbSenha;
 	
 	public PainelLogin() {
@@ -25,8 +25,8 @@ public class PainelLogin extends JFrame {
 	}
 	
 	public void adiconarEmailSenha() {
-		lbEmail = new JLabel();
-		
+		lbEmail = new JLabel("Email");
+		lbEmail.setBounds();	
 		tfEmail = new Inputs.tfCampoPadrao("Email", 100, 100, 20, 20);
 		add(tfEmail);
 		
