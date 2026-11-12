@@ -23,6 +23,7 @@ public class PainelLogin extends Painel {
 
 		
 		setVisible(true);
+		//Jesus
 	}
 	
 	public void janelaPainelLogin() {
