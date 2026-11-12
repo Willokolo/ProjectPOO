@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import componentes.BotoesGrandes;
+
 public class BarraLateral extends JFrame{
 	public BarraLateral() {
 		configurar();
@@ -64,12 +66,12 @@ public class BarraLateral extends JFrame{
 	}
 	
 	private void criarBotoesCustomizados() {
-		jogarSolo = new Componentes.Botoes("SOLO", 10, 320, 180, 70);
+		jogarSolo = new BotoesGrandes("SOLO", 10, 320, 180, 70);
 		jogarSolo.addMouseListener(new OuvinteBotoesCustomizados());
 		//jogarSolo.setBorder(new RoundedBorder(10));
 		add(jogarSolo);
 		
-		jogarDuelo = new Componentes.Botoes("DUELO", 10, 400, 180, 70);
+		jogarDuelo = new BotoesGrandes("DUELO", 10, 400, 180, 70);
 		jogarDuelo.addMouseListener(new OuvinteBotoesCustomizados());
 		add(jogarDuelo);
 		

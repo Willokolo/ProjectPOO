@@ -19,6 +19,8 @@ public interface Utils {
 	
 	public static final Color COR_LETRAS = Color.decode("#FEFEFE");
 	
-	//FONTES
+	// FONTES
 	public static final Font FONTE_GRANDE = new Font("Inter", Font.BOLD, 30);
+	
+	public static final Font FONTE_MEDIA = new Font("Inter", Font.BOLD, 20);
 }
