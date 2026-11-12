@@ -2,6 +2,8 @@ package projeto;
 
 import java.util.Scanner;
 
+import enums.Sexo;
+
 public class Main {
 	public static void main(String[] args) {
 		Persistencia p = new Persistencia();

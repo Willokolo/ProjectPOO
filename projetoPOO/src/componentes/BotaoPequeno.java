@@ -3,7 +3,7 @@ package componentes;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import projeto.Utils;
+import enums.Utils;
 
 public class BotaoPequeno extends Botao {
 

@@ -1,4 +1,4 @@
-package projeto;
+package enums;
 
 public enum TipoTexto {
 	TITULO,

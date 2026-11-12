@@ -1,4 +1,4 @@
-package projeto;
+package enums;
 
 import java.awt.Color;
 import java.awt.Font;

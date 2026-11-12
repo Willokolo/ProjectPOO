@@ -1,5 +1,7 @@
 package projeto;
 
+import enums.Sexo;
+
 public class Jogador {
 	
 	//atributos

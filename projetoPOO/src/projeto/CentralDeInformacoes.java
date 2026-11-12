@@ -2,6 +2,8 @@ package projeto;
 
 import java.util.ArrayList;
 
+import enums.Sexo;
+
 public class CentralDeInformacoes {
 	
 	//atributos

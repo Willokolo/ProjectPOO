@@ -2,7 +2,7 @@ package componentes;
 
 import javax.swing.JLabel;
 
-import projeto.Utils;
+import enums.Utils;
 
 public class BotoesGrandes extends JLabel {
 	

@@ -3,7 +3,7 @@ package componentes;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import projeto.Utils;
+import enums.Utils;
 
 public class LabelFundoEscuroCentralizado extends JLabel{
 	

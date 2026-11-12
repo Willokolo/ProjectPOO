@@ -2,8 +2,8 @@ package componentes;
 
 import javax.swing.JLabel;
 
-import projeto.TipoTexto;
-import projeto.Utils;
+import enums.TipoTexto;
+import enums.Utils;
 
 public class LabelTexto extends JLabel {
 	

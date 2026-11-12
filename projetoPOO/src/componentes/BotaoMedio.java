@@ -4,7 +4,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
-import projeto.Utils;
+import enums.Utils;
 
 public class BotaoMedio extends Botao {
 	

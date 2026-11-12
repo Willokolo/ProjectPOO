@@ -3,7 +3,7 @@ package componentes;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import projeto.Utils;
+import enums.Utils;
 
 public abstract class Botao extends JLabel{
 	public Botao(String nome, int x, int y, int largura, int altura) {

@@ -1,4 +1,4 @@
-package projeto;
+package paineis;
 
 import java.awt.Color;
 
