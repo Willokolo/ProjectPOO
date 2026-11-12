@@ -10,10 +10,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+<<<<<<< HEAD
 import componentes.BotaoGrande;
 import componentes.BotaoMedio;
 import componentes.BotaoPequeno;
 import componentes.Painel;
+=======
+import componentes.BotoesGrandes;
+>>>>>>> 84d0743 (Adicionei organização de pastas, para enums e painéis, furutamente desejando utilizar a pasta projeto apenas para as mains de teste e principal, também adicionei a classe LabelTexto que cria textos de forma padronizada)
 
 public class BarraLateral extends Painel{
 	

@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 public interface Utils {
 	
 	// CORES
+	
 	public static final Color COR_FUNDO = Color.decode("#33322F");
 	
 	public static final Color COR_FUNDO_ESCURO = Color.decode("#201F1D");
@@ -20,12 +21,13 @@ public interface Utils {
 	public static final Color COR_PRIMARIA_COMPLEMENTAR = Color.decode("#63942F");
 	
 	public static final Color COR_LETRAS = Color.decode("#FEFEFE");
-	
+
 	// FONTES
+	
 	public static final Font FONTE_GRANDE = new Font("Inter", Font.BOLD, 30);
 	
 	public static final Font FONTE_MEDIA = new Font("Inter", Font.BOLD, 20);
-	
+
 	public static final Font FONTE_PEQUENA = new Font("Inter", Font.PLAIN, 15); 
 	
 	// IMAGENS
@@ -40,4 +42,5 @@ public interface Utils {
 	public static final ImageIcon ICONE_ESTATISTICAS = new ImageIcon("placeholderpequeno.png");
 	
 	public static final ImageIcon ICONE_HISTORICO = new ImageIcon("placeholderpequeno.png");
+
 }
