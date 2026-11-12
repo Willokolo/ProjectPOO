@@ -4,7 +4,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
-import enums.Utils;
+import enums.Colors;
 
 public class BotaoGrande extends Botao {
 	
@@ -21,8 +21,8 @@ public class BotaoGrande extends Botao {
 	}
 
 	private void configurar() {
-		setBackground(Utils.COR_PRIMARIA);
+		setBackground(Colors.COR_PRIMARIA);
 		setOpaque(true);
-		setFont(Utils.FONTE_GRANDE);
+		setFont(Colors.FONTE_GRANDE);
 	}
 }

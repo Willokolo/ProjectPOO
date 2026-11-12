@@ -4,7 +4,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
-import enums.Utils;
+import interfaces.*;
 
 public class BotaoMedio extends Botao {
 	
@@ -21,7 +21,7 @@ public class BotaoMedio extends Botao {
 	}
 	
 	private void configurar() {
-		setFont(Utils.FONTE_MEDIA);
-		setBackground(Utils.COR_FUNDO);
+		setFont(FontSize.FONTE_MEDIA);
+		setBackground(Colors.COR_FUNDO);
 	}
 }

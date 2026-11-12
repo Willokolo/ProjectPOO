@@ -3,7 +3,7 @@ package componentes;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import enums.Utils;
+import interfaces.*;
 
 public class BotaoPequeno extends Botao {
 
@@ -13,8 +13,8 @@ public class BotaoPequeno extends Botao {
 	}
 
 	private void configurar() {
-		setFont(Utils.FONTE_PEQUENA);
-		setBackground(Utils.COR_FUNDO);
+		setFont(FontSize.FONTE_PEQUENA);
+		setBackground(Colors.COR_FUNDO);
 		setHorizontalAlignment(JLabel.CENTER);
 	}
 	

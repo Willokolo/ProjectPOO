@@ -7,15 +7,18 @@ import javax.swing.JTextField;
 
 import componentes.CampoPadrao;
 import componentes.LabelFundoEscuroCentralizado;
+import componentes.LabelTexto;
 import componentes.Painel;
+import enums.TipoTexto;
 
 public class PainelLogin extends Painel {
 
-	JTextField tfEmail;
-	JTextField tfSsenha;
-	JLabel lbEmail;
-	JLabel lbSenha;
-	JLabel lbFundoPainelLogin;
+	private JTextField tfEmail;
+	private JTextField tfSsenha;
+	private JLabel lbTitulo;
+	private JLabel lbEmail;
+	private JLabel lbSenha;
+	private JLabel lbFundoPainelLogin;
 	
 	public PainelLogin() {
 		super("Painel Login");
@@ -54,7 +57,10 @@ public class PainelLogin extends Painel {
 	}
 	
 	public void adiconarEmailSenha() {
-		//lbEmail = new LabelTexto(Tipo);
+		lbTitulo = new LabelTexto(TipoTexto.TITULO, "ADMINISTRADOR", getWidth() / 2 - 125, 100, 300, 50);
+		add(lbTitulo);
+		
+		lbEmail = new LabelTexto(TipoTexto.TEXTO_PEQUENO, "Seja Bem-vindo!", getWidth() / 2 - 55, 145, 200, 30);
 		add(lbEmail);
 		
 		tfEmail = new CampoPadrao("Email", 100, 100);

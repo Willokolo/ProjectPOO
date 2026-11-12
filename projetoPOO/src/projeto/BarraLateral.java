@@ -10,16 +10,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-<<<<<<< HEAD
 import componentes.BotaoGrande;
 import componentes.BotaoMedio;
 import componentes.BotaoPequeno;
 import componentes.Painel;
-import enums.Utils;
+import interfaces.Colors;
+import interfaces.FontSize;
+import interfaces.Icones;
 import componentes.BotoesGrandes;
->>>>>>> 84d0743 (Adicionei organização de pastas, para enums e painéis, furutamente desejando utilizar a pasta projeto apenas para as mains de teste e principal, também adicionei a classe LabelTexto que cria textos de forma padronizada)
 
-public class BarraLateral extends Painel{
+public class BarraLateral extends Painel {
 	
 	// LABELS
 	private JLabel barra;
@@ -40,7 +40,8 @@ public class BarraLateral extends Painel{
 	private JLabel btHistorico;
 	private JLabel btAddJogador;
 	
-	public BarraLateral() {
+	public BarraLateral(String title) {
+		super(title);
 		criarBotoesCustomizados();
 		criarTextos();
 		criarCamposTexto();
@@ -52,7 +53,7 @@ public class BarraLateral extends Painel{
 
 		public void mouseClicked(MouseEvent e) {
 			JComponent c = (JComponent) e.getSource();
-			c.setBackground(Utils.COR_PRIMARIA_COMPLEMENTAR);
+			c.setBackground(Colors.COR_PRIMARIA_COMPLEMENTAR);
 			JOptionPane.showMessageDialog(null, "Nada, por enquanto");
 		}
 
@@ -63,12 +64,12 @@ public class BarraLateral extends Painel{
 		public void mouseEntered(MouseEvent e) {
 			JComponent c = (JComponent) e.getSource();
 			c.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			c.setBackground(Utils.COR_BOTAO_HOVER);
+			c.setBackground(Colors.COR_BOTAO_HOVER);
 		}
 
 		public void mouseExited(MouseEvent e) {
 			JComponent c = (JComponent) e.getSource();
-			c.setBackground(Utils.COR_PRIMARIA);
+			c.setBackground(Colors.COR_PRIMARIA);
 		}
 		
 	}
@@ -101,29 +102,29 @@ public class BarraLateral extends Painel{
 	private void criarBotoesCustomizados() {
 		
 		// BOTÕES GRANDES
-		btJogarSolo = new BotaoGrande("SOLO", Utils.ICONE_SOLO, 10, 370, 180, 70);
+		btJogarSolo = new BotaoGrande("SOLO", Icones.ICONE_SOLO, 10, 370, 180, 70);
 		btJogarSolo.addMouseListener(new OuvinteBotaoGrande());
 		add(btJogarSolo);
 		
-		btJogarDuelo = new BotaoGrande("DUELO", Utils.ICONE_DUELO, 10, 450, 180, 70);
+		btJogarDuelo = new BotaoGrande("DUELO", Icones.ICONE_DUELO, 10, 450, 180, 70);
 		btJogarDuelo.addMouseListener(new OuvinteBotaoGrande());
 		add(btJogarDuelo);
 		
 		
 		// BOTÕES MÉDIOS
-		btLideranca = new BotaoMedio("Liderança", Utils.ICONE_LIDERANCA, 10, 250, 180, 30);
+		btLideranca = new BotaoMedio("Liderança", Icones.ICONE_LIDERANCA, 10, 250, 180, 30);
 		btLideranca.addMouseListener(new OuvinteBotaoMedio());
 		add(btLideranca);
 		
-		btMensagens = new BotaoMedio("Mensagens", Utils.ICONE_MENSAGENS, 10, 210, 180, 30);
+		btMensagens = new BotaoMedio("Mensagens", Icones.ICONE_MENSAGENS, 10, 210, 180, 30);
 		btMensagens.addMouseListener(new OuvinteBotaoMedio());
 		add(btMensagens);
 		
-		btEstatisticas = new BotaoMedio("Estatísticas", Utils.ICONE_ESTATISTICAS, 10, 170, 180, 30);
+		btEstatisticas = new BotaoMedio("Estatísticas", Icones.ICONE_ESTATISTICAS, 10, 170, 180, 30);
 		btEstatisticas.addMouseListener(new OuvinteBotaoMedio());
 		add(btEstatisticas);
 		
-		btHistorico = new BotaoMedio("Histórico", Utils.ICONE_HISTORICO, 10, 130, 180, 30);
+		btHistorico = new BotaoMedio("Histórico", Icones.ICONE_HISTORICO, 10, 130, 180, 30);
 		btHistorico.addMouseListener(new OuvinteBotaoMedio());
 		add(btHistorico);
 		
@@ -138,30 +139,30 @@ public class BarraLateral extends Painel{
 		lbJogar = new JLabel("Jogar");
 		lbJogar.setBounds(10, 325, 180, 40);
 		lbJogar.setHorizontalAlignment(JLabel.CENTER);
-		lbJogar.setFont(Utils.FONTE_GRANDE);
-		lbJogar.setForeground(Utils.COR_LETRAS);
+		lbJogar.setFont(FontSize.FONTE_GRANDE);
+		lbJogar.setForeground(Colors.COR_LETRAS);
 		add(lbJogar);
 		
 		lbJogadores = new JLabel("Jogadores");
 		lbJogadores.setBounds(10, 550, 180, 30);
 		lbJogadores.setHorizontalAlignment(JLabel.CENTER);
-		lbJogadores.setFont(Utils.FONTE_MEDIA);
-		lbJogadores.setForeground(Utils.COR_LETRAS);
+		lbJogadores.setFont(FontSize.FONTE_MEDIA);
+		lbJogadores.setForeground(Colors.COR_LETRAS);
 		add(lbJogadores);
 		
 		lbNomeJogador = new JLabel("RAFÊNIX");
 		lbNomeJogador.setBounds(10, 70, 180, 30);
 		lbNomeJogador.setHorizontalAlignment(JLabel.CENTER);
-		lbNomeJogador.setFont(Utils.FONTE_MEDIA);
-		lbNomeJogador.setForeground(Utils.COR_LETRAS);
+		lbNomeJogador.setFont(FontSize.FONTE_MEDIA);
+		lbNomeJogador.setForeground(Colors.COR_LETRAS);
 		add(lbNomeJogador);
 		
 		lbIconeJogador = new JLabel("RF");
 		lbIconeJogador.setBounds(75, 15, 50, 50);
-		lbIconeJogador.setBackground(Utils.COR_PRIMARIA);
+		lbIconeJogador.setBackground(Colors.COR_PRIMARIA);
 		lbIconeJogador.setOpaque(true);
-		lbIconeJogador.setForeground(Utils.COR_FUNDO_ESCURO);
-		lbIconeJogador.setFont(Utils.FONTE_GRANDE);
+		lbIconeJogador.setForeground(Colors.COR_FUNDO_ESCURO);
+		lbIconeJogador.setFont(FontSize.FONTE_GRANDE);
 		lbIconeJogador.setHorizontalAlignment(JLabel.CENTER);
 		add(lbIconeJogador);
 	}
@@ -169,7 +170,7 @@ public class BarraLateral extends Painel{
 	private void criarCamposTexto() {
 		tfJogadores = new JTextField();
 		tfJogadores.setBounds(10, 590, 180, 40);
-		tfJogadores.setFont(Utils.FONTE_PEQUENA);
+		tfJogadores.setFont(FontSize.FONTE_PEQUENA);
 		add(tfJogadores);
 	}
 	
@@ -177,11 +178,11 @@ public class BarraLateral extends Painel{
 		barra = new JLabel();
 		barra.setBounds(0, 0, 200, 675);
 		barra.setOpaque(true);
-		barra.setBackground(Utils.COR_FUNDO_ESCURO);
+		barra.setBackground(Colors.COR_FUNDO_ESCURO);
 		add(barra);
 	}
 	
 	public static void main(String[] args) {
-		BarraLateral b = new BarraLateral();
+		BarraLateral b = new BarraLateral("oi kk esqueceu de me bloquar no Java");
 	}
 }

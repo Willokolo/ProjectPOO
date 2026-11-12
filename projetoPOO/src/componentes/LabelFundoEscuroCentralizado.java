@@ -3,13 +3,13 @@ package componentes;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import enums.Utils;
+import interfaces.*;
 
 public class LabelFundoEscuroCentralizado extends JLabel{
 	
 	public LabelFundoEscuroCentralizado(JFrame frame, int largura, int altura) {
 		
-		setBackground(Utils.COR_FUNDO_ESCURO);
+		setBackground(Colors.COR_FUNDO_ESCURO);
 		
 		setLayout(null);
 		
