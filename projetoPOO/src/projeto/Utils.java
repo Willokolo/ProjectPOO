@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
+
 public interface Utils {
 	
 	// CORES
@@ -23,4 +25,19 @@ public interface Utils {
 	public static final Font FONTE_GRANDE = new Font("Inter", Font.BOLD, 30);
 	
 	public static final Font FONTE_MEDIA = new Font("Inter", Font.BOLD, 20);
+	
+	public static final Font FONTE_PEQUENA = new Font("Inter", Font.PLAIN, 15); 
+	
+	// IMAGENS
+	public static final ImageIcon ICONE_SOLO = new ImageIcon("placeholdermedio.png");
+	
+	public static final ImageIcon ICONE_DUELO = new ImageIcon("placeholdermedio.png");
+	
+	public static final ImageIcon ICONE_LIDERANCA = new ImageIcon("placeholderpequeno.png");
+	
+	public static final ImageIcon ICONE_MENSAGENS = new ImageIcon("placeholderpequeno.png");
+	
+	public static final ImageIcon ICONE_ESTATISTICAS = new ImageIcon("placeholderpequeno.png");
+	
+	public static final ImageIcon ICONE_HISTORICO = new ImageIcon("placeholderpequeno.png");
 }

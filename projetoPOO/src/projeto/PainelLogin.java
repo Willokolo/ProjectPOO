@@ -10,17 +10,16 @@ import componentes.Painel;
 
 public class PainelLogin extends Painel {
 
-	JTextField tfEmail;
-	JTextField tfSsenha;
-	JLabel lbEmail;
-	JLabel lbSenha;
+	private JTextField tfEmail;
+	private JTextField tfSsenha;
+	private JLabel lbEmail;
+	private JLabel lbSenha;
 	
 	public PainelLogin() {
 		super();
-		adiconarEmailSenha();
+		adicionarEmailSenha();
 		
 	    getContentPane().setBackground(Color.RED);
-
 		
 		setVisible(true);
 		//Jesus
@@ -30,7 +29,7 @@ public class PainelLogin extends Painel {
 		
 	}
 	
-	public void adiconarEmailSenha() {
+	public void adicionarEmailSenha() {
 		lbEmail = new JLabel("Email");
 		//lbEmail.setBounds();	
 		tfEmail = new CampoPadrao("Email", 100, 100, 20, 20);
