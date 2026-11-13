@@ -13,34 +13,24 @@ import javax.swing.JPasswordField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import interfaces.Colors;
+import interfaces.Cores;
 import interfaces.Icones;
 
-public class CompoSenha extends JPasswordField {
-
-	private String senha;
+public class CampoSenha extends JPasswordField {
 	
-	 public CompoSenha(String nome, int x, int y, int largura, int altura, JFrame frame) {
+	 public CampoSenha(String nome, int x, int y, int largura, int altura, JFrame frame) {
 
 	        super(nome);
 	        
 	        setEchoChar((char) 0);
 	        
-			setBackground(Colors.COR_FUNDO);
-			setForeground(Colors.COR_LETRAS);
+			setBackground(Cores.COR_FUNDO);
+			setForeground(Cores.COR_LETRAS);
 			setMargin(new Insets(0, 15, 0, 15));
 
 			setBounds(x, y, largura, altura);
-	        
-	        final ImageIcon iconeAberto = new ImageIcon(
-	                Icones.ICONE_OLHO_SENHA_ABERTO.getImage()
-	                        .getScaledInstance(30, 30, Image.SCALE_SMOOTH));
 
-	        final ImageIcon iconeFechado = new ImageIcon(
-	                Icones.ICONE_OLHO_SENHA_FECHADO.getImage()
-	                        .getScaledInstance(30, 30, Image.SCALE_SMOOTH));
-
-	        final JLabel labelImagem = new JLabel(iconeAberto);
+	        final JLabel labelImagem = new JLabel(Icones.ICONE_OLHO_SENHA_ABERTO);
 	        labelImagem.setBounds(largura - 45, (altura - 30) / 2, 30, 30);
 	        labelImagem.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	        
@@ -52,11 +42,11 @@ public class CompoSenha extends JPasswordField {
 	        		
 	        		if (visivel) {
 	        			setEchoChar((char) 0);
-	        			labelImagem.setIcon(iconeAberto);
+	        			labelImagem.setIcon(Icones.ICONE_OLHO_SENHA_ABERTO);
 	        			
 	        		} else if (!visivel) {
 	        			setEchoChar('*');
-	        			labelImagem.setIcon(iconeFechado);
+	        			labelImagem.setIcon(Icones.ICONE_OLHO_SENHA_FECHADO);
 	        			
 	        		}
 	        	}

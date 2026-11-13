@@ -6,21 +6,23 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import interfaces.Colors;
+import interfaces.Cores;
 
 public class Painel extends JFrame{
-
-	private int largura = 1200;
-	private int altura  = 675;
+	
+	// O TAMANHO REAL É 1200 X 675, MAS ESTÁ COM ESSE VALOR POR CAUSA DAS BORDAS
+	// FAÇA OS CÁLCULOS DE POSIÇÃO COM BASE NO TAMANHO REAL, NÃO COM ESSES NÚMEROS
+	private final int largura = 1216; // NÃO MUDAR
+	private final int altura  = 714; // NÃO MUDAR
 	
 	public Painel(String title) {
+		super(title);
 		setSize(this.largura, this.altura);
 		setLocationRelativeTo(null);
 		setLayout(null);
-		setTitle(title);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
-		getContentPane().setBackground(Colors.COR_FUNDO);
+		getContentPane().setBackground(Cores.COR_FUNDO);
 	}
 	
 	public void adicionarLinhaCentral() {
@@ -28,8 +30,9 @@ public class Painel extends JFrame{
 	    int largura = 2;
 	    int altura = 675;
 
-	    int x = (getWidth() - largura) / 2;
-	    int y = (getHeight() - altura) / 2;
+	    // -16 POR CAUSA DAS BORDAS
+	    int x = (getWidth() - largura - 16) / 2;
+	    int y = 0;
 
 	    JLabel lbLinha = new JLabel();
 

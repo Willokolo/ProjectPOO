@@ -2,7 +2,7 @@ package interfaces;
 
 import java.awt.Color;
 
-public interface Colors {
+public interface Cores {
 
 	public static final Color COR_FUNDO = Color.decode("#33322F");
 	

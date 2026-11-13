@@ -1,34 +1,47 @@
 package paineis;
 
+import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import componentes.BotaoGrande;
+import componentes.BotaoPequeno;
 import componentes.CampoPadrao;
-import componentes.CompoSenha;
+import componentes.CampoSenha;
 import componentes.LabelFundoEscuroCentralizado;
 import componentes.LabelTexto;
 import componentes.Painel;
-import enums.TipoTexto;
+import interfaces.Fontes;
 
-public class PainelLoginUsuario extends Painel {
+public class PainelLoginUsuario extends PainelInicial {
 
+	// CAMPOS DE TEXTO
 	private JTextField tfEmail;
 	private JTextField tfSsenha;
+	
+	// TEXTOS
 	private JLabel lbTitulo;
 	private JLabel lbBemVindo;
 	private JLabel lbEmail;
 	private JLabel lbSenha;
+	
+	// BOTÕES
+	private JLabel btLogin;
+	private JLabel btCadastrar;
+	
+	// PAINEL DE FUNDO
 	private JLabel lbFundoPainelLogin;
 	
 	public PainelLoginUsuario() {
 		super("Painel Login Usuário");
 		
-		adiconarEmailSenha();
+		criarTextos();
+		criarCamposTexto();
+		criarBotoes();
 		
 		labelFundoEscuroCentral();
 		
@@ -36,50 +49,59 @@ public class PainelLoginUsuario extends Painel {
 	
 	}
 	
-	public void labelFundoEscuroCentral() {
+	protected void labelFundoEscuroCentral() {
 		lbFundoPainelLogin = new LabelFundoEscuroCentralizado(this, 480, 500);
-		
 		add(lbFundoPainelLogin);
 	}
 	
-	public void adiconarEmailSenha() {
-		lbTitulo = new LabelTexto(TipoTexto.TITULO, "LOGIN", getWidth() / 2 - 50, 120, 200, 50);
+	protected void criarTextos() {
+		lbTitulo = new LabelTexto(Fontes.FONTE_GRANDE, "LOGIN", 500, 120, 200, 50);
 		add(lbTitulo);
 		
-		lbBemVindo = new LabelTexto(TipoTexto.TEXTO_PEQUENO, "Bem-vindo de volta!", getWidth() / 2 - 68, 165, 200, 30);
+		lbBemVindo = new LabelTexto(Fontes.FONTE_PEQUENA, "Bem-vindo de volta!", 500, 165, 200, 30);
 		add(lbBemVindo);
 		
-		lbEmail = new LabelTexto(TipoTexto.TEXTO_PEQUENO, "Email", getWidth() / 2 - 22, 220, 200, 30);
+		lbEmail = new LabelTexto(Fontes.FONTE_PEQUENA, "Email", 500, 220, 200, 30);
 		add(lbEmail);
 		
-		tfEmail = new CampoPadrao("Email", getWidth() / 2 - 190, 250, 380, 50);
+		lbSenha = new LabelTexto(Fontes.FONTE_PEQUENA, "Senha", 500, 320, 200, 30);
+		add(lbSenha);
+	}
+	
+	protected void criarCamposTexto() {
+		tfEmail = new CampoPadrao("Email", 410, 250, 380, 50);
 		add(tfEmail);
 		
-		lbSenha = new LabelTexto(TipoTexto.TEXTO_PEQUENO, "Senha", getWidth() / 2 - 22, 320, 200, 30);
-		add(lbSenha);
-		
-		tfSsenha = new CompoSenha("Senha", getWidth() / 2 - 190, 350, 380, 50, this);
+		tfSsenha = new CampoSenha("Senha", 410, 350, 380, 50, this);
 		add(tfSsenha);
+	}
+	
+	protected void criarBotoes() {
+		btLogin = new BotaoGrande("CADASTRAR", 410, 440, 380, 70);
+		add(btLogin);
 		
-		ImageIcon imagem = new ImageIcon("OlhoSenha.png");
-		JLabel labelIamgem = new JLabel(imagem);
-		
-		labelIamgem.setBounds(getWidth() + (240 - 60), 50 + 440 /2, 50, 50 );
-		add(labelIamgem);
-		
-		BotaoGrande botao = new BotaoGrande("CADASTRAR", getWidth() / 2 - 190, 440, 380, 70);
-		add(botao);
-		
-		lbSenha = new LabelTexto(TipoTexto.TEXTO_PEQUENO_BOLD, "-- Não tem conta? Clique aqui e comece a Jogar! --", getWidth() / 2 - 178, 530, 400, 30);
-		lbSenha.addMouseListener(new MouseAdapter() {
+		btCadastrar = new BotaoPequeno("-- Não tem conta? Clique aqui e comece a Jogar! --", 400, 520, 400, 30);
+		btCadastrar.setFont(Fontes.FONTE_PEQUENA_BOLD);
+		btCadastrar.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				dispose();
-				new PainelRegistroUsuario();
-				
+				new PainelCadastroNovoJogador();
+			}
+			
+			public void mouseEntered(MouseEvent e) {
+				JComponent c = (JComponent) e.getSource();
+				c.setOpaque(true);
+				c.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				repaint();
+			}
+			
+			public void mouseExited(MouseEvent e) {
+				JComponent c = (JComponent) e.getSource();
+				c.setOpaque(false);
+				repaint();
 			}
 		});
-		add(lbSenha);
-		
+		add(btCadastrar);
 	}
 	
 	public static void main(String[] args) {

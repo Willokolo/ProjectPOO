@@ -21,7 +21,7 @@ public class BotaoMedio extends Botao {
 	}
 	
 	private void configurar() {
-		setFont(FontSize.FONTE_MEDIA);
-		setBackground(Colors.COR_FUNDO);
+		setFont(Fontes.FONTE_MEDIA);
+		setBackground(Cores.COR_FUNDO);
 	}
 }

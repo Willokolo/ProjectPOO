@@ -16,8 +16,8 @@ public static final ImageIcon ICONE_SOLO = new ImageIcon("placeholdermedio.png")
 	
 	public static final ImageIcon ICONE_HISTORICO = new ImageIcon("placeholderpequeno.png");
 	
-	public static final ImageIcon ICONE_OLHO_SENHA_ABERTO = new ImageIcon("placeholderOlhoSenha.png");
+	public static final ImageIcon ICONE_OLHO_SENHA_ABERTO = new ImageIcon("olhoSenhaAberto.png");
 
-	public static final ImageIcon ICONE_OLHO_SENHA_FECHADO = new ImageIcon("placeholderOlhoSenhaFechado.png");
+	public static final ImageIcon ICONE_OLHO_SENHA_FECHADO = new ImageIcon("olhoSenhaFechado.png");
 	
 }

@@ -14,8 +14,8 @@ import componentes.BotaoGrande;
 import componentes.BotaoMedio;
 import componentes.BotaoPequeno;
 import componentes.Painel;
-import interfaces.Colors;
-import interfaces.FontSize;
+import interfaces.Cores;
+import interfaces.Fontes;
 import interfaces.Icones;
 import componentes.BotoesGrandes;
 
@@ -53,7 +53,7 @@ public class BarraLateral extends Painel {
 
 		public void mouseClicked(MouseEvent e) {
 			JComponent c = (JComponent) e.getSource();
-			c.setBackground(Colors.COR_PRIMARIA_COMPLEMENTAR);
+			c.setBackground(Cores.COR_PRIMARIA_COMPLEMENTAR);
 			JOptionPane.showMessageDialog(null, "Nada, por enquanto");
 		}
 
@@ -64,12 +64,12 @@ public class BarraLateral extends Painel {
 		public void mouseEntered(MouseEvent e) {
 			JComponent c = (JComponent) e.getSource();
 			c.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			c.setBackground(Colors.COR_BOTAO_HOVER);
+			c.setBackground(Cores.COR_BOTAO_HOVER);
 		}
 
 		public void mouseExited(MouseEvent e) {
 			JComponent c = (JComponent) e.getSource();
-			c.setBackground(Colors.COR_PRIMARIA);
+			c.setBackground(Cores.COR_PRIMARIA);
 		}
 		
 	}
@@ -139,30 +139,30 @@ public class BarraLateral extends Painel {
 		lbJogar = new JLabel("Jogar");
 		lbJogar.setBounds(10, 325, 180, 40);
 		lbJogar.setHorizontalAlignment(JLabel.CENTER);
-		lbJogar.setFont(FontSize.FONTE_GRANDE);
-		lbJogar.setForeground(Colors.COR_LETRAS);
+		lbJogar.setFont(Fontes.FONTE_GRANDE);
+		lbJogar.setForeground(Cores.COR_LETRAS);
 		add(lbJogar);
 		
 		lbJogadores = new JLabel("Jogadores");
 		lbJogadores.setBounds(10, 550, 180, 30);
 		lbJogadores.setHorizontalAlignment(JLabel.CENTER);
-		lbJogadores.setFont(FontSize.FONTE_MEDIA);
-		lbJogadores.setForeground(Colors.COR_LETRAS);
+		lbJogadores.setFont(Fontes.FONTE_MEDIA);
+		lbJogadores.setForeground(Cores.COR_LETRAS);
 		add(lbJogadores);
 		
 		lbNomeJogador = new JLabel("RAFÊNIX");
 		lbNomeJogador.setBounds(10, 70, 180, 30);
 		lbNomeJogador.setHorizontalAlignment(JLabel.CENTER);
-		lbNomeJogador.setFont(FontSize.FONTE_MEDIA);
-		lbNomeJogador.setForeground(Colors.COR_LETRAS);
+		lbNomeJogador.setFont(Fontes.FONTE_MEDIA);
+		lbNomeJogador.setForeground(Cores.COR_LETRAS);
 		add(lbNomeJogador);
 		
 		lbIconeJogador = new JLabel("RF");
 		lbIconeJogador.setBounds(75, 15, 50, 50);
-		lbIconeJogador.setBackground(Colors.COR_PRIMARIA);
+		lbIconeJogador.setBackground(Cores.COR_PRIMARIA);
 		lbIconeJogador.setOpaque(true);
-		lbIconeJogador.setForeground(Colors.COR_FUNDO_ESCURO);
-		lbIconeJogador.setFont(FontSize.FONTE_GRANDE);
+		lbIconeJogador.setForeground(Cores.COR_FUNDO_ESCURO);
+		lbIconeJogador.setFont(Fontes.FONTE_GRANDE);
 		lbIconeJogador.setHorizontalAlignment(JLabel.CENTER);
 		add(lbIconeJogador);
 	}
@@ -170,7 +170,7 @@ public class BarraLateral extends Painel {
 	private void criarCamposTexto() {
 		tfJogadores = new JTextField();
 		tfJogadores.setBounds(10, 590, 180, 40);
-		tfJogadores.setFont(FontSize.FONTE_PEQUENA);
+		tfJogadores.setFont(Fontes.FONTE_PEQUENA);
 		add(tfJogadores);
 	}
 	
@@ -178,7 +178,7 @@ public class BarraLateral extends Painel {
 		barra = new JLabel();
 		barra.setBounds(0, 0, 200, 675);
 		barra.setOpaque(true);
-		barra.setBackground(Colors.COR_FUNDO_ESCURO);
+		barra.setBackground(Cores.COR_FUNDO_ESCURO);
 		add(barra);
 	}
 	

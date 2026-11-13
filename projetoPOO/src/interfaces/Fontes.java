@@ -2,7 +2,7 @@ package interfaces;
 
 import java.awt.Font;
 
-public interface FontSize {
+public interface Fontes {
 
 	public static final Font FONTE_GRANDE = new Font("Inter", Font.BOLD, 30);
 	
