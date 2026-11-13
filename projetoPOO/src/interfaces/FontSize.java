@@ -11,5 +11,7 @@ public interface FontSize {
 	public static final Font FONTE_MEDIA_NO_BOLD = new Font("Inter", Font.PLAIN, 20);
 
 	public static final Font FONTE_PEQUENA = new Font("Inter", Font.PLAIN, 15); 
+
+	public static final Font FONTE_PEQUENA_BOLD = new Font("Inter", Font.BOLD, 15); 
 	
 }

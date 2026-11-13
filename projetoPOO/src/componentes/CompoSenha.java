@@ -24,6 +24,8 @@ public class CompoSenha extends JPasswordField {
 
 	        super(nome);
 	        
+	        setEchoChar((char) 0);
+	        
 			setBackground(Colors.COR_FUNDO);
 			setForeground(Colors.COR_LETRAS);
 			setMargin(new Insets(0, 15, 0, 15));

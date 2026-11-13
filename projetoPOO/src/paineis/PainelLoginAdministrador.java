@@ -8,7 +8,6 @@ import javax.swing.JTextField;
 
 import componentes.BotaoGrande;
 import componentes.CampoPadrao;
-import componentes.CampoSenha;
 import componentes.CompoSenha;
 import componentes.LabelFundoEscuroCentralizado;
 import componentes.LabelTexto;
@@ -16,7 +15,7 @@ import componentes.Painel;
 import enums.TipoTexto;
 import interfaces.Icones;
 
-public class PainelLogin extends Painel {
+public class PainelLoginAdministrador extends Painel {
 
 	private JTextField tfEmail;
 	private JTextField tfSsenha;
@@ -26,8 +25,8 @@ public class PainelLogin extends Painel {
 	private JLabel lbSenha;
 	private JLabel lbFundoPainelLogin;
 	
-	public PainelLogin() {
-		super("Painel Login");
+	public PainelLoginAdministrador() {
+		super("Painel Login Adminstrador");
 		
 		adiconarEmailSenha();
 		
@@ -74,8 +73,7 @@ public class PainelLogin extends Painel {
 	}
 	
 	public static void main(String[] args) {
-		new PainelLogin();
+		new PainelLoginAdministrador();
 		
 	}
-	
 }

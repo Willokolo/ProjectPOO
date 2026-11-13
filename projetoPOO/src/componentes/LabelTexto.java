@@ -25,6 +25,12 @@ public class LabelTexto extends Texto {
 				setBounds(x, y, larg, alt);	
 				setFont(FontSize.FONTE_PEQUENA);
 				break;
+				
+			case TipoTexto.TEXTO_PEQUENO_BOLD: 
+				setText(text);
+				setBounds(x, y, larg, alt);	
+				setFont(FontSize.FONTE_PEQUENA_BOLD);
+				break;
 
 		}
 	}
