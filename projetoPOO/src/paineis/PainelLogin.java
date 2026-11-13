@@ -2,20 +2,26 @@ package paineis;
 
 import java.awt.Color;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import componentes.BotaoGrande;
 import componentes.CampoPadrao;
+import componentes.CampoSenha;
+import componentes.CompoSenha;
 import componentes.LabelFundoEscuroCentralizado;
 import componentes.LabelTexto;
 import componentes.Painel;
 import enums.TipoTexto;
+import interfaces.Icones;
 
 public class PainelLogin extends Painel {
 
 	private JTextField tfEmail;
 	private JTextField tfSsenha;
 	private JLabel lbTitulo;
+	private JLabel lbBemVindo;
 	private JLabel lbEmail;
 	private JLabel lbSenha;
 	private JLabel lbFundoPainelLogin;
@@ -25,53 +31,51 @@ public class PainelLogin extends Painel {
 		
 		adiconarEmailSenha();
 		
-		adicionarLinhaCentral();
-		
 		labelFundoEscuroCentral();
 		
 		setVisible(true);
 	
 	}
 	
-	public void adicionarLinhaCentral() {
-
-	    int largura = 2;
-	    int altura = 675;
-
-	    int x = (getWidth() - largura) / 2;
-	    int y = (getHeight() - altura) / 2;
-
-	    JLabel lbLinha = new JLabel();
-
-	    lbLinha.setBounds(x, y, largura, altura);
-	    lbLinha.setOpaque(true);
-	    lbLinha.setBackground(Color.WHITE);
-
-	    add(lbLinha);
-	}
-	
 	public void labelFundoEscuroCentral() {
-		lbFundoPainelLogin = new LabelFundoEscuroCentralizado(this, 520, 530);
+		lbFundoPainelLogin = new LabelFundoEscuroCentralizado(this, 480, 480);
 		
 		add(lbFundoPainelLogin);
 	}
 	
 	public void adiconarEmailSenha() {
-		lbTitulo = new LabelTexto(TipoTexto.TITULO, "ADMINISTRADOR", getWidth() / 2 - 125, 100, 300, 50);
+		lbTitulo = new LabelTexto(TipoTexto.TITULO, "ADMINISTRADOR", getWidth() / 2 - 125, 120, 300, 50);
 		add(lbTitulo);
 		
-		lbEmail = new LabelTexto(TipoTexto.TEXTO_PEQUENO, "Seja Bem-vindo!", getWidth() / 2 - 55, 145, 200, 30);
+		lbBemVindo = new LabelTexto(TipoTexto.TEXTO_PEQUENO, "Seja Bem-vindo!", getWidth() / 2 - 55, 165, 200, 30);
+		add(lbBemVindo);
+		
+		lbEmail = new LabelTexto(TipoTexto.TEXTO_PEQUENO, "Email", getWidth() / 2 - 22, 220, 200, 30);
 		add(lbEmail);
 		
-		tfEmail = new CampoPadrao("Email", 100, 100);
+		tfEmail = new CampoPadrao("Email", getWidth() / 2 - 190, 250, 380, 50);
 		add(tfEmail);
 		
-		tfSsenha = new CampoPadrao("Senha", 200, 100);
+		lbSenha = new LabelTexto(TipoTexto.TEXTO_PEQUENO, "Senha", getWidth() / 2 - 22, 320, 200, 30);
+		add(lbSenha);
+		
+		tfSsenha = new CompoSenha("Senha", getWidth() / 2 - 190, 350, 380, 50, this);
 		add(tfSsenha);
+		
+		ImageIcon imagem = new ImageIcon("OlhoSenha.png");
+		JLabel labelIamgem = new JLabel(imagem);
+		
+		labelIamgem.setBounds(getWidth() + (240 - 60), 50 + 440 /2, 50, 50 );
+		add(labelIamgem);
+		
+		BotaoGrande botao = new BotaoGrande("CADASTRAR", getWidth() / 2 - 190, 450, 380, 70);
+		add(botao);
+		
 	}
 	
 	public static void main(String[] args) {
 		new PainelLogin();
+		
 	}
 	
 }
