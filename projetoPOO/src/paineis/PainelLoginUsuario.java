@@ -28,6 +28,7 @@ public class PainelLoginUsuario extends PainelInicial {
 	private JLabel lbBemVindo;
 	private JLabel lbEmail;
 	private JLabel lbSenha;
+	private JLabel lbEsqueceuSenha;
 	
 	// BOTÕES
 	private JLabel btLogin;
@@ -66,6 +67,15 @@ public class PainelLoginUsuario extends PainelInicial {
 		
 		lbSenha = new LabelTexto(Fontes.FONTE_PEQUENA, "Senha", 500, 320, 200, 30);
 		add(lbSenha);
+		
+		lbEsqueceuSenha = new LabelTexto(Fontes.FONTE_PEQUENA, "Esqueceu sua senha?", 620, 400, 200, 30);
+		addMouseListener(new MouseAdapter() {
+			public void mouseCLicked(MouseEvent e) {
+				dispose();
+				new PainelInserirEmailRedefinirSenha();
+			}
+		});
+		add(lbEsqueceuSenha);
 	}
 	
 	protected void criarCamposTexto() {
@@ -77,7 +87,7 @@ public class PainelLoginUsuario extends PainelInicial {
 	}
 	
 	protected void criarBotoes() {
-		btLogin = new BotaoGrande("CADASTRAR", 410, 440, 380, 70);
+		btLogin = new BotaoGrande("CADASTRAR", 410, 450, 380, 70);
 		add(btLogin);
 		
 		btCadastrar = new BotaoPequeno("-- Não tem conta? Clique aqui e comece a Jogar! --", 400, 520, 400, 30);
