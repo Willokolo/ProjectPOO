@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
+
+import enums.Dificuldade;
+
 import com.itextpdf.text.pdf.PdfReader;
 
 public class ExtratorPalavrasCSV {

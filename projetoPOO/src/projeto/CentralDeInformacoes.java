@@ -2,22 +2,28 @@ package projeto;
 
 import java.util.ArrayList;
 
+import enums.Dificuldade;
 import enums.Sexo;
+import exceptions.JogadorJaExisteException;
+import exceptions.JogadorNaoExisteException;
+import exceptions.NaoHaPalavrasNestaDificuladeException;
+import exceptions.PalavraJaExisteException;
+import exceptions.PalavraNaoExisteException;
 
 public class CentralDeInformacoes {
 	
-	//atributos
+	// ATRIBUTOS
 	private ArrayList<Jogador> todosOsJogadores = new ArrayList<Jogador>();
 	private ArrayList<Palavra> palavras = new ArrayList<Palavra>();
 	
 	
-	//sets
+	// SETS
 	public void setTodosOsJogadores(ArrayList<Jogador> todosOsJogadores) {
 		this.todosOsJogadores = todosOsJogadores;
 	}
 	
 	
-	//gets
+	// GETS
 	public ArrayList<Jogador> getTodosOsJogadores() {
 		return this.todosOsJogadores;
 	}
@@ -26,83 +32,106 @@ public class CentralDeInformacoes {
 	}
 	
 	
-	//metodos
 	
-	//checa se o CPF ou o Email são iguais, respectivamente
-	private boolean CPFIgual(Jogador jogador, String CPF) {
-		return jogador.getCPF().equals(CPF);
-	}
-	private boolean emailIgual(Jogador jogador, String email) {
-		return jogador.getEmail().equals(email);
+	
+	// MÉTODOS
+	
+	// CHECA SE O NOME OU O EMAIL SÃO IGUAIS
+	private boolean loginIgual(Jogador jogador, String login) {
+		return jogador.getEmail().equals(login) || jogador.getNome().equals(login);
 	}
 	
-	//adiciona um jogador e testa se existe algum com CPF ou email igual
-	public boolean adicionarJogador(Jogador jogador) {
+	
+	// ADICIONA UM JOGADOR E TESTA SE JÁ EXISTE ALGUM COM AQUELE NOME OU EMAIL
+	public boolean adicionarJogador(Jogador jogador) throws JogadorJaExisteException {
 		for (Jogador j: todosOsJogadores) {
-			if (CPFIgual(j, jogador.getCPF()) || emailIgual(j, jogador.getEmail())) {
-				return false;
+			if (loginIgual(j, jogador.getNome()) || loginIgual(j, jogador.getEmail())) {
+				throw new JogadorJaExisteException();
 			}
 		}
 		todosOsJogadores.add(jogador);
 		return true;
 	}
 	
-	//metodo sobrecarregado
-	public boolean adicionarJogador(String nome, Sexo sexo, String CPF, String email) {
-		Jogador jogador = new Jogador(nome, sexo, CPF, email);
+	public boolean adicionarJogador(String nome, String email, String senha) throws JogadorJaExisteException {
+		Jogador jogador = new Jogador(nome, email, senha);
 		
 		return adicionarJogador(jogador);
 	}
 	
-	//recupera o jogador pelo CPF ou pelo Email, respectivamente
-	public Jogador recuperarJogadorPorCPF(String CPF) {
+	
+	// RECUPERA O JOGADOR PELO NOME OU EMAIL	
+	public Jogador recuperarJogador(String login) throws JogadorNaoExisteException{
 		for (Jogador j: todosOsJogadores) {
-			if (CPFIgual(j, CPF)) {
+			if(loginIgual(j, login)) {
 				return j;
 			}
 		}
-		return null;
+		throw new JogadorNaoExisteException();
 	}
 	
-	public Jogador recuperarJogadorPorEmail(String email) {
+	
+	// FAZ O LOGIN DO USUARIO
+	public boolean fazerLogin(String login, String senha) throws JogadorNaoExisteException {
 		for (Jogador j: todosOsJogadores) {
-			if (emailIgual(j, email)) {
-				return j;
+			if(loginIgual(j, login) && j.checarSenha(senha)) {
+				return true;
 			}
 		}
-		return null;
+		throw new JogadorNaoExisteException();
 	}
 	
 	
-	//lista todas as informações de um jogador
+	// LISTA TODAS AS INFORMAÇÕES DE UM JOGADOR
 	public String listarInformacoesJogador(Jogador j) {
-		return j + ", Sexo: " + j.getSexo() + ", CPF: " + j.getCPF() + ", Email: " + j.getEmail();
+		return j + ", Email: " + j.getEmail();
 	}
 	
 	
-	
-	public boolean adicionarPalavra(Palavra palavra) {
+	// ADICIONA UMA PALAVRA
+	public boolean adicionarPalavra(Palavra palavra) throws PalavraJaExisteException{
 		for (Palavra p: palavras) {
 			if (p.equals(palavra)) {
-				return false;
+				throw new PalavraJaExisteException();
 			}
 		}
 		palavras.add(palavra);
 		return true;
 	}
 	
-	public boolean adicionarPalavra(String palavra, String dica, Dificuldade dificuldade) {
+	public boolean adicionarPalavra(String palavra, String dica, Dificuldade dificuldade) throws PalavraJaExisteException {
 		Palavra p = new Palavra(palavra, dica, dificuldade);
 		
 		return adicionarPalavra(p);
 	}
 	
-	public Palavra recuperarPalavra(String palavra) {
+	
+	// SORTEIA UMA PALAVRA
+	public Palavra sorteiaPalavra(Dificuldade dificuldade) throws NaoHaPalavrasNestaDificuladeException {
+		ArrayList<Palavra> correspondentes = new ArrayList<Palavra>();
+		
+		for (Palavra p: palavras) {
+			if (p.getDificuldade() == dificuldade) {
+				correspondentes.add(p);
+			}
+		}
+		
+		if(correspondentes.isEmpty()) 
+			throw new NaoHaPalavrasNestaDificuladeException();
+		
+		int sorteio = (int)(Math.random() * correspondentes.size());
+		
+		return correspondentes.get(sorteio);
+	}
+	
+	
+	// RECUPERA UMA PALAVRA
+	public Palavra recuperarPalavra(String palavra) throws PalavraNaoExisteException{
 		for (Palavra p: palavras) {
 			if (p.equals(palavra)) {
 				return p;
 			}
 		}
-		return null;
+		throw new PalavraNaoExisteException();
 	}
 }

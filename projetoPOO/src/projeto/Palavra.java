@@ -2,6 +2,8 @@ package projeto;
 
 import java.util.Date;
 
+import enums.Dificuldade;
+
 public class Palavra {
 	
 	//atributos

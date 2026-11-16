@@ -1,50 +1,45 @@
 package projeto;
 
-import enums.Sexo;
+import java.util.ArrayList;
 
 public class Jogador {
-	
-	//atributos
+	// ATRIBUTOS
 	private String nome;
-	private Sexo sexo;
-	private String CPF;
 	private String email;
+	private String senha;
+	private ArrayList<Palavra> palavrasVistas;
 	
 	
-	//sets
-	public void setNome(String nome) {
+	// CONSTRUTOR
+	public Jogador(String nome, String email, String senha) {
 		this.nome = nome;
-	}
-	public void setSexo(Sexo sexo) {
-		this.sexo = sexo;
+		this.email = email;
+		this.senha = senha;
 	}
 	
 	
-	//gets
-	public String getNome() {
-		return this.nome;
-	}
-	public Sexo getSexo() {
-		return this.sexo;
-	}
-	public String getCPF() {
-		return this.CPF;
-	}
+	// GETS APENAS PARA O EMAIL E NOME, POIS NÃO FAZ SENTIDO SER POSSIVEL VER A SENHA
 	public String getEmail() {
-		return this.email;
+		return email;
+	}
+	public String getNome() {
+		return nome;
 	}
 	
 	
-	//construtor
-	public Jogador(String nome, Sexo sexo, String CPF, String email) {
-		this.setNome(nome);
-		this.setSexo(sexo);
-		this.CPF = CPF;
-		this.email = email;;
+	// CHECA SE A SENHA DE ENTRADA É A MESMA SENHA SALVA
+	public boolean checarSenha(String senha) {
+		return senha.equals(this.senha);
 	}
 	
 	
-	//to string
+	// ADICIONA UMA PALAVRA A LISTA DE PALAVRAS VISTAS
+	public void addPalavraVista(Palavra palavra) {
+		palavrasVistas.add(palavra);
+	}
+	
+	
+	// TO STRING
 	public String toString() {
 		return "Nome: " + nome;
 	}

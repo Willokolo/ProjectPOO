@@ -21,23 +21,23 @@ public class Persistencia {
 	//construtor que permite o xstream ler as classes
 	public Persistencia() {
 		xstream = new XStream(new DomDriver());
-		xstream.allowTypesByWildcard(new String[] {"aqueceProjeto.**"});
+		xstream.allowTypesByWildcard(new String[] {"projeto.**"});
 	}
 	
 	
 	//checa que o arquivo existe
-	public boolean existe(String xml) {
-		arquivo = new File(xml + ".xml");
+	public boolean existe() {
+		arquivo = new File("central.xml");
 		return arquivo.exists();
 	}
 	
 	
 	//salva um objeto CentralDeInformacoes em um arquivo .xml
-	public void salvarCentral(CentralDeInformacoes c, String nome) {
+	public void salvarCentral(CentralDeInformacoes c) {
 		String xml = xstream.toXML(c);
 		
 		try {
-			arquivo = new File(nome + ".xml");
+			arquivo = new File("central.xml");
 			arquivo.createNewFile();
 			PrintWriter gravar = new PrintWriter(arquivo);
 			gravar.print(xml);
@@ -49,9 +49,9 @@ public class Persistencia {
 	
 	
 	//recupera um objeto CentralDeInformacoes de um arquivo .xml
-	public CentralDeInformacoes recuperarCentral(String xml){
+	public CentralDeInformacoes recuperarCentral(){
 		try {
-			FileInputStream f = new FileInputStream(xml + ".xml");
+			FileInputStream f = new FileInputStream("central.xml");
 			return (CentralDeInformacoes) xstream.fromXML(f);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

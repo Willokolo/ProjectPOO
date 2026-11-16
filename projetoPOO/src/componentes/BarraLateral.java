@@ -1,4 +1,4 @@
-package projeto;
+package componentes;
 
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
@@ -10,14 +10,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import componentes.BotaoGrande;
-import componentes.BotaoMedio;
-import componentes.BotaoPequeno;
-import componentes.Painel;
 import interfaces.Cores;
 import interfaces.Fontes;
 import interfaces.Icones;
-import componentes.BotoesGrandes;
 
 public class BarraLateral extends Painel {
 	
@@ -136,6 +131,8 @@ public class BarraLateral extends Painel {
 	}
 	
 	private void criarTextos() {
+		
+		// TROCAR PELA CLASSE NOVA
 		lbJogar = new JLabel("Jogar");
 		lbJogar.setBounds(10, 325, 180, 40);
 		lbJogar.setHorizontalAlignment(JLabel.CENTER);
