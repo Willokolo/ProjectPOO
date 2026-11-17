@@ -15,5 +15,7 @@ public interface Cores {
 	public static final Color COR_PRIMARIA_COMPLEMENTAR = Color.decode("#63942F");
 	
 	public static final Color COR_LETRAS = Color.decode("#FEFEFE");
+
+	public static final Color MENU_DESATIVADO = Color.decode("#161616");
 	
 }

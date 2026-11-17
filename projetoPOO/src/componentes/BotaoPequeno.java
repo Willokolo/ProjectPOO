@@ -15,6 +15,7 @@ public class BotaoPequeno extends Botao {
 	private void configurar() {
 		setFont(Fontes.FONTE_PEQUENA);
 		setBackground(Cores.COR_FUNDO);
+		setForeground(Cores.COR_LETRAS);
 		setHorizontalAlignment(JLabel.CENTER);
 	}
 	

@@ -5,7 +5,6 @@ import java.awt.Font;
 import javax.swing.JLabel;
 
 import interfaces.*;
-import jdk.internal.org.jline.utils.Colors;
 
 
 public class LabelTexto extends JLabel {
