@@ -15,6 +15,7 @@ public class Jogador {
 		this.nome = nome;
 		this.email = email;
 		this.senha = senha;
+		palavrasVistas = new ArrayList<>();
 	}
 	
 	

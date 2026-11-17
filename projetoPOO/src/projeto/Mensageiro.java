@@ -8,12 +8,13 @@ import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.Address;
 
 public class Mensageiro {
-	public static void enviarMensagem(String destinatario, String assunto, String mensagem) {
+	public static void enviarMensagem(String destinatario, String assunto, String mensagem) throws MessagingException {
 		Properties props = new Properties();
 		String remetente = "mensageiroifpb2026@gmail.com";
 		String senha = "pcgmfvupofwrtmck";
@@ -39,18 +40,14 @@ public class Mensageiro {
 					}
 				});
 		
-		try {
-			Message message = new MimeMessage(sessao);
-			message.setFrom(new InternetAddress(remetente));
-			
-			Address[] toUser = InternetAddress.parse(destinatario);
-			message.setRecipients(Message.RecipientType.TO, toUser);
-			message.setSubject(assunto);
-			message.setText(mensagem);
-			
-			Transport.send(message);
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
+		Message message = new MimeMessage(sessao);
+		message.setFrom(new InternetAddress(remetente));
+		
+		Address[] toUser = InternetAddress.parse(destinatario);
+		message.setRecipients(Message.RecipientType.TO, toUser);
+		message.setSubject(assunto);
+		message.setText(mensagem);
+		
+		Transport.send(message);
 	}
 }

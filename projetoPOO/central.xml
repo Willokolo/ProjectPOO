@@ -4,28 +4,19 @@
       <nome>rafenix</nome>
       <email>rafenix@gmail.com</email>
       <senha>12345</senha>
-    </projeto.Jogador>
-    <projeto.Jogador>
-      <nome>jonas</nome>
-      <email>jonas@gmail.com</email>
-      <senha>12345</senha>
-    </projeto.Jogador>
-    <projeto.Jogador>
-      <nome>asddaasd</nome>
-      <email>dsdaasd</email>
-      <senha>12345</senha>
+      <palavrasVistas/>
     </projeto.Jogador>
   </todosOsJogadores>
   <palavras>
     <projeto.Palavra>
       <palavra>computador</palavra>
       <dica>usado para códigos</dica>
-      <dificuldade>difícil</dificuldade>
+      <dificuldade>médio</dificuldade>
     </projeto.Palavra>
     <projeto.Palavra>
       <palavra>faca</palavra>
       <dica>corta as coisa</dica>
-      <dificuldade>difícil</dificuldade>
+      <dificuldade>fácil</dificuldade>
     </projeto.Palavra>
     <projeto.Palavra>
       <palavra>carro</palavra>
