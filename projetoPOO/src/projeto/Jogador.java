@@ -26,6 +26,9 @@ public class Jogador {
 	public String getNome() {
 		return nome;
 	}
+	public ArrayList<Palavra> getPalavrasVistas(){
+		return palavrasVistas;
+	}
 	
 	
 	// CHECA SE A SENHA DE ENTRADA É A MESMA SENHA SALVA
@@ -40,8 +43,14 @@ public class Jogador {
 	}
 	
 	
+	// CHECA SE A PALAVRA ESTÁ NA LISTA DE PALAVRAS VISTAS
+	public boolean checarPalavra(Palavra palavra) {
+		return palavrasVistas.contains(palavra);
+	}
+	
+	
 	// TO STRING
 	public String toString() {
-		return "Nome: " + nome;
+		return nome;
 	}
 }

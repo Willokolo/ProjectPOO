@@ -58,6 +58,6 @@ public class Palavra {
 	
 	//to string sobrescrito
 	public String toString() {
-		return palavra + ": " + dica;
+		return palavra;
 	}
 }

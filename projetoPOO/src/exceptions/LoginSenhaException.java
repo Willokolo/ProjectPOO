@@ -1,8 +1,8 @@
 package exceptions;
 
-public class JogadorNaoExisteException extends Exception {
+public class LoginSenhaException extends Exception {
 
-	public JogadorNaoExisteException() {
+	public LoginSenhaException() {
 		super("O login ou senha inserido está errado ou o jogador não existe.");
 	}
 
