@@ -1,38 +1,70 @@
 package projeto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import enums.Dificuldade;
 import enums.TipoDePartida;
 
-public class Partida {
-	private Palavra palavra;
-	private TipoDePartida tipoDePartida;
-	private Jogador jogador;
-	private LocalDate data;
-	private ArrayList<Character> letras;
-	private int pontos;
-	private boolean resultado;
+public abstract class Partida {
+	// ATRIBUTOS
+	private LocalDateTime dataHora = LocalDateTime.now();
+	protected ArrayList<JogoDaForca> rodadas = new ArrayList<JogoDaForca>();
 	
-	public Partida(Palavra palavra, TipoDePartida tipo, Jogador jogador, LocalDate data, ArrayList<Character> letras, int pontos, boolean resutado) {
-		this.palavra = palavra;
-		this.tipoDePartida = tipo;
-		this.jogador = jogador;
-		this.data = data;
-		this.letras = letras;
-		this.pontos = pontos;
-		this.resultado = resutado;
+	
+	// GETS ABSTRATOS
+	public abstract TipoDePartida getTipo();
+	public abstract String getResultado();
+	public abstract Jogador getVencedor();
+	
+	
+	// GETS CONCRETOS
+	public ArrayList<JogoDaForca> getRodadas(){
+		return rodadas;
 	}
 	
-	private String palavra1;
-	private String palavra2;
-	private String gabarito = "";
-	private int posSorteada;
+	public String getDataHora() {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		return dataHora.format(dtf);
+	}
 	
-	public Partida(TipoDePartida tipo, ArrayList<Palavra> palavras, Dificuldade dificuldade, Jogador jogador) {
-		for (Palavra p: palavras) {
-			
+	public ArrayList<Jogador> getJogadores() {
+		return rodadas.get(0).getJogadores();
+	}
+	
+	public ArrayList<Palavra> getPalavras() {
+		ArrayList<Palavra> palavras = new ArrayList<Palavra>();
+		
+		for (JogoDaForca j: rodadas) 
+			palavras.add(j.getPalavra());
+		return palavras;
+	}
+	
+	public Dificuldade getDificuldade() {
+		return rodadas.get(0).getDificuldade();
+	}
+	
+	public ArrayList<Tentativa> getTentativas() {
+		ArrayList<Tentativa> tentativas = new ArrayList<Tentativa>();
+		
+		for (JogoDaForca j: rodadas) {
+			for (Tentativa t: j.getTentativas()) {
+				tentativas.add(t);
+			}
 		}
+		
+		return tentativas;
+	}
+	public ArrayList<Character> getLetras(){
+		ArrayList<Character> letras = new ArrayList<Character>();
+		
+		for (JogoDaForca j: rodadas) {
+			for (Tentativa t: j.getTentativas()) {
+				letras.add(t.getLetra());
+			}
+		}
+		
+		return letras;
 	}
 }

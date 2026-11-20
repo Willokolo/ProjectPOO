@@ -22,8 +22,8 @@ public class GeradorDeRelatorios {
 			
 			p = new Paragraph("Jogadores:");
 			doc.add(p);
-			if (!central.getTodosOsJogadores().isEmpty()) {
-				for (Jogador jogador: central.getTodosOsJogadores()) {
+			if (!central.getJogadores().isEmpty()) {
+				for (Jogador jogador: central.getJogadores()) {
 					p = new Paragraph(jogador.toString());
 					doc.add(p);
 				}
