@@ -20,6 +20,15 @@ public class BotaoMedio extends Botao {
 		setBorder(new EmptyBorder(0, 10, 0, 0));
 	}
 	
+	public BotaoMedio(String nome, int x, int y, int largura, int altura, boolean diminuir) {
+		super(nome, x, y, largura, altura);
+		configurar();
+		if (diminuir == true) {
+			setFont(Fontes.FONTE_MENU);			
+		}
+		setBorder(new EmptyBorder(0, 10, 0, 0));
+	}
+	
 	private void configurar() {
 		setFont(Fontes.FONTE_MEDIA);
 		setBackground(Cores.COR_FUNDO);

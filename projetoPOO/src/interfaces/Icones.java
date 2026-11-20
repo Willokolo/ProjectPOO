@@ -4,7 +4,7 @@ import javax.swing.ImageIcon;
 
 public interface Icones {
 
-public static final ImageIcon ICONE_SOLO = new ImageIcon("placeholdermedio.png");
+	public static final ImageIcon ICONE_SOLO = new ImageIcon("placeholdermedio.png");
 	
 	public static final ImageIcon ICONE_DUELO = new ImageIcon("placeholdermedio.png");
 	
