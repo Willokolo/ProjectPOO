@@ -52,6 +52,9 @@ public class ExtratorPalavrasCSV {
 		String dif = l[2].trim();
 		String dica = l[3].trim();
 		
+		if (palavra.length() > 19)
+			return "Palavra excede o limite de letras";
+		
 		Dificuldade dificuldade;
 		switch(dif) {
 		case "0":

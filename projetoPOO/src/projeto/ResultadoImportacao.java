@@ -37,6 +37,6 @@ public class ResultadoImportacao {
 	
 	// CADASTRA UMA LINHA REJEITADA
 	public void rejeitar(String linha, String motivo) {
-		rejeitadas.add(linha + ", " + motivo);
+		rejeitadas.add(linha + ", Motivo: " + motivo);
 	}
 }
