@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import enums.Dificuldade;
-import exceptions.LetraJaTentadaException;
 import exceptions.RetornoVazioException;
+import exceptions.TentativaException;
 
 public class JogoDaForca {
 	// ATRIBUTOS
@@ -103,18 +103,26 @@ public class JogoDaForca {
 		
 		// CRIA O GABARITO COM A QUANTIDADE DE LETRAS DA PALAVRA
 		for(int i = 0; i < palavra.getPalavra().length(); i++) {
-			gabarito += "?";
+			if (palavra.getPalavra().charAt(i) == '-')
+				gabarito += "-";
+			else 
+				gabarito += "?";
 		}
 		
 	}
 	
 	
 	// TESTA SE A TENTATIVA DE ENTRADA ESTÁ CORRETA
-	public boolean testarLetra(Tentativa tentativa) throws LetraJaTentadaException{
+	public boolean testarLetra(Tentativa tentativa) throws TentativaException{
 		char letra = tentativa.getLetra();
 		
 		if (letraJaTentada(letra))
-			throw new LetraJaTentadaException(letra);
+			throw new TentativaException("A letra já foi tentada", letra);
+		
+		if (!Character.isLetter(letra))
+			throw new TentativaException("Não é uma letra", letra);
+			
+			
 		
 		String palavra = this.palavra.getPalavra();
 		StringBuilder gabarito = new StringBuilder(this.gabarito);
@@ -203,7 +211,8 @@ public class JogoDaForca {
 	}
 	
 	private int pontosDaPalavra() {
-		int tamanho = palavra.getPalavra().length();
+		int tamanho = palavra.getPalavra().replace("-", "").length();
+		
 		int pontos;
 		if (tamanho <= 4)
 			pontos = 100;

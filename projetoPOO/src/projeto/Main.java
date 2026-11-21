@@ -15,7 +15,7 @@ import enums.TipoDePartida;
 import exceptions.JogadorInativoException;
 import exceptions.JogadorJaExisteException;
 import exceptions.LoginSenhaException;
-import exceptions.LetraJaTentadaException;
+import exceptions.TentativaException;
 import exceptions.NaoHaPalavrasCompativeisException;
 import exceptions.OpcaoInvalidaException;
 import exceptions.PartidaJaCadastradaException;
@@ -257,7 +257,7 @@ public class Main {
 							String ativo = j.isAtivo() ? "(Ativo)" : "(Inativo)";
 							String posicao = j.getPontosDuelo() != 0 ? String.valueOf(i + 1) : "Nunca jogou";
 							
-							System.out.println(posicao + ": " + j + ", " + ativo + ", Pontos: " + j.getPontosDuelo());
+							System.out.println(posicao + ": " + j + " " + ativo + ", Pontos: " + j.getPontosDuelo());
 						}
 
 					} else {
@@ -687,7 +687,7 @@ public class Main {
 			System.out.print("Letra: ");
 			String entrada = input.nextLine();
 			
-			if (entrada.length() == 1 && Character.isLetter(entrada.charAt(0))) {
+			if (entrada.length() == 1) {
 				char letra = entrada.charAt(0);
 				Tentativa tentativa = new Tentativa(jogador, letra);
 				jogador.addTentativa(tentativa);
@@ -698,7 +698,7 @@ public class Main {
 					else
 						System.out.println("A letra não está presente na palavra!");
 					
-				} catch (LetraJaTentadaException e) {
+				} catch (TentativaException e) {
 					System.out.println(e.getMessage());
 				}
 				
@@ -752,7 +752,7 @@ public class Main {
 				System.out.print("Letra: ");
 				String entrada = input.nextLine();
 				
-				if (entrada.length() == 1 && Character.isLetter(entrada.charAt(0))) {
+				if (entrada.length() == 1) {
 					char letra = entrada.charAt(0);
 					Tentativa tentativa = new Tentativa(jogadorDaVez, letra);
 					jogadorDaVez.addTentativa(tentativa);
@@ -763,7 +763,7 @@ public class Main {
 						else
 							System.out.println("A letra não está presente na palavra! Trocando a vez...");
 						
-					} catch (LetraJaTentadaException e) {
+					} catch (TentativaException e) {
 						System.out.println(e.getMessage());
 					}
 					

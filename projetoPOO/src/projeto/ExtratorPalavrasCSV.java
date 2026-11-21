@@ -1,6 +1,9 @@
 package projeto;
 
 import java.io.IOException;
+import java.text.Normalizer;
+import java.util.regex.Pattern;
+
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
 import enums.Dificuldade;
@@ -10,7 +13,8 @@ import exceptions.PalavraNaoExisteException;
 import com.itextpdf.text.pdf.PdfReader;
 
 public class ExtratorPalavrasCSV {
-
+	private static final Pattern PADRAO_PALAVRA = Pattern.compile("\\p{L}+(-\\p{L}+)*");
+	
 	public static ResultadoImportacao lerArquivo(String csv, CentralDeInformacoes central) throws IOException{
 		ResultadoImportacao resultado = new ResultadoImportacao();
 		PdfReader leitor = new PdfReader(csv);
@@ -48,12 +52,15 @@ public class ExtratorPalavrasCSV {
 		}
 			
 		String operacao = l[0].trim();
-		String palavra = l[1].trim();
+		String palavra = Normalizer.normalize(l[1].trim(), Normalizer.Form.NFC);
 		String dif = l[2].trim();
 		String dica = l[3].trim();
 		
 		if (palavra.length() > 19)
 			return "Palavra excede o limite de letras";
+		
+		if (!PADRAO_PALAVRA.matcher(palavra).matches())
+			return "Palavra com números ou caracteres especiais";
 		
 		Dificuldade dificuldade;
 		switch(dif) {
