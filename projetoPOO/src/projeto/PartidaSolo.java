@@ -1,6 +1,7 @@
 package projeto;
 
 import enums.TipoDePartida;
+import exceptions.RetornoVazioException;
 
 public class PartidaSolo extends Partida {
 	private Jogador jogador;
@@ -19,13 +20,13 @@ public class PartidaSolo extends Partida {
 	public String getResultado() {
 		return jogador.getNome() + ": " + rodadas.get(0).getPontos(jogador);
 	}
-	public float getPontos() {
+	public int getPontos() {
 		return rodadas.get(0).getPontos(jogador);
 	}
 
-	public Jogador getVencedor() {
+	public Jogador getVencedor() throws RetornoVazioException {
 		if (rodadas.get(0).estaEliminado(jogador))
-			return null; // RETORNA NULO CASO PERCA
+			throw new RetornoVazioException("O jogador perdeu.");
 		return jogador;
 	}
 

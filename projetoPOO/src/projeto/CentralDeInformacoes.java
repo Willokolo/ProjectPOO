@@ -1,8 +1,12 @@
 package projeto;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+
+import javax.mail.MessagingException;
 
 import enums.Dificuldade;
+import exceptions.JogadorInativoException;
 import exceptions.JogadorJaExisteException;
 import exceptions.LoginSenhaException;
 import exceptions.NaoHaPalavrasCompativeisException;
@@ -16,6 +20,7 @@ public class CentralDeInformacoes {
 	private ArrayList<Jogador> jogadores = new ArrayList<Jogador>();
 	private ArrayList<Palavra> palavras = new ArrayList<Palavra>();
 	private ArrayList<Partida> partidas = new ArrayList<Partida>();
+	private Jogador administrador;
 	
 	
 	// GETS
@@ -28,11 +33,37 @@ public class CentralDeInformacoes {
 	public ArrayList<Partida> getPartidas(){
 		return partidas;
 	}
+	public Jogador getAdministrador() {
+		return administrador;
+	}
 	
 	
 	
 	
 	// MÉTODOS
+	
+	public ArrayList<Jogador> getRankingSolo(){
+		ArrayList<Jogador> ranking = new ArrayList<Jogador>(jogadores);
+		ranking.sort(Comparator.comparing(Jogador::getPontosSolo).reversed());
+		
+		return ranking;
+	}
+	public ArrayList<Jogador> getRankingDuelo(){
+		ArrayList<Jogador> ranking = new ArrayList<Jogador>(jogadores);
+		ranking.sort(Comparator.comparing(Jogador::getPontosDuelo).reversed());
+		
+		return ranking;
+	}
+	public void editarJogador(Jogador jogador, String nome, String email) throws JogadorJaExisteException {
+		for (Jogador j: jogadores) {
+			if ((loginIgual(j, jogador.getNome()) || loginIgual(j, jogador.getEmail())) && j.isAtivo()) {
+				throw new JogadorJaExisteException();
+			}
+		}
+		
+		jogador.setEmail(email);
+		jogador.setNome(nome);
+	}
 	
 	// CHECA SE O NOME OU O EMAIL SÃO IGUAIS
 	private boolean loginIgual(Jogador jogador, String login) {
@@ -43,11 +74,12 @@ public class CentralDeInformacoes {
 	// ADICIONA UM JOGADOR E TESTA SE JÁ EXISTE ALGUM COM AQUELE NOME OU EMAIL
 	public boolean addJogador(Jogador jogador) throws JogadorJaExisteException {
 		for (Jogador j: jogadores) {
-			if (loginIgual(j, jogador.getNome()) || loginIgual(j, jogador.getEmail())) {
+			if ((loginIgual(j, jogador.getNome()) || loginIgual(j, jogador.getEmail())) && j.isAtivo()) {
 				throw new JogadorJaExisteException();
 			}
 		}
 		jogadores.add(jogador);
+		setAdministrador(jogador);
 		return true;
 	}
 	
@@ -59,23 +91,47 @@ public class CentralDeInformacoes {
 	
 	
 	// RECUPERA O JOGADOR PELO NOME OU EMAIL	
-	public Jogador recuperarJogador(String login) throws LoginSenhaException{
+	public Jogador recuperarJogador(String login) throws LoginSenhaException, JogadorInativoException{
+		boolean ativo = true;
+		Jogador jogador = null;
+		
 		for (Jogador j: jogadores) {
-			if(loginIgual(j, login)) {
+			if (!j.isAtivo() && loginIgual(j, login)) {
+				jogador = j;
+				ativo = false;
+			} else if(loginIgual(j, login)) {
 				return j;
 			}
 		}
+		
+		if (!ativo)
+			throw new JogadorInativoException(jogador);
+		
 		throw new LoginSenhaException();
 	}
 	
 	
 	// FAZ O LOGIN DO USUARIO
-	public Jogador fazerLogin(String login, String senha) throws LoginSenhaException {
+	public Jogador fazerLogin(String login, String senha) throws LoginSenhaException, JogadorInativoException {
+		boolean existeContaAtiva = false;
+		Jogador inativo = null;
+		
 		for (Jogador j: jogadores) {
-			if(loginIgual(j, login) && j.checarSenha(senha)) {
-				return j;
+			if (!loginIgual(j, login))
+				continue;
+			
+			if (j.isAtivo()) {
+				if (j.checarSenha(senha))
+					return j;
+				existeContaAtiva = true;
+			} else {
+				inativo = j;
 			}
 		}
+		
+		if(!existeContaAtiva && inativo != null)
+			throw new JogadorInativoException(inativo);
+		
 		throw new LoginSenhaException();
 	}
 	
@@ -113,69 +169,6 @@ public class CentralDeInformacoes {
 	}
 	
 	
-	// SORTEIA UMA PALAVRA
-	public Palavra sorteiaPalavra(Dificuldade dificuldade, Jogador jogador) throws NaoHaPalavrasCompativeisException {
-		ArrayList<Palavra> palavrasDificuldade = new ArrayList<Palavra>();
-		
-		for (Palavra p: palavras) {
-			if (p.getDificuldade() == dificuldade && !jogador.checarPalavra(p)) {
-				palavrasDificuldade.add(p);
-			}
-		}
-		
-		if(palavrasDificuldade.isEmpty()) 
-			throw new NaoHaPalavrasCompativeisException();
-		
-		int sorteio = (int)(Math.random() * palavrasDificuldade.size());
-		
-		return palavrasDificuldade.get(sorteio);
-	}
-	public ArrayList<Palavra> sorteiaPalavra(Dificuldade dificuldade, Jogador jogador1, Jogador jogador2) throws NaoHaPalavrasCompativeisException {
-		ArrayList<Palavra> palavrasDificuldade = new ArrayList<Palavra>();
-		ArrayList<Palavra> palavrasFinal = new ArrayList<Palavra>();
-		
-		for (Palavra p: palavras) {
-			if (p.getDificuldade() == dificuldade && !jogador1.checarPalavra(p) && !jogador2.checarPalavra(p)) {
-				palavrasDificuldade.add(p);
-			}
-		}
-		
-		if(palavrasDificuldade.isEmpty()) 
-			throw new NaoHaPalavrasCompativeisException();
-		
-		palavrasFinal = sortear(palavrasDificuldade);
-		
-		return palavrasFinal;
-	}
-	private ArrayList<Palavra> sortear(ArrayList<Palavra> candidatas) throws NaoHaPalavrasCompativeisException{
-		ArrayList<Palavra> tamanho = new ArrayList<Palavra>();
-		ArrayList<Palavra> restantes = new ArrayList<Palavra>();
-		
-		while (!candidatas.isEmpty()) {
-			tamanho  = new ArrayList<Palavra>();
-			int sorteio1 = (int)(Math.random() * candidatas.size());
-			
-			Palavra palavra = candidatas.remove(sorteio1);
-			
-			for (Palavra p: candidatas) {
-				if (p.getPalavra().length() == palavra.getPalavra().length())
-					tamanho.add(p);
-			}
-			
-			if (tamanho.size() >= 1) {
-				int sorteio3 = (int)(Math.random() * tamanho.size());
-				
-				restantes.add(tamanho.get(sorteio3));
-				restantes.add(palavra);
-				
-				return restantes;
-			}
-		}
-		
-		throw new NaoHaPalavrasCompativeisException("Não há duas palavras com a mesma dificuldade e tamanho.");
-	}
-	
-	
 	// RECUPERA UMA PALAVRA
 	public Palavra recuperarPalavra(String palavra) throws PalavraNaoExisteException{
 		for (Palavra p: palavras) {
@@ -184,5 +177,10 @@ public class CentralDeInformacoes {
 			}
 		}
 		throw new PalavraNaoExisteException();
+	}
+	
+	private void setAdministrador(Jogador jogador) {
+		if (administrador == null)
+			administrador = jogador;
 	}
 }

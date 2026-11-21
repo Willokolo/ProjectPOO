@@ -1,0 +1,22 @@
+package projeto;
+
+import javax.mail.MessagingException;
+
+public class CodigoDeConfirmacao {
+	private String codigo;
+	
+	public CodigoDeConfirmacao(String email) throws MessagingException {
+		gerarCodigo(email);
+	}
+	
+	private String gerarCodigo(String email) throws MessagingException {
+		codigo = String.valueOf((int)(Math.random() * 9000) + 1000);
+		
+		Mensageiro.enviarMensagem(email, "Código de confirmação", "Código de Confirmação: " + codigo);
+		
+		return codigo;
+	}
+	public boolean confirmarCodigo(String codigo) {
+		return this.codigo.equals(codigo);
+	}
+}

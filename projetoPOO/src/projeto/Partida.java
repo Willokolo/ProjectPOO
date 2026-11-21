@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import enums.Dificuldade;
 import enums.TipoDePartida;
+import exceptions.RetornoVazioException;
 
 public abstract class Partida {
 	// ATRIBUTOS
@@ -16,7 +17,7 @@ public abstract class Partida {
 	// GETS ABSTRATOS
 	public abstract TipoDePartida getTipo();
 	public abstract String getResultado();
-	public abstract Jogador getVencedor();
+	public abstract Jogador getVencedor() throws RetornoVazioException;
 	
 	
 	// GETS CONCRETOS
@@ -24,9 +25,13 @@ public abstract class Partida {
 		return rodadas;
 	}
 	
-	public String getDataHora() {
+	public String getDataHoraFormatada() {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 		return dataHora.format(dtf);
+	}
+	
+	public LocalDateTime getDataHora() {
+		return dataHora;
 	}
 	
 	public ArrayList<Jogador> getJogadores() {

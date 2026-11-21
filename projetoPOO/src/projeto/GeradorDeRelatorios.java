@@ -3,6 +3,7 @@ package projeto;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -11,45 +12,27 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 public class GeradorDeRelatorios {
-	public static void gerarRelatorio(CentralDeInformacoes central) {
+	public static void gerarRelatorioPalavras(ArrayList<Palavra> palavras) throws FileNotFoundException, DocumentException {
 		Paragraph p;
 		
-		try {
-			Document doc = new Document(PageSize.A4);
-			OutputStream os = new FileOutputStream("relatorio.pdf");
-			PdfWriter.getInstance(doc, os);
-			doc.open();
-			
-			p = new Paragraph("Jogadores:");
-			doc.add(p);
-			if (!central.getJogadores().isEmpty()) {
-				for (Jogador jogador: central.getJogadores()) {
-					p = new Paragraph(jogador.toString());
-					doc.add(p);
-				}
-			}
-			else {
-				p = new Paragraph("Sem jogadores registrados.");
+		Document doc = new Document(PageSize.A4);
+		OutputStream os = new FileOutputStream("relatorioPalavras.pdf");
+		PdfWriter.getInstance(doc, os);
+		doc.open();
+		
+		p = new Paragraph("Palavras:");
+		doc.add(p);
+		if (!palavras.isEmpty()) {
+			for (Palavra palavra: palavras) {
+				p = new Paragraph(palavra.getPalavra() + ", Acertos: " + palavra.getAcertos() + ", Erros: " + palavra.getErros());
 				doc.add(p);
 			}
-			
-			p = new Paragraph("Palavras:");
-			doc.add(p);
-			if (!central.getPalavras().isEmpty()) {
-				for (Palavra palavra: central.getPalavras()) {
-					p = new Paragraph(palavra.toString());
-					doc.add(p);
-				}
-			}
-			else {
-				p = new Paragraph("Sem palavras registradas.");
-				doc.add(p);
-			}
-			
-			doc.close();
-			
-		} catch (DocumentException | FileNotFoundException e) {
-			e.printStackTrace();
 		}
+		else {
+			p = new Paragraph("Sem palavras registradas.");
+			doc.add(p);
+		}
+		
+		doc.close();
 	}
 }

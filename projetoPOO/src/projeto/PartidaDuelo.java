@@ -1,6 +1,7 @@
 package projeto;
 
 import enums.TipoDePartida;
+import exceptions.RetornoVazioException;
 
 public class PartidaDuelo extends Partida {
 	private Jogador jogador1;
@@ -17,14 +18,14 @@ public class PartidaDuelo extends Partida {
 	public TipoDePartida getTipo() {
 		return TipoDePartida.DUELO;
 	}
-	public float getPontosRodada(Jogador jogador) {
-		float total = 0;
+	public int getPontosRodada(Jogador jogador) {
+		int total = 0;
 		for (JogoDaForca j: rodadas) {
 			total += j.getPontos(jogador);
 		}
 		return total;
 	}
-	public Jogador getVencedor() {
+	public Jogador getVencedor() throws RetornoVazioException{
 		float p1 = getPontosRodada(jogador1);
 		float p2 = getPontosRodada(jogador2);
 		
@@ -32,22 +33,24 @@ public class PartidaDuelo extends Partida {
 			return jogador1;
 		else if (p2 > p1)
 			return jogador2;
-		return null; // RETORNA NULO CASO EMPATE
+		throw new RetornoVazioException("Houve um empate.");
 	}
 	public String getResultado() {
-		Jogador vencedor = getVencedor();
-		Jogador perdedor;
-		if (vencedor == null) {
-			return jogador1 + ": " + "1\n"
-				+  jogador2 + ": " + "1";
+		return jogador1 + ": " + getPontosDuelo(jogador1)
+			+ "\n" + jogador2 + ": " + getPontosDuelo(jogador2);
+	}
+	public int getPontosDuelo(Jogador jogador) {
+		Jogador vencedor;
+		
+		try {
+			vencedor = getVencedor();
+		} catch (RetornoVazioException e) {
+			return 1;
 		}
 		
-		if (vencedor.equals(jogador1))
-			perdedor = jogador2;
-		else
-			perdedor = jogador1;
+		if (vencedor.equals(jogador))
+			return 3;
 		
-		return vencedor + ": " + "3\n"
-			+  perdedor + ": " + "0";
+		return 0;
 	}
 }
