@@ -5,17 +5,41 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import interfaces.Cores;
 import interfaces.Fontes;
+import interfaces.Frases;
 import interfaces.Icones;
 import componentes.BarraLateral;
 import componentes.BotaoGrande;
 import componentes.BotaoMedio;
 import componentes.LabelTexto;
+import componentes.QuadroDePontos;
 import enums.Dificuldade;
 
 public class PainelPrincipalMenuSolo extends BarraLateral {
+
+	// ===================== Usuário =====================
+	private JLabel fotoUsuario;
+	private JLabel textoNomeUsuario;
+	private String nomeUsuario = "Wilokolo";
+
+	// ===================== Pontuação =====================
+	private JLabel quadroPontuacaoSolo;
+	private JLabel quadroPontuacaoDuelo;
+	private int pontuacaoSolo = 6967;
+	private int pontuacaoDuelo = 2442;
+
+	// ===================== Mostrador de dificuldade (centro) =====================
+	private JLabel fundoMostradorDificuldade;
+	private JLabel textoModoDificuldade;
+	private JLabel fraseDificuldade;
+	private JLabel textoMultiplicador;
+	private double valorMultiplicador = 1;
+
+	// ===================== Botão iniciar partida =====================
+	private JLabel botaoIniciarPartida;
 
 	// ===================== Menu lateral: fundo e abas =====================
 	private JLabel fundoMenuLateral;
@@ -29,7 +53,7 @@ public class PainelPrincipalMenuSolo extends BarraLateral {
 	private JLabel textoAbaDificuldade;
 	private JLabel textoAbaHistorico;
 
-	// ===================== Corpo: dificuldade =====================
+	// ===================== Menu lateral: corpo da dificuldade =====================
 	private JLabel tituloDificuldade;
 	private JLabel botaoFacil;
 	private JLabel botaoMedio;
@@ -38,22 +62,98 @@ public class PainelPrincipalMenuSolo extends BarraLateral {
 
 	private Dificuldade dificuldadeSelecionada = Dificuldade.ALEATORIO;
 
-	// ===================== Corpo: histórico =====================
+	// ===================== Menu lateral: corpo do histórico =====================
 	private JLabel tituloHistorico;
+
+	private JLabel textoNPartida;
+	private JLabel textoData;
+	private JLabel textoModo;
+	private JLabel textoJogadores;
+	private JLabel textoDificuldade;
+	private JLabel textoTentativasErros;
+	private JLabel textoTentativasAcertos;
+	private JLabel textoPalavra;
+	private JLabel textoVencedor;
+	private JLabel textoResultado;
+	private JLabel textoResultado1;
+	private JLabel textoResultado2;
 
 	// ===================== Estado =====================
 	private boolean abaDificuldadeAtiva = true;
 
-	// ===================== Construtor =====================
+	// ===================== Construtores =====================
 	public PainelPrincipalMenuSolo() {
 	    super("Painel Principal - Menu Solo");
+
+	    criarUsuario();
+
+	    criarMostradorDificuldade();
+
+	    criarQuadrosPontuacao();
+
+	    criarBotaoIniciarPartida();
 
 	    criarMenuLateral();
 
 	    setVisible(true);
 	}
 
-	// ===================== Criação do menu lateral =====================
+	public PainelPrincipalMenuSolo(String name) {
+		super(name);
+
+		criarMostradorDificuldade();
+
+		criarQuadrosPontuacao();
+
+		criarBotaoIniciarPartida();
+
+		criarMenuLateral();
+	}
+
+	// ===================== Criação: área central =====================
+	public void criarUsuario() {
+		fotoUsuario = new JLabel(Icones.ICONE_HISTORICO);
+		fotoUsuario.setBounds(475, 180, 150, 150);
+		fotoUsuario.setBackground(Cores.COR_PRIMARIA);
+		fotoUsuario.setOpaque(true);
+
+		textoNomeUsuario = new LabelTexto(Fontes.FONTE_MEDIA, this.nomeUsuario, 475, 295, 150, 100);
+
+		add(textoNomeUsuario, 0);
+		add(fotoUsuario, 0);
+	}
+
+	public void criarQuadrosPontuacao() {
+		quadroPontuacaoSolo = new QuadroDePontos("Pontos Solo", pontuacaoSolo, Icones.ICONE_HISTORICO, 300, 40);
+		add(quadroPontuacaoSolo, 0);
+
+		quadroPontuacaoDuelo = new QuadroDePontos("Pontos Solo", pontuacaoDuelo, Icones.ICONE_HISTORICO, 600, 40);
+		add(quadroPontuacaoDuelo, 0);
+	}
+
+	public void criarMostradorDificuldade() {
+		fundoMostradorDificuldade = new JLabel();
+		fundoMostradorDificuldade.setBackground(Cores.COR_FUNDO_ESCURO);
+		fundoMostradorDificuldade.setBounds(325, 370, 450, 145);
+		fundoMostradorDificuldade.setOpaque(true);
+
+		textoModoDificuldade = new LabelTexto(Fontes.FONTE_MEDIA, "", 350, 390, 400, 30);
+		fraseDificuldade     = new LabelTexto(Fontes.FONTE_MEDIA_NO_BOLD, "", 325, 425, 450, 30);
+		textoMultiplicador   = new LabelTexto(Fontes.FONTE_MEDIA, "", 350, 460, 400, 30);
+
+		atualizarMostradorDificuldade();
+		add(textoMultiplicador, 0);
+		add(fraseDificuldade, 0);
+		add(textoModoDificuldade, 0);
+		add(fundoMostradorDificuldade);
+	}
+
+	public void criarBotaoIniciarPartida() {
+		botaoIniciarPartida = new BotaoGrande("INICIAR PARTIDA", 400, 550, 300, 80);
+		add(botaoIniciarPartida);
+	}
+
+	// ===================== Criação: menu lateral =====================
 	public void criarMenuLateral() {
 	    OuvinteAbas ouvinteAbas = new OuvinteAbas();
 
@@ -110,7 +210,7 @@ public class PainelPrincipalMenuSolo extends BarraLateral {
 	    add(textoAbaHistorico);
 	}
 
-	// ===================== Criação dos corpos =====================
+	// ===================== Criação: corpos do menu lateral =====================
 	public void criarCorpoDificuldade() {
 		tituloDificuldade = new LabelTexto(Fontes.FONTE_MEDIA, "DIFICULDADE", 922, 160, 200, 50);
 		add(tituloDificuldade, 0);
@@ -119,7 +219,7 @@ public class PainelPrincipalMenuSolo extends BarraLateral {
 		botaoFacil.addMouseListener(new OuvinteBotoesDificuldade());
 		add(botaoFacil, 0);
 
-		botaoMedio = new BotaoGrande("MEDIO", 925, 330, 200, 80);
+		botaoMedio = new BotaoGrande("NORMAL", 925, 330, 200, 80);
 		botaoMedio.addMouseListener(new OuvinteBotoesDificuldade());
 		add(botaoMedio, 0);
 
@@ -132,48 +232,57 @@ public class PainelPrincipalMenuSolo extends BarraLateral {
 		add(botaoAleatorio, 0);
 	}
 
-	public void criarCorpoHistorico() {
-		tituloHistorico = new LabelTexto(Fontes.FONTE_MEDIA, "HISTORICO", 922, 140, 200, 50);
+ 	public void criarCorpoHistorico() {
+		final int X_HISTORICO = 910;
+		final int LARGURA_HISTORICO = 235;
+
+		tituloHistorico = new LabelTexto(Fontes.FONTE_MEDIA, "HISTORICO", 922, 130, 200, 50);
 		add(tituloHistorico, 0);
-		
+
 		removerCorpoDificuldade();
-		
-		JLabel textoNPartida;
-		JLabel textoData;
-		JLabel textoModo;
-		JLabel textoJogadores;
-		JLabel textoDificuldade;
-		JLabel textoPalavra;
-		JLabel textoVencedor;
-		JLabel textoResultado;
-		JLabel textoResultado1;
-		JLabel textoResultado2;
-		
-		textoNPartida = new LabelTexto(Fontes.FONTE_PEQUENA_BOLD, "Partida N° " + "1", 905, 190, 100, 20);
+
+		textoNPartida = new LabelTexto(Fontes.FONTE_PEQUENA_BOLD, "Partida N° " + "1", X_HISTORICO, 170, LARGURA_HISTORICO, 20);
 		add(textoNPartida, 0);
-		
-		textoData = new LabelTexto(Fontes.FONTE_PEQUENA, "Data e Hora: " + "19/11/2026 22:13:22", 897, 210, 250, 20);
+
+		textoData = new LabelTexto(Fontes.FONTE_HISTORICO, "Data e Hora: " + "19/11/2026 22:13:22", X_HISTORICO, 185, LARGURA_HISTORICO, 20);
 		add(textoData, 0);
-		
-		textoModo = new LabelTexto(Fontes.FONTE_PEQUENA, "Modo: " + "DUELO", 910, 230, 100, 20);
+
+		textoModo = new LabelTexto(Fontes.FONTE_HISTORICO, "Modo: " + "DUELO", X_HISTORICO, 200, LARGURA_HISTORICO, 20);
 		add(textoModo, 0);
-		
-		textoJogadores = new LabelTexto(Fontes.FONTE_PEQUENA, "Jogadores: " + "Willokolo e Raf3nix", 886, 250, 250, 20);
+
+		textoJogadores = new LabelTexto(Fontes.FONTE_HISTORICO, "Jogadores: " + "Willokolo e Raf3nix", X_HISTORICO, 215, LARGURA_HISTORICO, 20);
 		add(textoJogadores, 0);
-		
-		textoDificuldade = new LabelTexto(Fontes.FONTE_PEQUENA, "Dificuldade: " + "Brutal", 908, 270, 100, 20);
+
+		textoDificuldade = new LabelTexto(Fontes.FONTE_HISTORICO, "Dificuldade: " + "Brutal", X_HISTORICO, 230, LARGURA_HISTORICO, 20);
 		add(textoDificuldade, 0);
-		
-		textoData = new LabelTexto(Fontes.FONTE_PEQUENA, "Data e Hora: " + "19/11/2026 22:13:22", 905, 210, 100, 20);
-		add(textoData, 0);
-		
-//		textoData = new LabelTexto(Fontes.FONTE_PEQUENA, "Data e Hora: " + "19/11/2026 22:13:22", 905, 210, 100, 20);
-//		add(textoData, 0);
-//		
-//		textoData = new LabelTexto(Fontes.FONTE_PEQUENA, "Data e Hora: " + "19/11/2026 22:13:22", 905, 210, 100, 20);
-//		add(textoData, 0);
-		
-		
+
+		textoTentativasErros = new LabelTexto(Fontes.FONTE_HISTORICO, "Erros: " + "Z R B X", X_HISTORICO, 245, LARGURA_HISTORICO, 20);
+		add(textoTentativasErros, 0);
+
+		textoTentativasAcertos = new LabelTexto(Fontes.FONTE_HISTORICO, "Acertos: " + "A T I L S O C", X_HISTORICO, 260, LARGURA_HISTORICO, 20);
+		add(textoTentativasAcertos, 0);
+
+		textoVencedor = new LabelTexto(Fontes.FONTE_HISTORICO, "Vencedor: " + "Willokolo", X_HISTORICO, 275, LARGURA_HISTORICO, 20);
+		add(textoVencedor, 0);
+
+		textoResultado = new LabelTexto(Fontes.FONTE_HISTORICO, "Resultado: ", X_HISTORICO, 290, LARGURA_HISTORICO, 20);
+		add(textoResultado, 0);
+
+		textoResultado1 = new LabelTexto(Fontes.FONTE_HISTORICO, "Willokolo: 100000000", X_HISTORICO, 305, LARGURA_HISTORICO, 20);
+		add(textoResultado1, 0);
+
+		textoResultado2 = new LabelTexto(Fontes.FONTE_HISTORICO, "Raf3nix: 67", X_HISTORICO, 320, LARGURA_HISTORICO, 20);
+		add(textoResultado2, 0);
+
+		JLabel[] linhasHistorico = {
+			textoNPartida, textoData, textoModo, textoJogadores, textoDificuldade,
+			textoTentativasErros, textoTentativasAcertos, textoVencedor,
+			textoResultado, textoResultado1, textoResultado2
+		};
+
+		for (JLabel linha : linhasHistorico) {
+			linha.setHorizontalAlignment(SwingConstants.LEFT);
+		}
 	}
 
 	// ===================== Atualização visual =====================
@@ -189,6 +298,33 @@ public class PainelPrincipalMenuSolo extends BarraLateral {
 	    repaint();
 	}
 
+	public void atualizarMostradorDificuldade() {
+		if (dificuldadeSelecionada == Dificuldade.FACIL) {
+			textoModoDificuldade.setText("MODO FACIL");
+			fraseDificuldade.setText(Frases.FRASE_FACIL);
+			valorMultiplicador = 1;
+			textoMultiplicador.setText("MULTIPLICADOR: " + String.format("%.2f", valorMultiplicador) + "x");
+
+		} else if (dificuldadeSelecionada == Dificuldade.NORMAL) {
+			textoModoDificuldade.setText("MODO NORMAL");
+			fraseDificuldade.setText(Frases.FRASE_MEDIO);
+			valorMultiplicador = 1.5;
+			textoMultiplicador.setText("MULTIPLICADOR: " + String.format("%.2f", valorMultiplicador) + "x");
+
+		} else if (dificuldadeSelecionada == Dificuldade.DIFICIL) {
+			textoModoDificuldade.setText("MODO DIFICIL");
+			fraseDificuldade.setText(Frases.FRASE_DIFICIL);
+			valorMultiplicador = 2;
+			textoMultiplicador.setText("MULTIPLICADOR: " + String.format("%.2f", valorMultiplicador) + "x");
+
+		} else if (dificuldadeSelecionada == Dificuldade.ALEATORIO) {
+			textoModoDificuldade.setText("MODO ALEATORIO");
+			fraseDificuldade.setText(Frases.FRASE_ALEATORIO);
+			textoMultiplicador.setText("MULTIPLICADOR: ALEATORIO" );
+
+		}
+	}
+
 	private void restaurarCorBotoesDificuldade() {
 		botaoFacil.setBackground(Cores.COR_PRIMARIA);
 		botaoMedio.setBackground(Cores.COR_PRIMARIA);
@@ -197,26 +333,35 @@ public class PainelPrincipalMenuSolo extends BarraLateral {
 	}
 
 	// ===================== Remoção dos corpos =====================
-	private void removerCorpoDificuldade() {
-		remove(tituloDificuldade);
-		remove(botaoFacil);
-		remove(botaoDificil);
-		remove(botaoMedio);
-		remove(botaoAleatorio);
+	private void removerSeExistir(JLabel label) {
+		if (label != null) {
+			remove(label);
+		}
 	}
 
-//	private void removerCorpoHistorico() {
-//		remove(textoNPartida);
-//		remove(textoData);
-//		remove(textoModo);
-//		remove(textoJogadores);
-//		remove(textoDificuldade);
-//		remove(textoPalavra);
-//		remove(textoVencedor);
-//		remove(textoResultado);
-//		remove(textoResultado1);
-//		remove(textoResultado2);
-//	}
+	private void removerCorpoDificuldade() {
+		removerSeExistir(tituloDificuldade);
+		removerSeExistir(botaoFacil);
+		removerSeExistir(botaoDificil);
+		removerSeExistir(botaoMedio);
+		removerSeExistir(botaoAleatorio);
+	}
+
+	private void removerCorpoHistorico() {
+		removerSeExistir(tituloHistorico);
+		removerSeExistir(textoNPartida);
+		removerSeExistir(textoData);
+		removerSeExistir(textoModo);
+		removerSeExistir(textoJogadores);
+		removerSeExistir(textoDificuldade);
+		removerSeExistir(textoTentativasErros);
+		removerSeExistir(textoTentativasAcertos);
+		removerSeExistir(textoPalavra);
+		removerSeExistir(textoVencedor);
+		removerSeExistir(textoResultado);
+		removerSeExistir(textoResultado1);
+		removerSeExistir(textoResultado2);
+	}
 
 	// ===================== Ouvintes =====================
 	private class OuvinteBotoesDificuldade extends MouseAdapter {
@@ -226,21 +371,25 @@ public class PainelPrincipalMenuSolo extends BarraLateral {
 	        	dificuldadeSelecionada = Dificuldade.FACIL;
 	        	restaurarCorBotoesDificuldade();
 	        	botaoFacil.setBackground(Cores.COR_PRIMARIA_COMPLEMENTAR);
+	        	atualizarMostradorDificuldade();
 
 	        } else if (e.getSource() == botaoMedio) {
 	        	dificuldadeSelecionada = Dificuldade.NORMAL;
 	        	restaurarCorBotoesDificuldade();
 	        	botaoMedio.setBackground(Cores.COR_PRIMARIA_COMPLEMENTAR);
+	        	atualizarMostradorDificuldade();
 
 	        } else if (e.getSource() == botaoDificil) {
 	        	dificuldadeSelecionada = Dificuldade.DIFICIL;
 	        	restaurarCorBotoesDificuldade();
 	        	botaoDificil.setBackground(Cores.COR_PRIMARIA_COMPLEMENTAR);
+	        	atualizarMostradorDificuldade();
 
 	        } else if (e.getSource() == botaoAleatorio) {
 	        	dificuldadeSelecionada = Dificuldade.ALEATORIO;
 	        	restaurarCorBotoesDificuldade();
 	        	botaoAleatorio.setBackground(Cores.COR_PRIMARIA_COMPLEMENTAR);
+	        	atualizarMostradorDificuldade();
 	        }
 	    }
 	}
@@ -248,20 +397,19 @@ public class PainelPrincipalMenuSolo extends BarraLateral {
 	private class OuvinteAbas extends MouseAdapter {
 	    @Override
 	    public void mousePressed(MouseEvent e) {
-	        if (e.getSource() == abaDificuldade) {
+	        if (e.getSource() == abaDificuldade && !abaDificuldadeAtiva) {
 	            abaDificuldadeAtiva = true;
 	            removerCorpoHistorico();
 	            criarCorpoDificuldade();
 	            revalidate();
 	            repaint();
 
-	        } else if (e.getSource() == abaHistorico) {
+	        } else if (e.getSource() == abaHistorico && abaDificuldadeAtiva) {
 	            abaDificuldadeAtiva = false;
 	            removerCorpoDificuldade();
 	            criarCorpoHistorico();
 	            revalidate();
 	            repaint();
-
 	        }
 	        atualizarCoresAbas();
 	    }
