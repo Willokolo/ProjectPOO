@@ -3,6 +3,7 @@ package paineis;
 import javax.swing.JLabel;
 
 import componentes.LabelTexto;
+import componentes.PerfilUsuario;
 import interfaces.Cores;
 import interfaces.Fontes;
 import interfaces.Icones;
@@ -23,20 +24,14 @@ public class PainelPrincipalMenuDuelo extends PainelPrincipalMenuSolo {
 	}
 	
 	public void criarLabelUsuario() {
-		labelFotoUsuario1 = new JLabel(Icones.ICONE_HISTORICO);
-		labelFotoUsuario1.setBounds(325, 180, 150, 150);
-		labelFotoUsuario1.setBackground(Cores.COR_PRIMARIA);
-		labelFotoUsuario1.setOpaque(true);
+		labelFotoUsuario1 = new PerfilUsuario(Icones.ICONE_HISTORICO, nomeUsuario1, 325, 180, 150, 150);
+	
+		labelNomeUsuario1 = new LabelTexto(Fontes.FONTE_MEDIA, this.nomeUsuario1, 325, 295, 150, 100);
 		
-		labelNomeUsuario1 = new LabelTexto(Fontes.FONTE_MEDIA, this.nomeUsuario1, 325, 295, 150, 100);	
-		
-		labelFotoUsuario2 = new JLabel(Icones.ICONE_HISTORICO);
-		labelFotoUsuario2.setBounds(625, 180, 150, 150);
-		labelFotoUsuario2.setBackground(Cores.COR_PRIMARIA);
-		labelFotoUsuario2.setOpaque(true);
+		labelFotoUsuario2 = new PerfilUsuario(Icones.ICONE_HISTORICO, nomeUsuario2, 625, 180, 150, 150);
 		
 		labelNomeUsuario2 = new LabelTexto(Fontes.FONTE_MEDIA, this.nomeUsuario2, 625, 295, 150, 100);
-		
+
 		add(labelFotoUsuario1, 0);
 		add(labelNomeUsuario1, 0);
 		add(labelFotoUsuario2, 0);

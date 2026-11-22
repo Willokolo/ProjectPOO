@@ -15,6 +15,7 @@ import componentes.BarraLateral;
 import componentes.BotaoGrande;
 import componentes.BotaoMedio;
 import componentes.LabelTexto;
+import componentes.PerfilUsuario;
 import componentes.QuadroDePontos;
 import enums.Dificuldade;
 
@@ -112,11 +113,8 @@ public class PainelPrincipalMenuSolo extends BarraLateral {
 
 	// ===================== Criação: área central =====================
 	public void criarUsuario() {
-		fotoUsuario = new JLabel(Icones.ICONE_HISTORICO);
-		fotoUsuario.setBounds(475, 180, 150, 150);
-		fotoUsuario.setBackground(Cores.COR_PRIMARIA);
-		fotoUsuario.setOpaque(true);
-
+		fotoUsuario = new PerfilUsuario(Icones.ICONE_HISTORICO, nomeUsuario, 475, 180, 150, 150);
+	
 		textoNomeUsuario = new LabelTexto(Fontes.FONTE_MEDIA, this.nomeUsuario, 475, 295, 150, 100);
 
 		add(textoNomeUsuario, 0);
