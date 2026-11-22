@@ -1,7 +1,5 @@
 package projeto;
 
-import java.util.Date;
-
 import enums.Dificuldade;
 
 public class Palavra {
@@ -9,8 +7,9 @@ public class Palavra {
 	//atributos
 	private String palavra;
 	private String dica;
-	private Date dataDeCadastro;
 	private Dificuldade dificuldade;
+	private int erros;
+	private int acertos;
 	
 	//construtor que inicializa os valores
 	public Palavra(String palavra, String dica, Dificuldade dificuldade) {
@@ -26,11 +25,14 @@ public class Palavra {
 	public String getDica() {
 		return dica;
 	}
-	public Date getDataDeCadastro() {
-		return this.dataDeCadastro;
-	}
 	public Dificuldade getDificuldade() {
 		return this.dificuldade;
+	}
+	public int getErros() {
+		return erros;
+	}
+	public int getAcertos() {
+		return acertos;
 	}
 	
 	//sets
@@ -40,11 +42,14 @@ public class Palavra {
 	public void setDica(String dica) {
 		this.dica = dica;
 	}
-	public void setDataDeCadastro(Date dataDeCadastro) {
-		this.dataDeCadastro = dataDeCadastro;
-	}
 	public void setDificuldade(Dificuldade dificuldade) {
 		this.dificuldade = dificuldade;
+	}
+	public void addErro() {
+		erros++;
+	}
+	public void addAcerto() {
+		acertos++;
 	}
 	
 	

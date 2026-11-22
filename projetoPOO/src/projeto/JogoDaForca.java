@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import enums.Dificuldade;
-import exceptions.LetraJaTentadaException;
+import exceptions.RetornoVazioException;
+import exceptions.TentativaException;
 
 public class JogoDaForca {
 	// ATRIBUTOS
@@ -26,6 +27,20 @@ public class JogoDaForca {
 	public ArrayList<Tentativa> getTentativas(){
 		return tentativas;
 	}
+	public ArrayList<Tentativa> getTentativa(Jogador jogador) throws RetornoVazioException{
+		
+		if (!jogou(jogador))
+			throw new RetornoVazioException("O jogador não jogou nessa rodada.");
+		
+		ArrayList<Tentativa> tentativasJogador = new ArrayList<Tentativa>();
+		
+		for (Tentativa t: tentativas) {
+			if (t.getJogador().equals(jogador))
+				tentativasJogador.add(t);
+		}
+		
+		return tentativasJogador;
+	}
 	public String getGabarito() {
 		return gabarito;
 	}
@@ -35,15 +50,19 @@ public class JogoDaForca {
 	public Dificuldade getDificuldade() {
 		return palavra.getDificuldade();
 	}
-	public Jogador getVencedor() {
+	public Jogador getVencedor() throws RetornoVazioException{
+		
+		if (vencedor == null) 
+			throw new RetornoVazioException("Ninguém acertou a palavra.");
+		
 		return vencedor;
 	}
-	public Jogador getPerdedor() {
+	public Jogador getPerdedor() throws RetornoVazioException {
 		for (Jogador j: jogadores) {
 			if (!j.equals(vencedor))
 				return j;
 		}
-		return null;
+		throw new RetornoVazioException("Ninguém acertou a palavra.");
 	}
 	public ArrayList<Jogador> getJogadores(){
 		return jogadores;
@@ -59,7 +78,7 @@ public class JogoDaForca {
 		}
 		return erros;
 	}
-	public float getPontos(Jogador jogador) {
+	public int getPontos(Jogador jogador) {
 		int erros = getErros(jogador);
 		
 		if (estaEliminado(jogador))
@@ -84,18 +103,26 @@ public class JogoDaForca {
 		
 		// CRIA O GABARITO COM A QUANTIDADE DE LETRAS DA PALAVRA
 		for(int i = 0; i < palavra.getPalavra().length(); i++) {
-			gabarito += "?";
+			if (palavra.getPalavra().charAt(i) == '-')
+				gabarito += "-";
+			else 
+				gabarito += "?";
 		}
 		
 	}
 	
 	
 	// TESTA SE A TENTATIVA DE ENTRADA ESTÁ CORRETA
-	public boolean testarLetra(Tentativa tentativa) throws LetraJaTentadaException{
+	public boolean testarLetra(Tentativa tentativa) throws TentativaException{
 		char letra = tentativa.getLetra();
 		
 		if (letraJaTentada(letra))
-			throw new LetraJaTentadaException(letra);
+			throw new TentativaException("A letra já foi tentada", letra);
+		
+		if (!Character.isLetter(letra))
+			throw new TentativaException("Não é uma letra", letra);
+			
+			
 		
 		String palavra = this.palavra.getPalavra();
 		StringBuilder gabarito = new StringBuilder(this.gabarito);
@@ -132,12 +159,15 @@ public class JogoDaForca {
 	
 	// TESTA SE O JOGO ACABOU
 	public boolean terminou() {
-		if (palavraCompleta())
+		if (palavraCompleta()) {
+			palavra.addAcerto();
 			return true;
+		}
 		for (Jogador j: jogadores) {
 			if (!estaEliminado(j))
 				return false;
 		}
+		palavra.addErro();
 		return true;
 	}
 	
@@ -180,9 +210,10 @@ public class JogoDaForca {
 		return -100;
 	}
 	
-	private float pontosDaPalavra() {
-		int tamanho = palavra.getPalavra().length();
-		float pontos;
+	private int pontosDaPalavra() {
+		int tamanho = palavra.getPalavra().replace("-", "").length();
+		
+		int pontos;
 		if (tamanho <= 4)
 			pontos = 100;
 		else if (tamanho <= 6)

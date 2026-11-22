@@ -23,8 +23,4 @@ public class Tentativa {
 	public void setAcertou(boolean acertou) {
 		this.acertou = acertou;
 	}
-	
-	public String toString() { // REMOVER 
-		return jogador.getNome() + " " + letra + " " + acertou;
-	}
 }
