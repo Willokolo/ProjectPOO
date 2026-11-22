@@ -68,7 +68,7 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 	private int pontosJogador2;
 	
 	private JLabel jogadorAtual;
-	private int rodadas = 1;
+	private boolean jogador1Jogando = true;
 	
 	private JTextField inserirLetra;
 	
@@ -203,10 +203,10 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 			remove(jogadorAtual);
 		}
 		
-		if (rodadas % 2 == 0) {
-			jogadorAtual = new LabelTexto(Fontes.FONTE_GRANDE, "Vez do jogador: " + nomeUsuario1, 160, 50, 500, 100);
-		} else {
+		if (jogador1Jogando == true) {
 			jogadorAtual = new LabelTexto(Fontes.FONTE_GRANDE, "Vez do jogador: " + nomeUsuario2, 160, 50, 500, 100);
+		} else {
+			jogadorAtual = new LabelTexto(Fontes.FONTE_GRANDE, "Vez do jogador: " + nomeUsuario1, 160, 50, 500, 100);
 		}
 		add(jogadorAtual);
 	}
@@ -279,23 +279,22 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 	        }
 
 	        if (palavraEscolhida.toUpperCase().indexOf(letra) >= 0) {
-	        	pontosJogador1 += 690;
 	        	pontosJogador2 += 690;
+	        	pontosJogador1 += 690;
 	            letrasEncontradas.add(letra);
 	            adicionarPontosUsuario();
 	            adicionarLabelsPalavra();
 	        } else {
 	            letrasErradas.add(letra);
 	            atualizarLetrasErradas();
-	            if (rodadas % 2 == 0) {
-	            	errosJogador1 += 1;
+	            if (jogador1Jogando == true) {
+	            	jogador1Jogando = false;
 	            } else {
-	            	errosJogador2 += 1;
+	            	jogador1Jogando = true;
 	            }
 	        }
 	        adicionarIconeForca();
 	        inserirLetra.setText("");
-	        rodadas += 1;
 	        atualizarJogadorAtual();
 	    }
 	}
