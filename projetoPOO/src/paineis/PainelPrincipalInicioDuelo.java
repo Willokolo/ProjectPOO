@@ -118,7 +118,7 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 		} else if (errosJogador1 == 5) {
 			original1 = Icones.ICONE_FORCA_ESTADO_5;
 
-		} else if (errosJogador1 == 5) {
+		} else if (errosJogador1 == 6) {
 			original1 = Icones.ICONE_FORCA_ESTADO_6;
 
 		}
@@ -141,7 +141,7 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 		} else if (errosJogador2 == 5) {
 			original2 = Icones.ICONE_FORCA_ESTADO_5;
 
-		} else if (errosJogador2 == 5) {
+		} else if (errosJogador2 == 6) {
 			original2 = Icones.ICONE_FORCA_ESTADO_6;
 
 		}
@@ -204,9 +204,9 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 		}
 		
 		if (jogador1Jogando == true) {
-			jogadorAtual = new LabelTexto(Fontes.FONTE_GRANDE, "Vez do jogador: " + nomeUsuario2, 160, 50, 500, 100);
-		} else {
 			jogadorAtual = new LabelTexto(Fontes.FONTE_GRANDE, "Vez do jogador: " + nomeUsuario1, 160, 50, 500, 100);
+		} else {
+			jogadorAtual = new LabelTexto(Fontes.FONTE_GRANDE, "Vez do jogador: " + nomeUsuario2, 160, 50, 500, 100);
 		}
 		add(jogadorAtual);
 	}
@@ -279,23 +279,31 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 	        }
 
 	        if (palavraEscolhida.toUpperCase().indexOf(letra) >= 0) {
-	        	pontosJogador2 += 690;
-	        	pontosJogador1 += 690;
+	        	if (jogador1Jogando) {	        		
+	        		pontosJogador1 +=  690;
+	        	} else {
+	        		pontosJogador2 += 690;	        		
+	        	}
 	            letrasEncontradas.add(letra);
 	            adicionarPontosUsuario();
 	            adicionarLabelsPalavra();
 	        } else {
 	            letrasErradas.add(letra);
 	            atualizarLetrasErradas();
-	            if (jogador1Jogando == true) {
-	            	jogador1Jogando = false;
+
+	            if (jogador1Jogando) {
+	                errosJogador1++;
 	            } else {
-	            	jogador1Jogando = true;
+	                errosJogador2++;
 	            }
+
+	            jogador1Jogando = !jogador1Jogando;
 	        }
 	        adicionarIconeForca();
 	        inserirLetra.setText("");
 	        atualizarJogadorAtual();
+	        revalidate();
+	        repaint();
 	    }
 	}
 
