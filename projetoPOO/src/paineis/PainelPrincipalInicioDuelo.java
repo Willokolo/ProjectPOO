@@ -21,6 +21,7 @@ import componentes.CampoPadrao;
 import componentes.LabelTexto;
 import componentes.PerfilUsuario;
 import componentes.QuadroDePontos;
+import enums.Resultado;
 import interfaces.Cores;
 import interfaces.Fontes;
 import interfaces.Icones;
@@ -72,11 +73,21 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 	
 	private JTextField inserirLetra;
 	
+	private JLabel labelResultado;
+	
+	private JLabel botaoDica;
+	
+	private JLabel labelDica;
+	
+	private String textoDica = "máquina usada para programar e navegar na internet";
+	
+	private boolean dicaAtiva = false;
+	
 	public PainelPrincipalInicioDuelo(String nomeUsuario1, String nomeUsuario2) {
 		super("Painel Principal - Menu Solo");
 		this.nomeUsuario1 = nomeUsuario1;
 		this.nomeUsuario2 = nomeUsuario2;
-		
+			
 		atualizarJogadorAtual();
 		
 		adicionarBotaoDica();
@@ -90,9 +101,9 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 		adicionarBotaoDarPalpite();
 		
 		adicionarIconeForca();
-		
-		criarLetrasErradas();
 	
+		criarLetrasErradas();
+
 	}
 	
 	public void adicionarIconeForca() {
@@ -183,14 +194,6 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 		add(labelForca2);
 		
 	}
-	
-	private JLabel botaoDica;
-	
-	private JLabel labelDica;
-	
-	private String textoDica = "máquina usada para programar e navegar na internet";
-	
-	private boolean dicaAtiva = false;
 	
 	public void adicionarBotaoDarPalpite() {
 		botaoDarPalpite = new BotaoGrande("DAR PALPITE", 590, 540, 240, 60);
@@ -421,7 +424,7 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 			int x = 855;
 			for (int j = 0; j < 4 && indexLetra < letrasErradas.size(); j++) {
 				labelLetraErrada = new LabelTexto(Fontes.FONTE_LETRAS_ERRADAS, String.valueOf(letrasErradas.get(indexLetra)), x, y, larg, alt);
-				add(labelLetraErrada, 0);
+				add(labelLetraErrada, 1);
 				x += 70;
 				indexLetra++;
 			}
