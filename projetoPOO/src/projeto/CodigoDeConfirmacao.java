@@ -2,6 +2,8 @@ package projeto;
 
 import javax.mail.MessagingException;
 
+import exceptions.CodigoException;
+
 public class CodigoDeConfirmacao {
 	private String codigo;
 	
@@ -16,7 +18,8 @@ public class CodigoDeConfirmacao {
 		
 		return codigo;
 	}
-	public boolean confirmarCodigo(String codigo) {
-		return this.codigo.equals(codigo);
+	public void confirmarCodigo(String codigo) throws CodigoException {
+		if (!codigo.equals(this.codigo))
+			throw new CodigoException();
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 import exceptions.RetornoVazioException;
+import exceptions.SenhaVaziaException;
 
 public class Jogador {
 	// ATRIBUTOS
@@ -84,9 +85,9 @@ public class Jogador {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public void redefinirSenha(String senha) throws RetornoVazioException {
+	public void redefinirSenha(String senha) throws SenhaVaziaException {
 		if (senha == null || senha.isBlank())
-			throw new RetornoVazioException("A senha não pode ficar em branco.");
+			throw new SenhaVaziaException();
 		
 		this.senha = senha;
 	}

@@ -1,5 +1,6 @@
 package projeto;
 
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -7,83 +8,47 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.mail.MessagingException;
+import javax.swing.UIManager;
 
 import com.itextpdf.text.DocumentException;
 
-import enums.Dificuldade;
-import enums.TipoDePartida;
-import exceptions.JogadorInativoException;
-import exceptions.JogadorJaExisteException;
-import exceptions.LoginSenhaException;
-import exceptions.TentativaException;
-import exceptions.NaoHaPalavrasCompativeisException;
-import exceptions.OpcaoInvalidaException;
-import exceptions.PartidaJaCadastradaException;
-import exceptions.RetornoVazioException;
+import enums.*;
+import exceptions.*;
+import interfaces.Cores;
+import paineis.*;
 
 public class Main {	
 	public static void main(String[] args) {
 		CentralDeInformacoes central;
-		Persistencia p = new Persistencia();
+		Persistencia persistencia = new Persistencia();
 		Scanner input = new Scanner(System.in);
-		boolean cadastrado = false;
 		Jogador jogadorAtual = null;
 		
-		if(!p.existe()) {
+		UIManager.put("OptionPane.background", Cores.COR_FUNDO);
+		UIManager.put("Panel.background", Cores.COR_FUNDO);
+		UIManager.put("OptionPane.messageForeground", Cores.COR_LETRAS);
+		UIManager.put("Button.background", Cores.COR_PRIMARIA);
+		UIManager.put("Button.foreground", Cores.COR_LETRAS);
+		UIManager.put("Button.focus", new Color(0, 0, 0, 0));
+		
+		if(!persistencia.existe()) {
 			central = new CentralDeInformacoes();
-			p.salvarCentral(central);
+			persistencia.salvarCentral(central);
 		}
 		
-		central = p.recuperarCentral();
+		central = persistencia.recuperarCentral();
+		
+		if(central.getJogadores().isEmpty()) {
+			new PainelCadastroAdm(central, persistencia);
+			
+		} else {
+			new PainelLoginUsuario(central, persistencia);
+		}
+		
 		boolean sair = false;
 		while (!sair) {
-			while(!cadastrado) {
-				if(central.getJogadores().isEmpty()) {
-					// TELA CADASTRO ADM
-					
-					System.out.print("Cadastrar um admistrador\n"
-							+ "Nome: ");
-					String nome = input.nextLine();
-					System.out.print("Email: ");
-					String email = input.nextLine();
-					System.out.print("Senha: ");
-					String senha = input.nextLine();
-					
-					try {
-						jogadorAtual = new Jogador(nome, email, senha);
-						cadastrado = central.addJogador(jogadorAtual);
-						p.salvarCentral(central);
-					} catch (JogadorJaExisteException e) {
-						System.out.println(e.getMessage());
-					}
-				} else {
-					// TELA LOGIN JOGADOR
-					
-					System.out.print("Login\n"
-							+ "Nome ou Email: ");
-					String login = input.nextLine();
-					System.out.print("Senha (digite -1 se esqueceu sua senha): ");
-					String senha = input.nextLine();
-					
-					if (senha.equals("-1")) {
-						try {
-							redefinirSenha(input, central);
-							p.salvarCentral(central);
-						} catch (LoginSenhaException | JogadorInativoException | RetornoVazioException e) {
-							System.out.println(e.getMessage());
-						} catch (MessagingException e) {
-							System.out.println("Houve um erro durante o envio do email.");
-						}
-					} else {
-						try {
-							jogadorAtual = central.fazerLogin(login, senha);
-							cadastrado = true;
-						} catch (LoginSenhaException | JogadorInativoException e) {
-							System.out.println(e.getMessage());
-						}
-					}
-				}
-			}
+			
+			
 			
 			// BARRA LATERAL
 			System.out.print("\n1- Cadastrar novo jogador\n"
@@ -115,7 +80,7 @@ public class Main {
 					
 					try {
 						central.addJogador(nome, email, senha);
-						p.salvarCentral(central);
+						persistencia.salvarCentral(central);
 						System.out.println("Cadastro bem sucedido!");
 						break;
 					} catch (JogadorJaExisteException e) {
@@ -148,7 +113,7 @@ public class Main {
 					
 					jogarSolo(central, d, input, jogadorAtual);
 					
-					p.salvarCentral(central);
+					persistencia.salvarCentral(central);
 					
 				} catch (NaoHaPalavrasCompativeisException | PartidaJaCadastradaException | JogadorInativoException e) {
 					System.out.println(e.getMessage());
@@ -219,7 +184,7 @@ public class Main {
 					
 					jogarDuelo(central, dif, input, jogadorAtual, adversario);
 					
-					p.salvarCentral(central);
+					persistencia.salvarCentral(central);
 					
 				} catch (NaoHaPalavrasCompativeisException | PartidaJaCadastradaException | JogadorInativoException e) {
 					System.out.println(e.getMessage());
@@ -372,7 +337,7 @@ public class Main {
 						try {
 							System.out.println("Lendo arquivo...");
 							ResultadoImportacao resultado = ExtratorPalavrasCSV.lerArquivo(arquivo, central);
-							p.salvarCentral(central);
+							persistencia.salvarCentral(central);
 							
 							System.out.println("Cadastradas: " + resultado.getCadastradas()
 											+ "\nEditadas: " + resultado.getEditadas()
@@ -539,7 +504,7 @@ public class Main {
 								
 								System.out.println("Conta desativada.");
 							}
-							p.salvarCentral(central);
+							persistencia.salvarCentral(central);
 						} catch (LoginSenhaException | JogadorInativoException | JogadorJaExisteException e) {
 							System.out.println(e.getMessage());
 						}

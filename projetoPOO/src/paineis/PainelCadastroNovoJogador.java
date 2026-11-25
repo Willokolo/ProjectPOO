@@ -15,9 +15,44 @@ import componentes.CampoSenha;
 import componentes.LabelFundoEscuroCentralizado;
 import componentes.LabelTexto;
 import componentes.Painel;
+import exceptions.JogadorJaExisteException;
+import interfaces.Cores;
 import interfaces.Fontes;
+import ouvintes.OuvinteBotaoFundoVerde;
+import projeto.CentralDeInformacoes;
+import projeto.Jogador;
+import projeto.Persistencia;
 
 public class PainelCadastroNovoJogador extends PainelInicial {
+	
+	private class OuvinteCadastrar extends OuvinteBotaoFundoVerde{
+
+		public void mouseClicked(MouseEvent e) {
+			JComponent j = (JComponent) e.getSource();
+			j.setBackground(Cores.COR_FUNDO_ESCURO);
+			
+			String nome = tfNome.getText();
+			String email = tfEmail.getText();
+			String senha = tfSenha.getText();
+			
+			try {
+				Jogador jogador = new Jogador(nome, email, senha);
+				central.addJogador(jogador);
+				persistencia.salvarCentral(central);
+				
+				dispose();
+				
+				new PainelPrincipalMenuSolo();
+			} catch (JogadorJaExisteException e1) {
+				System.out.println(e1.getMessage());
+			}
+		}
+		
+	}
+	
+	// ATRIBUTOS FUNCIONAIS
+	private CentralDeInformacoes central;
+	private Persistencia persistencia;
 	
 	// CAMPOS DE TEXTO
 	private JTextField tfEmail;
@@ -38,17 +73,13 @@ public class PainelCadastroNovoJogador extends PainelInicial {
 	// PAINEL DE FUNDO
 	private JLabel lbFundoPainelLogin;
 	
-	public PainelCadastroNovoJogador() {
+	
+	// CONSTRUTOR
+	public PainelCadastroNovoJogador(CentralDeInformacoes central, Persistencia persistencia) {
 		super("Painel Cadastro Novo Jogador");
 		
-		criarTextos();
-		criarCamposTexto();
-		criarBotoes();
-		
-		labelFundoEscuroCentral();
-		
-		setVisible(true);
-	
+		this.central = central;
+		this.persistencia = persistencia;
 	}
 	
 	protected void labelFundoEscuroCentral() {
@@ -78,7 +109,7 @@ public class PainelCadastroNovoJogador extends PainelInicial {
 		tfEmail = new CampoPadrao("Email", 410, 290, 380, 50);
 		add(tfEmail);
 		
-		tfSenha = new CampoSenha("Senha", 410, 395, 380, 50, this);
+		tfSenha = new CampoSenha("Senha", 410, 395, 380, 50);
 		add(tfSenha);
 		
 		tfNome = new CampoPadrao("Nome", 410, 185, 380, 50);
@@ -87,6 +118,7 @@ public class PainelCadastroNovoJogador extends PainelInicial {
 	
 	protected void criarBotoes() {
 		btCadastrar = new BotaoGrande("CADASTRAR", 410, 470, 380, 70);
+		btCadastrar.addMouseListener(new OuvinteCadastrar());
 		add(btCadastrar);
 		
 		btLogin = new BotaoPequeno("-- Já tem conta? Clique aqui e comece a Jogar! --", 400, 550, 400, 30);
@@ -94,7 +126,7 @@ public class PainelCadastroNovoJogador extends PainelInicial {
 		btLogin.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				dispose();
-				new PainelLoginUsuario();
+				new PainelLoginUsuario(central, persistencia);
 			}
 			
 			public void mouseEntered(MouseEvent e) {
@@ -111,10 +143,5 @@ public class PainelCadastroNovoJogador extends PainelInicial {
 			}
 		});
 		add(btLogin);
-	}
-	
-	public static void main(String[] args) {
-		new PainelCadastroNovoJogador();
-		
 	}
 }

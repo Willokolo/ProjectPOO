@@ -18,7 +18,7 @@ import interfaces.Icones;
 
 public class CampoSenha extends JPasswordField {
 	
-	 public CampoSenha(String nome, int x, int y, int largura, int altura, JFrame frame) {
+	 public CampoSenha(String nome, int x, int y, int largura, int altura) {
 
 	        super(nome);
 	        
