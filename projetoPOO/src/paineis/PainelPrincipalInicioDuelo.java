@@ -21,6 +21,7 @@ import componentes.CampoPadrao;
 import componentes.LabelTexto;
 import componentes.PerfilUsuario;
 import componentes.QuadroDePontos;
+import enums.Resultado;
 import interfaces.Cores;
 import interfaces.Fontes;
 import interfaces.Icones;
@@ -72,11 +73,21 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 	
 	private JTextField inserirLetra;
 	
+	private JLabel labelResultado;
+	
+	private JLabel botaoDica;
+	
+	private JLabel labelDica;
+	
+	private String textoDica = "máquina usada para programar e navegar na internet";
+	
+	private boolean dicaAtiva = false;
+	
 	public PainelPrincipalInicioDuelo(String nomeUsuario1, String nomeUsuario2) {
 		super("Painel Principal - Menu Solo");
 		this.nomeUsuario1 = nomeUsuario1;
 		this.nomeUsuario2 = nomeUsuario2;
-		
+			
 		atualizarJogadorAtual();
 		
 		adicionarBotaoDica();
@@ -90,9 +101,9 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 		adicionarBotaoDarPalpite();
 		
 		adicionarIconeForca();
-		
-		criarLetrasErradas();
 	
+		criarLetrasErradas();
+
 	}
 	
 	public void adicionarIconeForca() {
@@ -118,7 +129,7 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 		} else if (errosJogador1 == 5) {
 			original1 = Icones.ICONE_FORCA_ESTADO_5;
 
-		} else if (errosJogador1 == 5) {
+		} else if (errosJogador1 == 6) {
 			original1 = Icones.ICONE_FORCA_ESTADO_6;
 
 		}
@@ -141,7 +152,7 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 		} else if (errosJogador2 == 5) {
 			original2 = Icones.ICONE_FORCA_ESTADO_5;
 
-		} else if (errosJogador2 == 5) {
+		} else if (errosJogador2 == 6) {
 			original2 = Icones.ICONE_FORCA_ESTADO_6;
 
 		}
@@ -184,14 +195,6 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 		
 	}
 	
-	private JLabel botaoDica;
-	
-	private JLabel labelDica;
-	
-	private String textoDica = "máquina usada para programar e navegar na internet";
-	
-	private boolean dicaAtiva = false;
-	
 	public void adicionarBotaoDarPalpite() {
 		botaoDarPalpite = new BotaoGrande("DAR PALPITE", 590, 540, 240, 60);
 		botaoDarPalpite.addMouseListener(new OuvinteBotaoDarPalpite());		
@@ -204,9 +207,9 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 		}
 		
 		if (jogador1Jogando == true) {
-			jogadorAtual = new LabelTexto(Fontes.FONTE_GRANDE, "Vez do jogador: " + nomeUsuario2, 160, 50, 500, 100);
-		} else {
 			jogadorAtual = new LabelTexto(Fontes.FONTE_GRANDE, "Vez do jogador: " + nomeUsuario1, 160, 50, 500, 100);
+		} else {
+			jogadorAtual = new LabelTexto(Fontes.FONTE_GRANDE, "Vez do jogador: " + nomeUsuario2, 160, 50, 500, 100);
 		}
 		add(jogadorAtual);
 	}
@@ -279,23 +282,31 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 	        }
 
 	        if (palavraEscolhida.toUpperCase().indexOf(letra) >= 0) {
-	        	pontosJogador2 += 690;
-	        	pontosJogador1 += 690;
+	        	if (jogador1Jogando) {	        		
+	        		pontosJogador1 +=  690;
+	        	} else {
+	        		pontosJogador2 += 690;	        		
+	        	}
 	            letrasEncontradas.add(letra);
 	            adicionarPontosUsuario();
 	            adicionarLabelsPalavra();
 	        } else {
 	            letrasErradas.add(letra);
 	            atualizarLetrasErradas();
-	            if (jogador1Jogando == true) {
-	            	jogador1Jogando = false;
+
+	            if (jogador1Jogando) {
+	                errosJogador1++;
 	            } else {
-	            	jogador1Jogando = true;
+	                errosJogador2++;
 	            }
+
+	            jogador1Jogando = !jogador1Jogando;
 	        }
 	        adicionarIconeForca();
 	        inserirLetra.setText("");
 	        atualizarJogadorAtual();
+	        revalidate();
+	        repaint();
 	    }
 	}
 
@@ -413,7 +424,7 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 			int x = 855;
 			for (int j = 0; j < 4 && indexLetra < letrasErradas.size(); j++) {
 				labelLetraErrada = new LabelTexto(Fontes.FONTE_LETRAS_ERRADAS, String.valueOf(letrasErradas.get(indexLetra)), x, y, larg, alt);
-				add(labelLetraErrada, 0);
+				add(labelLetraErrada, 1);
 				x += 70;
 				indexLetra++;
 			}
