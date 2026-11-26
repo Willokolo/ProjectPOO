@@ -1,11 +1,14 @@
 package projeto;
 
+import enums.Resultado;
 import enums.TipoDePartida;
 import exceptions.RetornoVazioException;
 
 public class PartidaDuelo extends Partida {
 	private Jogador jogador1;
 	private Jogador jogador2;
+	
+	private Resultado resultadoJogador1;
 	
 	public PartidaDuelo(Jogador jogador1, Jogador jogador2, Palavra palavra1, Palavra palavra2) {
 		this.jogador1 = jogador1;
@@ -29,15 +32,19 @@ public class PartidaDuelo extends Partida {
 		float p1 = getPontosRodada(jogador1);
 		float p2 = getPontosRodada(jogador2);
 		
-		if (p1 > p2) 
+		if (p1 > p2) {
+			this.resultadoJogador1 = Resultado.VITORIA;
 			return jogador1;
-		else if (p2 > p1)
+		}
+		else if (p2 > p1) {
+			this.resultadoJogador1 = Resultado.DERROTA;
 			return jogador2;
+		}
+		this.resultadoJogador1 = Resultado.EMPATE;
 		throw new RetornoVazioException("Houve um empate.");
 	}
-	public String getResultado() {
-		return jogador1 + ": " + getPontosDuelo(jogador1)
-			+ "\n" + jogador2 + ": " + getPontosDuelo(jogador2);
+	public Resultado getResultado() {
+		return resultadoJogador1;
 	}
 	public int getPontosDuelo(Jogador jogador) {
 		Jogador vencedor;

@@ -32,7 +32,7 @@ public class BarraLateral extends Painel {
 	private JLabel btLideranca;
 	private JLabel btMensagens;
 	private JLabel btEstatisticas;
-	private JLabel btHistorico;
+	protected JLabel btHistorico;
 	private JLabel btAddJogador;
 	
 	public BarraLateral(String title) {

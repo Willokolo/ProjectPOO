@@ -792,7 +792,7 @@ public class Main {
 			System.out.println(e.getMessage());
 		}
 	
-		System.out.println("\nEstatísticas da partida\n" + partida.getResultado());
+		System.out.println("\nEstatísticas da partida\n" + String.valueOf(partida.getResultado()));
 		
 		for (Jogador j: partida.getJogadores()) {
 			j.addPontosDuelo(partida.getPontosDuelo(j));
@@ -888,7 +888,7 @@ public class Main {
 				} catch (RetornoVazioException e) {
 					System.out.println("\nVencedor: " + e.getMessage());
 				}
-				System.out.println("Resultado\n" + p.getResultado());
+				System.out.println("Resultado\n" + String.valueOf(p.getResultado()));
 			}
 		}
 		if (!jogou)

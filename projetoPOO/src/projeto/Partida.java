@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import enums.Dificuldade;
+import enums.Resultado;
 import enums.TipoDePartida;
 import exceptions.RetornoVazioException;
 
@@ -16,7 +17,7 @@ public abstract class Partida {
 	
 	// GETS ABSTRATOS
 	public abstract TipoDePartida getTipo();
-	public abstract String getResultado();
+	public abstract Resultado getResultado();
 	public abstract Jogador getVencedor() throws RetornoVazioException;
 	
 	
