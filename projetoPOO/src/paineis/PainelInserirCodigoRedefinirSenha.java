@@ -41,7 +41,7 @@ public class PainelInserirCodigoRedefinirSenha extends PainelInicial {
 				codigo.confirmarCodigo(c);
 				
 				setVisible(false);
-				new PainelRedefinirSenhaInserirNovaSenha(central, jogador, persistencia, PainelInserirCodigoRedefinirSenha.this);
+				new PainelRedefinirSenhaInserirNovaSenha(central, jogador, persistencia, janelaOriginal, PainelInserirCodigoRedefinirSenha.this);
 			} catch (CodigoException e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 			}
@@ -53,7 +53,7 @@ public class PainelInserirCodigoRedefinirSenha extends PainelInicial {
 	private CentralDeInformacoes central;
 	private Jogador jogador;
 	private CodigoDeConfirmacao codigo;
-	private JFrame janelaAnterior;
+	private JFrame janelaOriginal;
 	private Persistencia persistencia;
 	
 	// CAMPOS DE TEXTO
@@ -76,13 +76,13 @@ public class PainelInserirCodigoRedefinirSenha extends PainelInicial {
 	private JLabel lbFundoPainelLogin;
 		
 	
-	public PainelInserirCodigoRedefinirSenha(CentralDeInformacoes central, Jogador jogador, CodigoDeConfirmacao codigo, Persistencia persistencia, JFrame janelaAnterior) {
+	public PainelInserirCodigoRedefinirSenha(CentralDeInformacoes central, Jogador jogador, CodigoDeConfirmacao codigo, Persistencia persistencia, JFrame janelaOriginal) {
 		super("Painel Redefinir Senha");
 		
 		this.central = central;
 		this.jogador = jogador;
 		this.codigo = codigo;
-		this.janelaAnterior = janelaAnterior;
+		this.janelaOriginal = janelaOriginal;
 		this.persistencia = persistencia;
 	}
 
@@ -133,7 +133,8 @@ public class PainelInserirCodigoRedefinirSenha extends PainelInicial {
 			
 			public void mouseClicked(MouseEvent e) {
 				dispose();
-				janelaAnterior.setVisible(true);
+				
+				new PainelInserirEmailRedefinirSenha(central, persistencia, janelaOriginal);
 			}
 		});
 		add(btVoltar);

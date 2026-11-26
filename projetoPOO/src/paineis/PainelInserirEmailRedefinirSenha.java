@@ -41,7 +41,7 @@ public class PainelInserirEmailRedefinirSenha extends PainelInicial {
 				CodigoDeConfirmacao codigo = new CodigoDeConfirmacao(email);
 				
 				setVisible(false);
-				new PainelInserirCodigoRedefinirSenha(central, jogador, codigo, persistencia, PainelInserirEmailRedefinirSenha.this);
+				new PainelInserirCodigoRedefinirSenha(central, jogador, codigo, persistencia, janelaAnterior);
 				
 			} catch (LoginSenhaException | JogadorInativoException e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);

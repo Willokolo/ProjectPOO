@@ -51,6 +51,7 @@ public class PainelRedefinirSenhaInserirNovaSenha extends PainelInicial {
 	// ATRIBUTOS FUNCIONAIS
 	private CentralDeInformacoes central;
 	private Jogador jogador;
+	private JFrame janelaOriginal;
 	private JFrame janelaAnterior;
 	private Persistencia persistencia;
 	
@@ -68,11 +69,12 @@ public class PainelRedefinirSenhaInserirNovaSenha extends PainelInicial {
 	// PAINEL DE FUNDO
 	private JLabel lbFundoPainelLogin;
 	
-	public PainelRedefinirSenhaInserirNovaSenha(CentralDeInformacoes central, Jogador jogador, Persistencia persistencia, JFrame janelaAnterior) {
+	public PainelRedefinirSenhaInserirNovaSenha(CentralDeInformacoes central, Jogador jogador, Persistencia persistencia, JFrame janelaOriginal, JFrame janelaAnterior) {
 		super("Painel Redefinir Senha - Inserir código");
 		
 		this.central = central;
 		this.jogador = jogador;
+		this.janelaOriginal = janelaOriginal;
 		this.janelaAnterior = janelaAnterior;
 		this.persistencia = persistencia;
 	}
