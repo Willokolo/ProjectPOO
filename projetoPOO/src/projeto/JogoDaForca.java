@@ -78,6 +78,16 @@ public class JogoDaForca {
 		}
 		return erros;
 	}
+	
+	public ArrayList<Character> getAcertos(Jogador jogador) {
+	    ArrayList<Character> acertos = new ArrayList<Character>();
+	    for (Tentativa t : tentativas) {
+	        if (t.getAcertou() && t.getJogador().equals(jogador))
+	            acertos.add(t.getLetra());
+	    }
+	    return acertos;
+	}
+	
 	public int getPontos(Jogador jogador) {
 		int erros = getErros(jogador);
 		

@@ -6,6 +6,8 @@ public interface Fontes {
 
 	public static final Font FONTE_GRANDE = new Font("Inter", Font.BOLD, 30);
 
+	public static final Font FONTE_GRANDE_NO_BOLD = new Font("Inter", Font.PLAIN, 30);
+
 	public static final Font FONTE_LETRAS_ERRADAS = new Font("Inter", Font.BOLD, 40);
 	
 	public static final Font FONTE_MEDIA = new Font("Inter", Font.BOLD, 20);
