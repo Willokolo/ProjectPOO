@@ -16,6 +16,7 @@ import interfaces.Icones;
 import ouvintes.OuvinteBotaoFundoVerde;
 import ouvintes.OuvinteBotaoSemFundo;
 import paineis.PainelCadastroNovoJogador;
+import paineis.PainelHistoricoCompleto;
 import paineis.PainelPrincipalMenuDuelo;
 import paineis.PainelPrincipalMenuSolo;
 import projeto.CentralDeInformacoes;
@@ -66,6 +67,13 @@ public class BarraLateral extends Painel {
 		
 	}
 	
+	public BarraLateral(String title) {
+		super(title);
+		
+		criarBarra();
+		setVisible(true);
+	}
+	
 	private void criarBotoesCustomizados() {
 		
 		// BOTÕES GRANDES
@@ -103,7 +111,11 @@ public class BarraLateral extends Painel {
 		btHistorico.addMouseListener(new OuvinteBotaoSemFundo() {
 			
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Nada ainda", "Erro", JOptionPane.ERROR_MESSAGE);
+				JComponent j = (JComponent) e.getSource();
+				j.setBackground(Cores.COR_PRIMARIA_COMPLEMENTAR);
+				
+				dispose();
+				new PainelHistoricoCompleto(central, persistencia, jogador);
 			}
 		});
 		add(btHistorico);
@@ -140,7 +152,7 @@ public class BarraLateral extends Painel {
 			btAdministrador.addMouseListener(new OuvinteBotaoSemFundo() {
 				
 				public void mouseClicked(MouseEvent e) {
-					String arquivo = JOptionPane.showInputDialog(null, "Nome do arquivo (provisório)", "Erro", JOptionPane.ERROR_MESSAGE);
+					String arquivo = JOptionPane.showInputDialog(null, "Nome do arquivo (provisório)", "Insira o nome do arquivo", JOptionPane.QUESTION_MESSAGE);
 					
 					try {
 						ResultadoImportacao resultado = ExtratorPalavrasCSV.lerArquivo(arquivo, central);

@@ -137,6 +137,9 @@ public class PainelPrincipalMenuDuelo extends PainelPrincipalMenu {
 				central.recuperarJogador(nome);
 				
 				String senha = JOptionPane.showInputDialog(null, "Senha do jogador", "Inserir senha", JOptionPane.QUESTION_MESSAGE);
+				if (senha == null)
+					return;
+				
 				jogador2 = central.fazerLogin(nome, senha);
 				
 				atualizarPerfilAdversario();

@@ -402,7 +402,7 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 		}
 		
 		dispose();
-		new ResultadoPartida(resultado, central, persistencia, jogador);
+		new ResultadoPartida(resultado, central, persistencia, jogador, partida.getDificuldade(), PainelPrincipalInicioDuelo.this);
 	}
 	
 	private String textoFimPartida() {

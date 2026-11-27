@@ -3,7 +3,6 @@ package paineis;
 import java.awt.event.KeyAdapter;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +12,6 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import componentes.BarraLateral;
 import componentes.BotaoGrande;
 import componentes.CampoPadrao;
@@ -41,7 +38,6 @@ public class PainelPrincipalInicioSolo extends BarraLateral {
 	// LETRAS ERRADAS
 	private JLabel fundoLetrasErradas;
 	private JLabel textoLetrasErradas;
-	private JLabel labelLetraErrada;
 	
 	// PONTOS
 	private JLabel quadroPontos;
@@ -58,7 +54,6 @@ public class PainelPrincipalInicioSolo extends BarraLateral {
 	// PARTIDA, PALAVRA E PALPITES
 	private PartidaSolo partida;
 	private String palavraEscolhida;
-	private ArrayList<Character> arrayLetrasPalavraEscolhida = new ArrayList<Character>();
 	private ArrayList<Character> letrasErradas = new ArrayList<Character>();
 	private ArrayList<Character> letrasEncontradas = new ArrayList<Character>();
 	private List<JLabel> labelsPalavra = new ArrayList<>();
@@ -253,16 +248,15 @@ public class PainelPrincipalInicioSolo extends BarraLateral {
 	}
 	
 	public void atualizarLetrasErradas() {
+		ArrayList<Character> letrasErradas = letrasErradas();
 		int y = 125;
-		int larg = 40;
-		int alt = 40;
 		int indexLetra = 0;
 
 		while (indexLetra < letrasErradas.size()) {
 			int x = 935;
 			for (int j = 0; j < 3 && indexLetra < letrasErradas.size(); j++) {
-				labelLetraErrada = new LabelTexto(Fontes.FONTE_LETRAS_ERRADAS, String.valueOf(letrasErradas.get(indexLetra)), x, y, larg, alt);
-				add(labelLetraErrada, 0);
+				JLabel letra = new LabelTexto(Fontes.FONTE_LETRAS_ERRADAS, String.valueOf(letrasErradas.get(indexLetra)), x, y, 40, 40);
+				add(letra, 0);
 				x += 70;
 				indexLetra++;
 			}
@@ -296,6 +290,15 @@ public class PainelPrincipalInicioSolo extends BarraLateral {
 		}
 	}
 	
+	private ArrayList<Character> letrasErradas() {
+		ArrayList<Character> erradas = new ArrayList<Character>();
+		for (Tentativa t: partida.getRodada().getTentativas()) {
+			if (!t.getAcertou())
+				erradas.add(t.getLetra());
+		}
+		return erradas;
+	}
+	
 	private class OuvinteBotaoDarPalpite extends OuvinteBotaoFundoVerde {
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -313,10 +316,8 @@ public class PainelPrincipalInicioSolo extends BarraLateral {
 			JogoDaForca rodada = partida.getRodada();
 			
 			try {
-				if(rodada.testarLetra(tentativa))
-					letrasEncontradas.add(letra);
-				else
-					letrasErradas.add(letra);
+				rodada.testarLetra(tentativa);
+
 			} catch (TentativaException e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 			}
@@ -328,10 +329,10 @@ public class PainelPrincipalInicioSolo extends BarraLateral {
 					rodada.getVencedor();
 					dispose();
 					
-					new ResultadoPartida(Resultado.VITORIA, central, persistencia, jogador);
+					new ResultadoPartida(Resultado.VITORIA, central, persistencia, jogador, partida.getDificuldade(), PainelPrincipalInicioSolo.this);
 				} catch (RetornoVazioException e1) {
 					dispose();
-					new ResultadoPartida(Resultado.DERROTA, central, persistencia, jogador);
+					new ResultadoPartida(Resultado.DERROTA,central, persistencia, jogador, partida.getDificuldade(), PainelPrincipalInicioSolo.this);
 				} finally {
 					jogador.addPontosSolo(partida.getPontos());
 					persistencia.salvarCentral(central);
