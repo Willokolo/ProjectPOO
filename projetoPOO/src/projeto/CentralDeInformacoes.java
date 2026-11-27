@@ -3,16 +3,12 @@ package projeto;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import javax.mail.MessagingException;
-
 import enums.Dificuldade;
 import exceptions.JogadorInativoException;
 import exceptions.JogadorJaExisteException;
 import exceptions.LoginSenhaException;
-import exceptions.NaoHaPalavrasCompativeisException;
 import exceptions.PalavraJaExisteException;
 import exceptions.PalavraNaoExisteException;
-import exceptions.PartidaJaCadastradaException;
 
 public class CentralDeInformacoes {
 	
@@ -142,13 +138,8 @@ public class CentralDeInformacoes {
 	}
 	
 	// ADICIONA UM PARTIDA
-	public boolean addPartida(Partida partida) throws PartidaJaCadastradaException {
-		for (Partida p: partidas) {
-			if (p.equals(partida))
-				throw new PartidaJaCadastradaException();
-		}
+	public void addPartida(Partida partida) {
 		partidas.add(partida);
-		return true;
 	}
 	
 	// ADICIONA UMA PALAVRA

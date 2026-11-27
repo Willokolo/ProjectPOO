@@ -3,10 +3,13 @@ package paineis;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import componentes.BotaoGrande;
 import componentes.BotaoPequeno;
@@ -15,39 +18,66 @@ import componentes.CampoSenha;
 import componentes.LabelFundoEscuroCentralizado;
 import componentes.LabelTexto;
 import componentes.Painel;
+import exceptions.JogadorInativoException;
+import exceptions.JogadorJaExisteException;
+import exceptions.LoginSenhaException;
+import interfaces.Cores;
 import interfaces.Fontes;
+import ouvintes.OuvinteBotaoFundoVerde;
+import ouvintes.OuvinteBotaoSemFundo;
+import projeto.CentralDeInformacoes;
+import projeto.Jogador;
+import projeto.Persistencia;
 
 public class PainelLoginUsuario extends PainelInicial {
 
+	private class OuvinteLogin extends OuvinteBotaoFundoVerde{
+
+		public void mouseClicked(MouseEvent e) {
+			JComponent j = (JComponent) e.getSource();
+			j.setBackground(Cores.COR_PRIMARIA_COMPLEMENTAR);
+			
+			String login = tfLogin.getText();
+			String senha = tfSenha.getText();
+			
+			try {
+				Jogador jogador = central.fazerLogin(login, senha);
+				dispose();
+				
+				new PainelPrincipalMenuSolo(central, persistencia, jogador);
+			} catch (LoginSenhaException | JogadorInativoException e1) {
+				JOptionPane.showMessageDialog(null, e1.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+	
+	// ATRIBUTOS FUNCIONAIS
+	private CentralDeInformacoes central;
+	private Persistencia persistencia;
+	
 	// CAMPOS DE TEXTO
-	private JTextField tfEmail;
-	private JTextField tfSsenha;
+	private JTextField tfLogin;
+	private JTextField tfSenha;
 	
 	// TEXTOS
 	private JLabel lbTitulo;
 	private JLabel lbBemVindo;
-	private JLabel lbEmail;
+	private JLabel lbLogin;
 	private JLabel lbSenha;
-	private JLabel lbEsqueceuSenha;
 	
 	// BOTÕES
+	private JLabel btEsqueceuSenha;
 	private JLabel btLogin;
 	private JLabel btCadastrar;
 	
 	// PAINEL DE FUNDO
 	private JLabel lbFundoPainelLogin;
 	
-	public PainelLoginUsuario() {
+	public PainelLoginUsuario(CentralDeInformacoes central, Persistencia persistencia) {
 		super("Painel Login Usuário");
 		
-		criarTextos();
-		criarCamposTexto();
-		criarBotoes();
-		
-		labelFundoEscuroCentral();
-		
-		setVisible(true);
-	
+		this.central = central;
+		this.persistencia = persistencia;
 	}
 	
 	protected void labelFundoEscuroCentral() {
@@ -62,60 +92,43 @@ public class PainelLoginUsuario extends PainelInicial {
 		lbBemVindo = new LabelTexto(Fontes.FONTE_PEQUENA, "Bem-vindo de volta!", 500, 165, 200, 30);
 		add(lbBemVindo);
 		
-		lbEmail = new LabelTexto(Fontes.FONTE_PEQUENA, "Email", 500, 220, 200, 30);
-		add(lbEmail);
+		lbLogin = new LabelTexto(Fontes.FONTE_PEQUENA, "Login", 500, 220, 200, 30);
+		add(lbLogin);
 		
 		lbSenha = new LabelTexto(Fontes.FONTE_PEQUENA, "Senha", 500, 320, 200, 30);
 		add(lbSenha);
-		
-		lbEsqueceuSenha = new LabelTexto(Fontes.FONTE_PEQUENA, "Esqueceu sua senha?", 620, 400, 200, 30);
-		addMouseListener(new MouseAdapter() {
-			public void mouseCLicked(MouseEvent e) {
-				dispose();
-				new PainelInserirEmailRedefinirSenha();
-			}
-		});
-		add(lbEsqueceuSenha);
 	}
 	
 	protected void criarCamposTexto() {
-		tfEmail = new CampoPadrao("Email", 410, 250, 380, 50);
-		add(tfEmail);
+		tfLogin = new CampoPadrao("Login", 410, 250, 380, 50);
+		add(tfLogin);
 		
-		tfSsenha = new CampoSenha("Senha", 410, 350, 380, 50, this);
-		add(tfSsenha);
+		tfSenha = new CampoSenha("Senha", 410, 350, 380, 50);
+		add(tfSenha);
 	}
 	
 	protected void criarBotoes() {
 		btLogin = new BotaoGrande("CADASTRAR", 410, 450, 380, 70);
+		btLogin.addMouseListener(new OuvinteLogin());
 		add(btLogin);
 		
 		btCadastrar = new BotaoPequeno("-- Não tem conta? Clique aqui e comece a Jogar! --", 400, 520, 400, 30);
 		btCadastrar.setFont(Fontes.FONTE_PEQUENA_BOLD);
-		btCadastrar.addMouseListener(new MouseAdapter() {
+		btCadastrar.addMouseListener(new OuvinteBotaoSemFundo() {
 			public void mouseClicked(MouseEvent e) {
 				dispose();
-				new PainelCadastroNovoJogador();
-			}
-			
-			public void mouseEntered(MouseEvent e) {
-				JComponent c = (JComponent) e.getSource();
-				c.setOpaque(true);
-				c.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				repaint();
-			}
-			
-			public void mouseExited(MouseEvent e) {
-				JComponent c = (JComponent) e.getSource();
-				c.setOpaque(false);
-				repaint();
+				new PainelCadastroNovoJogador(central, persistencia);
 			}
 		});
 		add(btCadastrar);
-	}
-	
-	public static void main(String[] args) {
-		new PainelLoginUsuario();
 		
+		btEsqueceuSenha = new BotaoPequeno("Esqueceu sua senha?", 620, 400, 200, 30);
+		btEsqueceuSenha.addMouseListener(new OuvinteBotaoSemFundo() {
+			public void mouseClicked(MouseEvent e) {
+				setVisible(false);
+				new PainelInserirEmailRedefinirSenha(central, persistencia, PainelLoginUsuario.this);
+			}
+		});
+		add(btEsqueceuSenha);
 	}
 }

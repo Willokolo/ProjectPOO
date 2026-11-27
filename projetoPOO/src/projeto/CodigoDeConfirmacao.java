@@ -2,6 +2,8 @@ package projeto;
 
 import javax.mail.MessagingException;
 
+import exceptions.CodigoException;
+
 public class CodigoDeConfirmacao {
 	private String codigo;
 	
@@ -9,14 +11,15 @@ public class CodigoDeConfirmacao {
 		gerarCodigo(email);
 	}
 	
-	private String gerarCodigo(String email) throws MessagingException {
+	public String gerarCodigo(String email) throws MessagingException {
 		codigo = String.valueOf((int)(Math.random() * 9000) + 1000);
 		
 		Mensageiro.enviarMensagem(email, "Código de confirmação", "Código de Confirmação: " + codigo);
 		
 		return codigo;
 	}
-	public boolean confirmarCodigo(String codigo) {
-		return this.codigo.equals(codigo);
+	public void confirmarCodigo(String codigo) throws CodigoException {
+		if (!codigo.equals(this.codigo))
+			throw new CodigoException();
 	}
 }

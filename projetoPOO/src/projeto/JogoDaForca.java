@@ -148,11 +148,15 @@ public class JogoDaForca {
 		tentativa.setAcertou(acertou);
 		tentativas.add(tentativa);
 		
-		if (palavraCompleta())
+		if (palavraCompleta()) {
 			vencedor = tentativa.getJogador();
-		else if (!acertou)
+			this.palavra.addAcerto();
+		} else if (!acertou) {
 			passarAVez();
-		
+			if (todosEliminados())
+				this.palavra.addErro();
+		}
+			
 		return acertou;
 	}
 	
@@ -169,15 +173,15 @@ public class JogoDaForca {
 	
 	// TESTA SE O JOGO ACABOU
 	public boolean terminou() {
-		if (palavraCompleta()) {
-			palavra.addAcerto();
-			return true;
-		}
+		return palavraCompleta() || todosEliminados();
+	}
+	
+	// TESTA SE TODOS OS JOGADORES FORAM ELIMINADOS
+	private boolean todosEliminados() {
 		for (Jogador j: jogadores) {
 			if (!estaEliminado(j))
 				return false;
 		}
-		palavra.addErro();
 		return true;
 	}
 	

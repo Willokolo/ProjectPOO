@@ -6,11 +6,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -20,87 +21,110 @@ import componentes.CampoPadrao;
 import componentes.LabelTexto;
 import componentes.PerfilUsuario;
 import componentes.QuadroDePontos;
+import enums.Resultado;
+import exceptions.RetornoVazioException;
+import exceptions.TentativaException;
 import interfaces.Cores;
 import interfaces.Fontes;
 import interfaces.Icones;
-import paineis.PainelInserirCodigoRedefinirSenha.OuvinteLimitarCaracteres;
+import ouvintes.OuvinteBotaoFundoVerde;
+import ouvintes.OuvinteBotaoSemFundo;
+import projeto.CentralDeInformacoes;
+import projeto.Jogador;
+import projeto.JogoDaForca;
+import projeto.Palavra;
+import projeto.PartidaSolo;
+import projeto.Persistencia;
+import projeto.Tentativa;
 
 public class PainelPrincipalInicioSolo extends BarraLateral {
-
+	// LETRAS ERRADAS
 	private JLabel fundoLetrasErradas;
 	private JLabel textoLetrasErradas;
+	private JLabel labelLetraErrada;
 	
+	// PONTOS
 	private JLabel quadroPontos;
 	
+	// USUARIO
 	private JLabel fotoUsuario;
 	private JLabel textoNomeUsuario;
 	private String nomeUsuario;
 	
+	// BOTÕES
 	private JLabel botaoDarPalpite;
+	private JLabel botaoDica;
 	
-	private String palavraEscolhida = "cavalo";
-	
+	// PARTIDA, PALAVRA E PALPITES
+	private PartidaSolo partida;
+	private String palavraEscolhida;
 	private ArrayList<Character> arrayLetrasPalavraEscolhida = new ArrayList<Character>();
-
 	private ArrayList<Character> letrasErradas = new ArrayList<Character>();
-
 	private ArrayList<Character> letrasEncontradas = new ArrayList<Character>();
-	
 	private List<JLabel> labelsPalavra = new ArrayList<>();
-	
+		
+	// FORCA
 	private JLabel labelForca;
 	
-	private JLabel labelLetraErrada;
-	
-	private int pontos;
-	
+	// CAMPO DE TEXTO
 	private JTextField inserirLetra;
 	
-	public PainelPrincipalInicioSolo(String nomeUsuario) {
-		super("Painel Principal - Menu Solo");
-		this.nomeUsuario = nomeUsuario;
-		
-		adicionarBotaoDica();
-		
-		adicionarLabelsPalavra();
-		
-		adicionarPontosUsuario();
-		
-		adicionarCampoEscolherLetra();
-		
-		adicionarBotaoDarPalpite();
-		
-		adicionarIconeForca();
-		
-		criarLetrasErradas();
+	// DICA
+	private String textoDica;
+	private JLabel lbDica;
 	
+	public PainelPrincipalInicioSolo(CentralDeInformacoes central, Persistencia persistencia, Jogador jogador, Palavra palavra) {
+		super("Painel Principal - Menu Solo", central, persistencia, jogador);
+		
+		iniciarPartida(palavra);
+		adicionarBotaoDica();
+		adicionarLabelsPalavra();
+		adicionarPontosUsuario();
+		adicionarCampoEscolherLetra();
+		adicionarBotaoDarPalpite();
+		criarLetrasErradas();
+		adicionarIconeForca();
+	}
+	
+	private void iniciarPartida(Palavra palavra) {
+		partida = new PartidaSolo(jogador, palavra);
+		jogador.addPalavraVista(palavra);
+		central.addPartida(partida);
+		persistencia.salvarCentral(central);
+		
+		palavraEscolhida = palavra.getPalavra();
+		textoDica = palavra.getDica();
+		nomeUsuario = jogador.getNome();
 	}
 	
 	public void adicionarIconeForca() {
 		
 		ImageIcon original = Icones.ICONE_FORCA_ESTADO_0;
 		
-		if (letrasErradas.size() == 0) {
-			original = Icones.ICONE_FORCA_ESTADO_0;
-
-		} else if (letrasErradas.size() == 1) {
+		switch(partida.getRodada().getErros(jogador)) {
+		case 1:
 			original = Icones.ICONE_FORCA_ESTADO_1;
-
-		} else if (letrasErradas.size() == 2) {
+			break;
+			
+		case 2:
 			original = Icones.ICONE_FORCA_ESTADO_2;
-
-		} else if (letrasErradas.size() == 3) {
+			break;
+			
+		case 3:
 			original = Icones.ICONE_FORCA_ESTADO_3;
-
-		} else if (letrasErradas.size() == 4) {
+			break;
+			
+		case 4:
 			original = Icones.ICONE_FORCA_ESTADO_4;
-
-		} else if (letrasErradas.size() == 5) {
+			break;
+			
+		case 5:
 			original = Icones.ICONE_FORCA_ESTADO_5;
-
-		} else if (letrasErradas.size() == 6) {
+			break;
+			
+		case 6:
 			original = Icones.ICONE_FORCA_ESTADO_6;
-
+			break;
 		}
 
 		Image imagem = original.getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH);
@@ -113,16 +137,8 @@ public class PainelPrincipalInicioSolo extends BarraLateral {
 		labelForca = new JLabel(redimensionado);
 		labelForca.setBounds(900, 400, 250, 250);
 		add(labelForca);
-		
 	}
 	
-	private JLabel botaoDica;
-	
-	private JLabel labelDica;
-	
-	private String textoDica = "máquina usada para programar e navegar na internet";
-	
-	private boolean dicaAtiva = false;
 	
 	public void adicionarBotaoDarPalpite() {
 		botaoDarPalpite = new BotaoGrande("DAR PALPITE", 430, 560, 240, 60);
@@ -136,97 +152,28 @@ public class PainelPrincipalInicioSolo extends BarraLateral {
 		Image imagem = original.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 		ImageIcon redimensionado = new ImageIcon(imagem);
 		
-		if (botaoDica != null) {
-			remove(botaoDica);
-		}
-		
-		JLabel botaoDica = new JLabel(redimensionado);
+		botaoDica = new JLabel(redimensionado);
 		botaoDica.setBounds(840, 40, 40, 40);
 		botaoDica.addMouseListener(new OuvinteBotaoDica());
-		add(botaoDica, 0);
-	}
-	
-	public void atualizarDica() {
-		if (labelDica != null) {
-			remove(labelDica);
-		}
+		add(botaoDica);
 		
-		adicionarBotaoDica();
-		
-		if (dicaAtiva == true) {
-			labelDica = new JLabel();
-			labelDica.setBounds(690, 40, 190, 100);
-			labelDica.setBackground(Cores.COR_FUNDO_ESCURO);
-			labelDica.setForeground(Cores.COR_LETRAS);
-			labelDica.setFont(Fontes.FONTE_PEQUENA_BOLD);
-			labelDica.setOpaque(true);
-			labelDica.setVerticalAlignment(SwingConstants.TOP);
-			
-			labelDica.setText("<html><body style ='width: 155px'>" + textoDica + "</body></html>");
-			add(labelDica, 1);
-		}
-		revalidate();
-		repaint();
-	}
-	
-	public class OuvinteBotaoDica extends MouseAdapter {
-	    @Override
-	    public void mouseClicked(MouseEvent e) {
-	    	if (dicaAtiva == false) {
-	    		dicaAtiva = true;
-	    	} else if (dicaAtiva == true) {
-	    		dicaAtiva = false;
-	    	}
-	        atualizarDica();
-	    }
-	}
-	
-	public class OuvinteBotaoDarPalpite extends MouseAdapter {
-	    @Override
-	    public void mouseClicked(MouseEvent e) {
-	        String digitado = inserirLetra.getText().trim();
-
-	        if (digitado.isEmpty()) {
-	            return;
-	        }
-
-	        char letra = Character.toUpperCase(digitado.charAt(0));
-
-	        if (letrasErradas.contains(letra) || letrasEncontradas.contains(letra)) {
-	        	inserirLetra.setText("");
-	            return; 
-	        }
-
-	        if (palavraEscolhida.toUpperCase().indexOf(letra) >= 0) {
-	        	pontos += 690;
-	            letrasEncontradas.add(letra);
-	            adicionarPontosUsuario();
-	            adicionarLabelsPalavra();
-	        } else {
-	            letrasErradas.add(letra);
-	            atualizarLetrasErradas();
-	        }
-	        adicionarIconeForca();
-	        inserirLetra.setText("");
-	    }
+		lbDica = new LabelTexto(Fontes.FONTE_MEDIA, "Dica", 835, 85, 50, 15);
+		add(lbDica);
 	}
 
 	public void adicionarLabelsPalavra() {
-		for (JLabel label : labelsPalavra) {
+		for (JLabel label : labelsPalavra)
 			remove(label);
-		}
 		labelsPalavra.clear();
-		arrayLetrasPalavraEscolhida.clear();
 
-		for (int i = 0; i < palavraEscolhida.length(); i++) {
-			arrayLetrasPalavraEscolhida.add(palavraEscolhida.charAt(i));
-		}
-
+		String gabarito = partida.getRodada().getGabarito();
 		int x = 550 - ((palavraEscolhida.length() * 36) / 2);
 		int y = 520;
 
-		for (Character letra : arrayLetrasPalavraEscolhida) {
-			if (letra.equals('-')) {
+		for (int i = 0; i < palavraEscolhida.length(); i++) {
+			char letra = palavraEscolhida.charAt(i);
+			
+			if (letra == '-') {
 				JLabel traco = new JLabel();
 				traco.setBackground(Cores.COR_LETRAS);
 				traco.setBounds(x + 7, y - 18, 15, 6);
@@ -234,22 +181,23 @@ public class PainelPrincipalInicioSolo extends BarraLateral {
 				add(traco, 0);
 				labelsPalavra.add(traco);
 				x += 36;
-
-			} else {
-				if (letrasEncontradas.contains(Character.toUpperCase(letra))) {
-					JLabel letraCorreta = new LabelTexto(Fontes.FONTE_GRANDE, String.valueOf(Character.toUpperCase(letra)), x + 2, y - 35, 30, 30);
-					add(letraCorreta, 0);
-					labelsPalavra.add(letraCorreta);
-				}
-
-				JLabel sublinhado = new JLabel();
-				sublinhado.setBackground(Cores.COR_LETRAS);
-				sublinhado.setBounds(x, y, 30, 6);
-				sublinhado.setOpaque(true);
-				add(sublinhado, 0);
-				labelsPalavra.add(sublinhado);
-				x += 36;
+				
+				continue;
 			}
+			
+			if (gabarito.charAt(i) != '?') {
+				JLabel letraCorreta = new LabelTexto(Fontes.FONTE_GRANDE, String.valueOf(Character.toUpperCase(letra)), x + 2, y - 35, 30, 30);
+				add(letraCorreta, 0);
+				labelsPalavra.add(letraCorreta);
+			}
+			
+			JLabel sublinhado = new JLabel();
+			sublinhado.setBackground(Cores.COR_LETRAS);
+			sublinhado.setBounds(x, y, 30, 6);
+			sublinhado.setOpaque(true);
+			add(sublinhado, 0);
+			labelsPalavra.add(sublinhado);
+			x += 36;
 		}
 
 		revalidate();
@@ -294,13 +242,13 @@ public class PainelPrincipalInicioSolo extends BarraLateral {
 		if (quadroPontos != null) {
 			remove(quadroPontos);
 		}
-		quadroPontos = new QuadroDePontos("Pontos Solo", pontos, Icones.ICONE_HISTORICO, 450, 40);
+		quadroPontos = new QuadroDePontos("Pontos Solo", jogador.getPontosSolo(), Icones.ICONE_HISTORICO, 450, 40);
 		add(quadroPontos, 0);
 		
-		fotoUsuario = new PerfilUsuario(Icones.ICONE_HISTORICO, this.nomeUsuario, 470, 160, 160, 160);
+		fotoUsuario = new PerfilUsuario(Icones.ICONE_HISTORICO, nomeUsuario, 470, 160, 160, 160);
 		add(fotoUsuario);
 		
-		textoNomeUsuario = new LabelTexto(Fontes.FONTE_MEDIA, this.nomeUsuario, 470, 255, 160, 160);
+		textoNomeUsuario = new LabelTexto(Fontes.FONTE_MEDIA, nomeUsuario, 470, 255, 160, 160);
 		add(textoNomeUsuario);
 	}
 	
@@ -335,13 +283,68 @@ public class PainelPrincipalInicioSolo extends BarraLateral {
 		textoLetrasErradas.setBackground(Cores.COR_PRIMARIA);
 		textoLetrasErradas.setOpaque(true);
 		
-		add(textoLetrasErradas, 0);
-		add(fundoLetrasErradas, 1);
+		add(textoLetrasErradas);
+		add(fundoLetrasErradas);
 
 		atualizarLetrasErradas();
 	}
 	
-	public static void main(String[] args) {
-		new PainelPrincipalInicioSolo("Wilokolo");
+	private class OuvinteBotaoDica extends OuvinteBotaoSemFundo {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			JOptionPane.showMessageDialog(null, textoDica, "Dica", JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+	
+	private class OuvinteBotaoDarPalpite extends OuvinteBotaoFundoVerde {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			JComponent j = (JComponent) e.getSource();
+			j.setBackground(Cores.COR_PRIMARIA_COMPLEMENTAR);
+			
+			String digitado = inserirLetra.getText().trim();
+			
+			if (digitado.isEmpty()) {
+				return;
+			}
+			
+			char letra = Character.toUpperCase(digitado.charAt(0));
+			Tentativa tentativa = new Tentativa(jogador, letra);
+			JogoDaForca rodada = partida.getRodada();
+			
+			try {
+				if(rodada.testarLetra(tentativa))
+					letrasEncontradas.add(letra);
+				else
+					letrasErradas.add(letra);
+			} catch (TentativaException e1) {
+				JOptionPane.showMessageDialog(null, e1.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+			
+			if (rodada.terminou()) {
+				JOptionPane.showMessageDialog(null, "A palavra era: " + palavraEscolhida, "Palavra", JOptionPane.INFORMATION_MESSAGE);
+				
+				try {
+					rodada.getVencedor();
+					dispose();
+					
+					new ResultadoPartida(Resultado.VITORIA, central, persistencia, jogador);
+				} catch (RetornoVazioException e1) {
+					dispose();
+					new ResultadoPartida(Resultado.DERROTA, central, persistencia, jogador);
+				} finally {
+					jogador.addPontosSolo(partida.getPontos());
+					persistencia.salvarCentral(central);
+				}
+				
+			}
+			
+			adicionarLabelsPalavra();
+			atualizarLetrasErradas();
+			adicionarIconeForca();
+			inserirLetra.setText("");
+			
+			j.setBackground(Cores.COR_BOTAO_HOVER);
+		}
 	}
 }

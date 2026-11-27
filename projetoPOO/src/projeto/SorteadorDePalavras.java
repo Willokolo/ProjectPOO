@@ -23,6 +23,7 @@ public class SorteadorDePalavras {
 		
 		return palavrasDificuldade.get(sorteio);
 	}
+	
 	public static ArrayList<Palavra> sorteiaPalavra(ArrayList<Palavra> palavras, Dificuldade dificuldade, Jogador jogador1, Jogador jogador2) throws NaoHaPalavrasCompativeisException {
 		ArrayList<Palavra> palavrasDificuldade = new ArrayList<Palavra>();
 		ArrayList<Palavra> palavrasFinal = new ArrayList<Palavra>();

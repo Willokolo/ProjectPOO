@@ -6,213 +6,63 @@
       <senha>12345</senha>
       <palavrasVistas>
         <projeto.Palavra>
-          <palavra>pé-de-moleque</palavra>
-          <dica>doce feito de amendoim e rapadura</dica>
-          <dificuldade>DIFICIL</dificuldade>
-          <erros>0</erros>
-          <acertos>1</acertos>
-        </projeto.Palavra>
-        <projeto.Palavra>
-          <palavra>guarda-chuva</palavra>
-          <dica>objeto para proteger da chuva e do sol</dica>
-          <dificuldade>NORMAL</dificuldade>
-          <erros>0</erros>
-          <acertos>1</acertos>
-        </projeto.Palavra>
-        <projeto.Palavra>
-          <palavra>coração</palavra>
-          <dica>órgão que bombeia o sangue</dica>
+          <palavra>cachorro</palavra>
+          <dica>melhor amigo do homem</dica>
           <dificuldade>FACIL</dificuldade>
           <erros>0</erros>
           <acertos>1</acertos>
         </projeto.Palavra>
         <projeto.Palavra>
-          <palavra>água</palavra>
-          <dica>líquido essencial para a vida</dica>
+          <palavra>televisão</palavra>
+          <dica>aparelho que exibe filmes e programas</dica>
           <dificuldade>FACIL</dificuldade>
           <erros>0</erros>
           <acertos>1</acertos>
         </projeto.Palavra>
         <projeto.Palavra>
-          <palavra>arco-íris</palavra>
-          <dica>fenômeno colorido que surge depois da chuva</dica>
+          <palavra>bicicleta</palavra>
+          <dica>veículo de duas rodas movido a pedais</dica>
           <dificuldade>FACIL</dificuldade>
           <erros>0</erros>
           <acertos>1</acertos>
+        </projeto.Palavra>
+        <projeto.Palavra>
+          <palavra>janela</palavra>
+          <dica>abertura na parede por onde entra luz</dica>
+          <dificuldade>FACIL</dificuldade>
+          <erros>0</erros>
+          <acertos>0</acertos>
+        </projeto.Palavra>
+        <projeto.Palavra>
+          <palavra>sapato</palavra>
+          <dica>peça de roupa usada nos pés</dica>
+          <dificuldade>FACIL</dificuldade>
+          <erros>0</erros>
+          <acertos>0</acertos>
         </projeto.Palavra>
       </palavrasVistas>
-      <tentativas>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>p</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>e</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>d</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>m</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>o</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>l</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>q</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>u</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>g</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>u</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>a</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>r</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>d</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>c</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>h</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>v</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>c</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>o</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>r</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>a</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>a</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>g</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>u</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>a</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>r</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>c</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>o</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>i</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-        <projeto.Tentativa>
-          <jogador reference="../../.."/>
-          <letra>s</letra>
-          <acertou>true</acertou>
-        </projeto.Tentativa>
-      </tentativas>
-      <pontosDuelo>0</pontosDuelo>
-      <pontosSolo>2050</pontosSolo>
+      <tentativas/>
+      <pontosDuelo>1</pontosDuelo>
+      <pontosSolo>300</pontosSolo>
+      <ativo>true</ativo>
+    </projeto.Jogador>
+    <projeto.Jogador>
+      <nome>william</nome>
+      <email>william@gmail.com</email>
+      <senha>12345</senha>
+      <palavrasVistas>
+        <projeto.Palavra reference="../../../projeto.Jogador/palavrasVistas/projeto.Palavra[2]"/>
+        <projeto.Palavra reference="../../../projeto.Jogador/palavrasVistas/projeto.Palavra[3]"/>
+        <projeto.Palavra reference="../../../projeto.Jogador/palavrasVistas/projeto.Palavra[4]"/>
+        <projeto.Palavra reference="../../../projeto.Jogador/palavrasVistas/projeto.Palavra[5]"/>
+      </palavrasVistas>
+      <tentativas/>
+      <pontosDuelo>1</pontosDuelo>
+      <pontosSolo>0</pontosSolo>
       <ativo>true</ativo>
     </projeto.Jogador>
   </jogadores>
   <palavras>
-    <projeto.Palavra reference="../../jogadores/projeto.Jogador/palavrasVistas/projeto.Palavra[2]"/>
-    <projeto.Palavra>
-      <palavra>beija-flor</palavra>
-      <dica>pequena ave que pousa nas flores</dica>
-      <dificuldade>NORMAL</dificuldade>
-      <erros>0</erros>
-      <acertos>0</acertos>
-    </projeto.Palavra>
-    <projeto.Palavra reference="../../jogadores/projeto.Jogador/palavrasVistas/projeto.Palavra[5]"/>
-    <projeto.Palavra reference="../../jogadores/projeto.Jogador/palavrasVistas/projeto.Palavra"/>
-    <projeto.Palavra reference="../../jogadores/projeto.Jogador/palavrasVistas/projeto.Palavra[4]"/>
-    <projeto.Palavra reference="../../jogadores/projeto.Jogador/palavrasVistas/projeto.Palavra[3]"/>
-    <projeto.Palavra>
-      <palavra>lâmpada</palavra>
-      <dica>objeto que produz luz elétrica</dica>
-      <dificuldade>NORMAL</dificuldade>
-      <erros>0</erros>
-      <acertos>0</acertos>
-    </projeto.Palavra>
     <projeto.Palavra>
       <palavra>tempestade</palavra>
       <dica>chuva forte com raios e trovões</dica>
@@ -262,13 +112,7 @@
       <erros>0</erros>
       <acertos>0</acertos>
     </projeto.Palavra>
-    <projeto.Palavra>
-      <palavra>bicicleta</palavra>
-      <dica>veículo de duas rodas movido a pedais</dica>
-      <dificuldade>FACIL</dificuldade>
-      <erros>0</erros>
-      <acertos>0</acertos>
-    </projeto.Palavra>
+    <projeto.Palavra reference="../../jogadores/projeto.Jogador/palavrasVistas/projeto.Palavra[3]"/>
     <projeto.Palavra>
       <palavra>chuva</palavra>
       <dica>água que cai das nuvens</dica>
@@ -304,13 +148,7 @@
       <erros>0</erros>
       <acertos>0</acertos>
     </projeto.Palavra>
-    <projeto.Palavra>
-      <palavra>cachorro</palavra>
-      <dica>melhor amigo do homem</dica>
-      <dificuldade>FACIL</dificuldade>
-      <erros>0</erros>
-      <acertos>0</acertos>
-    </projeto.Palavra>
+    <projeto.Palavra reference="../../jogadores/projeto.Jogador/palavrasVistas/projeto.Palavra"/>
     <projeto.Palavra>
       <palavra>cromossomo</palavra>
       <dica>estrutura celular que carrega o DNA</dica>
@@ -549,13 +387,7 @@
       <erros>0</erros>
       <acertos>0</acertos>
     </projeto.Palavra>
-    <projeto.Palavra>
-      <palavra>sapato</palavra>
-      <dica>peça de roupa usada nos pés</dica>
-      <dificuldade>FACIL</dificuldade>
-      <erros>0</erros>
-      <acertos>0</acertos>
-    </projeto.Palavra>
+    <projeto.Palavra reference="../../jogadores/projeto.Jogador/palavrasVistas/projeto.Palavra[5]"/>
     <projeto.Palavra>
       <palavra>heterogêneo</palavra>
       <dica>formado por elementos diferentes entre si</dica>
@@ -794,13 +626,7 @@
       <erros>0</erros>
       <acertos>0</acertos>
     </projeto.Palavra>
-    <projeto.Palavra>
-      <palavra>televisão</palavra>
-      <dica>aparelho que exibe filmes e programas</dica>
-      <dificuldade>FACIL</dificuldade>
-      <erros>0</erros>
-      <acertos>0</acertos>
-    </projeto.Palavra>
+    <projeto.Palavra reference="../../jogadores/projeto.Jogador/palavrasVistas/projeto.Palavra[2]"/>
     <projeto.Palavra>
       <palavra>telescópio</palavra>
       <dica>instrumento para observar astros distantes</dica>
@@ -899,30 +725,41 @@
       <erros>0</erros>
       <acertos>0</acertos>
     </projeto.Palavra>
-    <projeto.Palavra>
-      <palavra>janela</palavra>
-      <dica>abertura na parede por onde entra luz</dica>
-      <dificuldade>FACIL</dificuldade>
-      <erros>0</erros>
-      <acertos>0</acertos>
-    </projeto.Palavra>
+    <projeto.Palavra reference="../../jogadores/projeto.Jogador/palavrasVistas/projeto.Palavra[4]"/>
   </palavras>
   <partidas>
     <projeto.PartidaSolo>
-      <dataHora>2026-11-21T17:06:48.7289282</dataHora>
+      <dataHora>2026-11-27T02:28:49.4469542</dataHora>
       <rodadas>
         <projeto.JogoDaForca>
           <palavra reference="../../../../../jogadores/projeto.Jogador/palavrasVistas/projeto.Palavra"/>
-          <gabarito>pé-de-moleque</gabarito>
+          <gabarito>cachorro</gabarito>
           <tentativas>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[2]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[3]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[4]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[5]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[6]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[7]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[8]"/>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador"/>
+              <letra>C</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador"/>
+              <letra>A</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador"/>
+              <letra>H</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador"/>
+              <letra>O</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador"/>
+              <letra>R</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
           </tentativas>
           <vencedor reference="../../../../../jogadores/projeto.Jogador"/>
           <jogadores>
@@ -933,95 +770,140 @@
       </rodadas>
       <jogador reference="../../../jogadores/projeto.Jogador"/>
     </projeto.PartidaSolo>
-    <projeto.PartidaSolo>
-      <dataHora>2026-11-21T17:07:05.0231629</dataHora>
+    <projeto.PartidaDuelo>
+      <dataHora>2026-11-27T02:29:09.7645813</dataHora>
       <rodadas>
         <projeto.JogoDaForca>
           <palavra reference="../../../../../jogadores/projeto.Jogador/palavrasVistas/projeto.Palavra[2]"/>
-          <gabarito>guarda-chuva</gabarito>
+          <gabarito>televisão</gabarito>
           <tentativas>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[9]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[10]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[11]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[12]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[13]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[14]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[15]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[16]"/>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador"/>
+              <letra>T</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador"/>
+              <letra>E</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador"/>
+              <letra>L</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador"/>
+              <letra>V</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador"/>
+              <letra>I</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador"/>
+              <letra>S</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador"/>
+              <letra>A</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador"/>
+              <letra>O</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
           </tentativas>
           <vencedor reference="../../../../../jogadores/projeto.Jogador"/>
           <jogadores>
             <projeto.Jogador reference="../../../../../../jogadores/projeto.Jogador"/>
+            <projeto.Jogador reference="../../../../../../jogadores/projeto.Jogador[2]"/>
           </jogadores>
           <indiceDaVez>0</indiceDaVez>
         </projeto.JogoDaForca>
-      </rodadas>
-      <jogador reference="../../../jogadores/projeto.Jogador"/>
-    </projeto.PartidaSolo>
-    <projeto.PartidaSolo>
-      <dataHora>2026-11-21T17:07:23.7843949</dataHora>
-      <rodadas>
         <projeto.JogoDaForca>
           <palavra reference="../../../../../jogadores/projeto.Jogador/palavrasVistas/projeto.Palavra[3]"/>
-          <gabarito>coração</gabarito>
+          <gabarito>bicicleta</gabarito>
           <tentativas>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[17]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[18]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[19]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[20]"/>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador[2]"/>
+              <letra>B</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador[2]"/>
+              <letra>I</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador[2]"/>
+              <letra>C</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador[2]"/>
+              <letra>L</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador[2]"/>
+              <letra>E</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador[2]"/>
+              <letra>T</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
+            <projeto.Tentativa>
+              <jogador reference="../../../../../../../jogadores/projeto.Jogador[2]"/>
+              <letra>A</letra>
+              <acertou>true</acertou>
+            </projeto.Tentativa>
           </tentativas>
-          <vencedor reference="../../../../../jogadores/projeto.Jogador"/>
+          <vencedor reference="../../../../../jogadores/projeto.Jogador[2]"/>
           <jogadores>
+            <projeto.Jogador reference="../../../../../../jogadores/projeto.Jogador[2]"/>
             <projeto.Jogador reference="../../../../../../jogadores/projeto.Jogador"/>
           </jogadores>
           <indiceDaVez>0</indiceDaVez>
         </projeto.JogoDaForca>
       </rodadas>
-      <jogador reference="../../../jogadores/projeto.Jogador"/>
-    </projeto.PartidaSolo>
-    <projeto.PartidaSolo>
-      <dataHora>2026-11-21T17:07:34.8196534</dataHora>
+      <jogador1 reference="../../../jogadores/projeto.Jogador"/>
+      <jogador2 reference="../../../jogadores/projeto.Jogador[2]"/>
+      <resultadoJogador1>EMPATE</resultadoJogador1>
+    </projeto.PartidaDuelo>
+    <projeto.PartidaDuelo>
+      <dataHora>2026-11-27T02:30:27.024444</dataHora>
       <rodadas>
         <projeto.JogoDaForca>
           <palavra reference="../../../../../jogadores/projeto.Jogador/palavrasVistas/projeto.Palavra[4]"/>
-          <gabarito>água</gabarito>
-          <tentativas>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[21]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[22]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[23]"/>
-          </tentativas>
-          <vencedor reference="../../../../../jogadores/projeto.Jogador"/>
+          <gabarito>??????</gabarito>
+          <tentativas/>
           <jogadores>
+            <projeto.Jogador reference="../../../../../../jogadores/projeto.Jogador[2]"/>
             <projeto.Jogador reference="../../../../../../jogadores/projeto.Jogador"/>
           </jogadores>
           <indiceDaVez>0</indiceDaVez>
         </projeto.JogoDaForca>
-      </rodadas>
-      <jogador reference="../../../jogadores/projeto.Jogador"/>
-    </projeto.PartidaSolo>
-    <projeto.PartidaSolo>
-      <dataHora>2026-11-21T17:07:40.9187094</dataHora>
-      <rodadas>
         <projeto.JogoDaForca>
           <palavra reference="../../../../../jogadores/projeto.Jogador/palavrasVistas/projeto.Palavra[5]"/>
-          <gabarito>arco-íris</gabarito>
-          <tentativas>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[24]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[25]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[26]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[27]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[28]"/>
-            <projeto.Tentativa reference="../../../../../../jogadores/projeto.Jogador/tentativas/projeto.Tentativa[29]"/>
-          </tentativas>
-          <vencedor reference="../../../../../jogadores/projeto.Jogador"/>
+          <gabarito>??????</gabarito>
+          <tentativas/>
           <jogadores>
             <projeto.Jogador reference="../../../../../../jogadores/projeto.Jogador"/>
+            <projeto.Jogador reference="../../../../../../jogadores/projeto.Jogador[2]"/>
           </jogadores>
           <indiceDaVez>0</indiceDaVez>
         </projeto.JogoDaForca>
       </rodadas>
-      <jogador reference="../../../jogadores/projeto.Jogador"/>
-    </projeto.PartidaSolo>
+      <jogador1 reference="../../../jogadores/projeto.Jogador[2]"/>
+      <jogador2 reference="../../../jogadores/projeto.Jogador"/>
+    </projeto.PartidaDuelo>
   </partidas>
   <administrador reference="../jogadores/projeto.Jogador"/>
 </projeto.CentralDeInformacoes>

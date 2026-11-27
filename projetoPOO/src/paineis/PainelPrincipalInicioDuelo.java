@@ -4,54 +4,52 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import componentes.BarraLateral;
 import componentes.BotaoGrande;
 import componentes.CampoPadrao;
 import componentes.LabelTexto;
 import componentes.PerfilUsuario;
 import componentes.QuadroDePontos;
+import enums.Resultado;
+import exceptions.NaoHaPalavrasCompativeisException;
+import exceptions.RetornoVazioException;
+import exceptions.TentativaException;
 import interfaces.Cores;
 import interfaces.Fontes;
 import interfaces.Icones;
+import ouvintes.OuvinteBotaoFundoVerde;
+import ouvintes.OuvinteBotaoSemFundo;
+import projeto.CentralDeInformacoes;
+import projeto.Jogador;
+import projeto.JogoDaForca;
+import projeto.Palavra;
+import projeto.PartidaDuelo;
+import projeto.Persistencia;
+import projeto.Tentativa;
 
 public class PainelPrincipalInicioDuelo extends BarraLateral {
 
 	// ==================== DADOS DA PARTIDA ====================
-
-	private String palavraEscolhida = "cavalo";
-	private String textoDica = "máquina usada para programar e navegar na internet";
-
-	private ArrayList<Character> letrasPalavra = new ArrayList<Character>();
-	private ArrayList<Character> letrasEncontradas = new ArrayList<Character>();
-	private ArrayList<Character> letrasErradas = new ArrayList<Character>();
-
-	private boolean jogador1Jogando = true;
-	private boolean dicaAtiva = false;
-
-	// ==================== DADOS DOS JOGADORES ====================
-
-	private String nomeJogador1;
-	private String nomeJogador2;
-
-	private int pontosJogador1;
-	private int pontosJogador2;
-
-	private int errosJogador1;
-	private int errosJogador2;
+	
+	private PartidaDuelo partida;
+	private JogoDaForca rodadaAtual;
+	private int indiceRodada = 0;
+	private String palavraEscolhida;
+	private String textoDica;
 
 	// ==================== COMPONENTES DOS JOGADORES ====================
-
+	private Jogador jogador2;
+	
 	private JLabel textoJogadorAtual;
 
 	private JLabel fotoJogador1;
@@ -69,6 +67,7 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 	// ==================== COMPONENTES DO JOGO ====================
 
 	private List<JLabel> labelsPalavra = new ArrayList<>();
+	private List<JLabel> labelsLetrasErradas = new ArrayList<>();
 
 	private JTextField campoLetra;
 	private JLabel botaoDarPalpite;
@@ -78,27 +77,42 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 
 	private JLabel fundoLetrasErradas;
 	private JLabel tituloLetrasErradas;
-	private JLabel labelLetraErrada;
-
-	private JLabel labelResultado;
 
 	// ==================== CONSTRUTOR ====================
 
-	public PainelPrincipalInicioDuelo(String nomeJogador1, String nomeJogador2) {
-		super("Painel Principal - Menu Solo");
-		this.nomeJogador1 = nomeJogador1;
-		this.nomeJogador2 = nomeJogador2;
-
-		atualizarJogadorAtual();
+	public PainelPrincipalInicioDuelo(CentralDeInformacoes central, Persistencia persistencia, Jogador jogador1, Jogador jogador2, Palavra palavra1, Palavra palavra2) throws NaoHaPalavrasCompativeisException {
+		super("Painel Principal - Menu Solo", central, persistencia, jogador1);
+		this.jogador2 = jogador2;
+		
+		iniciarPartida(palavra1, palavra2);
 		adicionarBotaoDica();
-		atualizarPalavra();
-		atualizarPlacar();
+		atualizarTela();
 		adicionarCampoLetra();
 		adicionarBotaoDarPalpite();
-		atualizarForcas();
 		adicionarQuadroLetrasErradas();
 	}
-
+	
+	private void iniciarPartida(Palavra palavra1, Palavra palavra2) {
+		partida = new PartidaDuelo(jogador, jogador2, palavra1, palavra2);
+		jogador.addPalavraVista(palavra1);
+		jogador2.addPalavraVista(palavra1);
+		jogador.addPalavraVista(palavra2);
+		jogador2.addPalavraVista(palavra2);
+		
+		central.addPartida(partida);
+		persistencia.salvarCentral(central);
+		
+		iniciarRodada();
+	}
+	
+	private void iniciarRodada() {
+		rodadaAtual = partida.getRodadas().get(indiceRodada);
+		palavraEscolhida = rodadaAtual.getPalavra().getPalavra();
+		textoDica = rodadaAtual.getDica();
+		
+		atualizarTela();
+	}
+	
 	// ==================== CRIAÇÃO DOS COMPONENTES ====================
 
 	public void adicionarBotaoDica() {
@@ -106,15 +120,14 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 
 		Image imagem = original.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 		ImageIcon redimensionado = new ImageIcon(imagem);
-
-		if (botaoDica != null) {
-			remove(botaoDica);
-		}
-
-		JLabel botaoDica = new JLabel(redimensionado);
-		botaoDica.setBounds(780, 40, 40, 40);
+		
+		botaoDica = new JLabel(redimensionado);
+		botaoDica.setBounds(780, 50, 40, 40);
 		botaoDica.addMouseListener(new OuvinteBotaoDica());
-		add(botaoDica, 0);
+		add(botaoDica);
+		
+		labelDica = new LabelTexto(Fontes.FONTE_MEDIA, "Dica", 775, 95, 50, 15);
+		add(labelDica);
 	}
 
 	public void adicionarCampoLetra() {
@@ -145,7 +158,7 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 		add(tituloLetrasErradas, 0);
 		add(fundoLetrasErradas, 1);
 
-		atualizarLetrasErradas();
+		atualizarTela();
 	}
 
 	// ==================== ATUALIZAÇÃO DA TELA ====================
@@ -154,54 +167,24 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 		if (textoJogadorAtual != null) {
 			remove(textoJogadorAtual);
 		}
-
-		if (jogador1Jogando == true) {
-			textoJogadorAtual = new LabelTexto(Fontes.FONTE_GRANDE, "Vez do jogador: " + nomeJogador1, 160, 50, 500, 100);
-		} else {
-			textoJogadorAtual = new LabelTexto(Fontes.FONTE_GRANDE, "Vez do jogador: " + nomeJogador2, 160, 50, 500, 100);
-		}
+		
+		textoJogadorAtual = new LabelTexto(Fontes.FONTE_GRANDE, "Vez do jogador: " + rodadaAtual.getJogadorDaVez().getNome(), 160, 50, 500, 100);
 		add(textoJogadorAtual);
 	}
 
-	public void atualizarDica() {
-		if (labelDica != null) {
-			remove(labelDica);
-		}
-
-		adicionarBotaoDica();
-
-		if (dicaAtiva == true) {
-			labelDica = new JLabel();
-			labelDica.setBounds(630, 40, 190, 100);
-			labelDica.setBackground(Cores.COR_FUNDO_ESCURO);
-			labelDica.setForeground(Cores.COR_LETRAS);
-			labelDica.setFont(Fontes.FONTE_PEQUENA_BOLD);
-			labelDica.setOpaque(true);
-			labelDica.setVerticalAlignment(SwingConstants.TOP);
-
-			labelDica.setText("<html><body style ='width: 155px'>" + textoDica + "</body></html>");
-			add(labelDica, 1);
-		}
-		revalidate();
-		repaint();
-	}
-
 	public void atualizarPalavra() {
-		for (JLabel label : labelsPalavra) {
+		for (JLabel label : labelsPalavra)
 			remove(label);
-		}
 		labelsPalavra.clear();
-		letrasPalavra.clear();
-
-		for (int i = 0; i < palavraEscolhida.length(); i++) {
-			letrasPalavra.add(palavraEscolhida.charAt(i));
-		}
-
+		
+		String gabarito = rodadaAtual.getGabarito();
 		int x = 240;
 		int y = 300;
 
-		for (Character letra : letrasPalavra) {
-			if (letra.equals('-')) {
+		for (int i = 0; i < palavraEscolhida.length(); i++) {
+			char letra = palavraEscolhida.charAt(i);
+			
+			if (letra == '-') {
 				JLabel traco = new JLabel();
 				traco.setBackground(Cores.COR_LETRAS);
 				traco.setBounds(x + 7, y - 18, 15, 6);
@@ -209,47 +192,50 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 				add(traco, 0);
 				labelsPalavra.add(traco);
 				x += 36;
-
-			} else {
-				if (letrasEncontradas.contains(Character.toUpperCase(letra))) {
-					JLabel letraCorreta = new LabelTexto(Fontes.FONTE_GRANDE, String.valueOf(Character.toUpperCase(letra)), x + 2, y - 35, 30, 30);
-					add(letraCorreta, 0);
-					labelsPalavra.add(letraCorreta);
-				}
-
-				JLabel sublinhado = new JLabel();
-				sublinhado.setBackground(Cores.COR_LETRAS);
-				sublinhado.setBounds(x, y, 30, 6);
-				sublinhado.setOpaque(true);
-				add(sublinhado, 0);
-				labelsPalavra.add(sublinhado);
-				x += 36;
+				
+				continue;
 			}
+			
+			if (gabarito.charAt(i) != '?') {
+				JLabel letraCorreta = new LabelTexto(Fontes.FONTE_GRANDE, String.valueOf(Character.toUpperCase(letra)), x + 2, y - 35, 30, 30);
+				add(letraCorreta, 0);
+				labelsPalavra.add(letraCorreta);
+			}
+			
+			JLabel sublinhado = new JLabel();
+			sublinhado.setBackground(Cores.COR_LETRAS);
+			sublinhado.setBounds(x, y, 30, 6);
+			sublinhado.setOpaque(true);
+			add(sublinhado, 0);
+			labelsPalavra.add(sublinhado);
+			x += 36;
 		}
-
-		revalidate();
-		repaint();
 	}
 
 	public void atualizarLetrasErradas() {
+		for (JLabel l: labelsLetrasErradas)
+			remove(l);
+		labelsLetrasErradas.clear();
+		
+		ArrayList<Character> erradas = letrasErradas();
 		int y = 125;
-		int largura = 40;
-		int altura = 40;
-		int indiceLetra = 0;
-
-		while (indiceLetra < letrasErradas.size()) {
+		int indice = 0;
+		
+		while (indice < erradas.size()) {
 			int x = 855;
-			for (int j = 0; j < 4 && indiceLetra < letrasErradas.size(); j++) {
-				labelLetraErrada = new LabelTexto(Fontes.FONTE_LETRAS_ERRADAS, String.valueOf(letrasErradas.get(indiceLetra)), x, y, largura, altura);
-				add(labelLetraErrada, 1);
+			for (int i = 0; i < 4 && indice < erradas.size(); i++, indice++) {
+				JLabel letra = new LabelTexto(Fontes.FONTE_LETRAS_ERRADAS, String.valueOf(erradas.get(indice)), x, y, 40, 40);
+				add(letra, 1);
+				
+				labelsLetrasErradas.add(letra);
 				x += 70;
-				indiceLetra++;
 			}
 			y += 60;
 		}
-
+		
 		revalidate();
 		repaint();
+
 	}
 
 	public void atualizarPlacar() {
@@ -257,25 +243,28 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 			remove(quadroPontosJogador1);
 			remove(quadroPontosJogador2);
 		}
-
+		
+		String nomeJogador1 = jogador.getNome();
+		String nomeJogador2 = jogador2.getNome();
+		
 		// Jogador 1
-		quadroPontosJogador1 = new QuadroDePontos("Pontos Solo", pontosJogador1, Icones.ICONE_HISTORICO, 230, 560);
+		quadroPontosJogador1 = new QuadroDePontos("Pontos Duelo", jogador.getPontosDuelo(), Icones.ICONE_HISTORICO, 230, 560);
 		add(quadroPontosJogador1, 0);
 
-		fotoJogador1 = new PerfilUsuario(Icones.ICONE_HISTORICO, this.nomeJogador1, 260, 390, 140, 140);
+		fotoJogador1 = new PerfilUsuario(Icones.ICONE_HISTORICO, nomeJogador1, 260, 390, 140, 140);
 		add(fotoJogador1);
 
-		textoNomeJogador1 = new LabelTexto(Fontes.FONTE_MEDIA, this.nomeJogador1, 260, 475, 140, 140);
+		textoNomeJogador1 = new LabelTexto(Fontes.FONTE_MEDIA, nomeJogador1, 260, 475, 140, 140);
 		add(textoNomeJogador1, 0);
 
 		// Jogador 2
-		quadroPontosJogador2 = new QuadroDePontos("Pontos Solo", pontosJogador2, Icones.ICONE_HISTORICO, 970, 560);
+		quadroPontosJogador2 = new QuadroDePontos("Pontos Duelo", jogador2.getPontosDuelo(), Icones.ICONE_HISTORICO, 970, 560);
 		add(quadroPontosJogador2, 0);
 
-		fotoJogador2 = new PerfilUsuario(Icones.ICONE_HISTORICO, this.nomeJogador2, 1000, 390, 140, 140);
+		fotoJogador2 = new PerfilUsuario(Icones.ICONE_HISTORICO, nomeJogador2, 1000, 390, 140, 140);
 		add(fotoJogador2);
 
-		textoNomeJogador2 = new LabelTexto(Fontes.FONTE_MEDIA, this.nomeJogador2, 1000, 475, 140, 140);
+		textoNomeJogador2 = new LabelTexto(Fontes.FONTE_MEDIA, nomeJogador2, 1000, 475, 140, 140);
 		add(textoNomeJogador2, 0);
 	}
 
@@ -283,37 +272,57 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 
 		ImageIcon original1 = Icones.ICONE_FORCA_ESTADO_0;
 		ImageIcon original2 = Icones.ICONE_FORCA_ESTADO_0;
-
-		if (errosJogador1 == 0) {
-			original1 = Icones.ICONE_FORCA_ESTADO_0;
-		} else if (errosJogador1 == 1) {
+		
+		switch(rodadaAtual.getErros(jogador)) {
+		case 1:
 			original1 = Icones.ICONE_FORCA_ESTADO_1;
-		} else if (errosJogador1 == 2) {
+			break;
+			
+		case 2:
 			original1 = Icones.ICONE_FORCA_ESTADO_2;
-		} else if (errosJogador1 == 3) {
+			break;
+			
+		case 3:
 			original1 = Icones.ICONE_FORCA_ESTADO_3;
-		} else if (errosJogador1 == 4) {
+			break;
+			
+		case 4:
 			original1 = Icones.ICONE_FORCA_ESTADO_4;
-		} else if (errosJogador1 == 5) {
+			break;
+			
+		case 5:
 			original1 = Icones.ICONE_FORCA_ESTADO_5;
-		} else if (errosJogador1 == 6) {
+			break;
+			
+		case 6:
 			original1 = Icones.ICONE_FORCA_ESTADO_6;
+			break;
 		}
-
-		if (errosJogador2 == 0) {
-			original2 = Icones.ICONE_FORCA_ESTADO_0;
-		} else if (errosJogador2 == 1) {
+		
+		switch(rodadaAtual.getErros(jogador2)) {
+		case 1:
 			original2 = Icones.ICONE_FORCA_ESTADO_1;
-		} else if (errosJogador2 == 2) {
+			break;
+			
+		case 2:
 			original2 = Icones.ICONE_FORCA_ESTADO_2;
-		} else if (errosJogador2 == 3) {
+			break;
+			
+		case 3:
 			original2 = Icones.ICONE_FORCA_ESTADO_3;
-		} else if (errosJogador2 == 4) {
+			break;
+			
+		case 4:
 			original2 = Icones.ICONE_FORCA_ESTADO_4;
-		} else if (errosJogador2 == 5) {
+			break;
+			
+		case 5:
 			original2 = Icones.ICONE_FORCA_ESTADO_5;
-		} else if (errosJogador2 == 6) {
+			break;
+			
+		case 6:
 			original2 = Icones.ICONE_FORCA_ESTADO_6;
+			break;
 		}
 
 		Image imagem;
@@ -354,24 +363,93 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 		forcaJogador2.setBounds(780, 400, 250, 250);
 		add(forcaJogador2);
 	}
-
+	
+	private ArrayList<Character> letrasErradas(){
+		ArrayList<Character> erradas = new ArrayList<Character>();
+		for (Tentativa t: rodadaAtual.getTentativas()) {
+			if(!t.getAcertou()) {
+				erradas.add(Character.toUpperCase(t.getLetra()));
+			}
+		}
+		return erradas;
+	}
+	
+	private void encerrarRodada() {
+		JOptionPane.showMessageDialog(null, textoFimRodada(), "Fim da rodada", JOptionPane.INFORMATION_MESSAGE);
+		
+		if (indiceRodada == 0) {
+			indiceRodada = 1;
+			iniciarRodada();
+		} else
+			encerrarPartida();
+	}
+	
+	private void encerrarPartida() {
+		JOptionPane.showMessageDialog(null, textoFimPartida(), "Fim da partida", JOptionPane.INFORMATION_MESSAGE);
+		
+		Resultado resultado = Resultado.DERROTA;
+		try {
+			Jogador vencedor = partida.getVencedor();
+			
+			if (vencedor.equals(jogador))
+				resultado = Resultado.VITORIA;
+		} catch (RetornoVazioException e) {
+			resultado = Resultado.EMPATE;
+		} finally {
+			for (Jogador j : partida.getJogadores())
+				j.addPontosDuelo(partida.getPontosDuelo(j));
+			persistencia.salvarCentral(central);
+		}
+		
+		dispose();
+		new ResultadoPartida(resultado, central, persistencia, jogador);
+	}
+	
+	private String textoFimPartida() {
+		try {
+			return partida.getVencedor() + " venceu a partida!";
+		} catch (RetornoVazioException e) {
+			return e.getMessage();
+		}
+	}
+	
+	private String textoFimRodada() {
+		String msg = "";
+		
+		try {
+			msg = rodadaAtual.getVencedor() + " venceu a rodada!";
+		} catch (RetornoVazioException e) {
+			msg = e.getMessage();
+		}
+		
+		return msg + "\nA palavra era: " + palavraEscolhida;
+	}
+	
+	private void atualizarTela() {
+		atualizarJogadorAtual();
+		atualizarPalavra();
+		atualizarPlacar();
+		atualizarForcas();
+		atualizarLetrasErradas();
+		
+		repaint();
+	}
+	
 	// ==================== OUVINTES ====================
 
-	public class OuvinteBotaoDica extends MouseAdapter {
+	public class OuvinteBotaoDica extends OuvinteBotaoSemFundo {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if (dicaAtiva == false) {
-				dicaAtiva = true;
-			} else if (dicaAtiva == true) {
-				dicaAtiva = false;
-			}
-			atualizarDica();
+			JOptionPane.showMessageDialog(null, textoDica, "Dica", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
-	public class OuvinteBotaoDarPalpite extends MouseAdapter {
+	public class OuvinteBotaoDarPalpite extends OuvinteBotaoFundoVerde {
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			JComponent j = (JComponent) e.getSource();
+			j.setBackground(Cores.COR_PRIMARIA_COMPLEMENTAR);
+			
 			String digitado = campoLetra.getText().trim();
 
 			if (digitado.isEmpty()) {
@@ -379,38 +457,23 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 			}
 
 			char letra = Character.toUpperCase(digitado.charAt(0));
+			Jogador jogadorDaVez = rodadaAtual.getJogadorDaVez();
+			Tentativa tentativa = new Tentativa(jogadorDaVez, letra);
+			
+			try {
+				rodadaAtual.testarLetra(tentativa);
 
-			if (letrasErradas.contains(letra) || letrasEncontradas.contains(letra)) {
-				campoLetra.setText("");
-				return;
+			} catch (TentativaException e1) {
+				JOptionPane.showMessageDialog(null, e1.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 			}
-
-			if (palavraEscolhida.toUpperCase().indexOf(letra) >= 0) {
-				if (jogador1Jogando) {
-					pontosJogador1 += 690;
-				} else {
-					pontosJogador2 += 690;
-				}
-				letrasEncontradas.add(letra);
-				atualizarPlacar();
-				atualizarPalavra();
-			} else {
-				letrasErradas.add(letra);
-				atualizarLetrasErradas();
-
-				if (jogador1Jogando) {
-					errosJogador1++;
-				} else {
-					errosJogador2++;
-				}
-
-				jogador1Jogando = !jogador1Jogando;
-			}
-			atualizarForcas();
+			
 			campoLetra.setText("");
-			atualizarJogadorAtual();
-			revalidate();
-			repaint();
+			atualizarTela();
+			
+			if (rodadaAtual.terminou()) 
+				encerrarRodada();
+			
+			j.setBackground(Cores.COR_BOTAO_HOVER);
 		}
 	}
 
@@ -438,11 +501,4 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 			}
 		}
 	}
-
-	// ==================== MAIN ====================
-
-	public static void main(String[] args) {
-		new PainelPrincipalInicioDuelo("Wilokolo", "Raf3nix");
-	}
-
 }
