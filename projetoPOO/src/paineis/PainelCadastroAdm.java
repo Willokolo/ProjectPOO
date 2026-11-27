@@ -40,7 +40,7 @@ public class PainelCadastroAdm extends PainelInicial {
 				
 				dispose();
 				
-				new PainelPrincipalMenuSolo();
+				new PainelPrincipalMenuSolo(central, persistencia, jogador);
 			} catch (JogadorJaExisteException e1) {
 				System.out.println(e1.getMessage());
 			}

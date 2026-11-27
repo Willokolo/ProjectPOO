@@ -29,7 +29,7 @@ public class PainelCadastroNovoJogador extends PainelInicial {
 
 		public void mouseClicked(MouseEvent e) {
 			JComponent j = (JComponent) e.getSource();
-			j.setBackground(Cores.COR_FUNDO_ESCURO);
+			j.setBackground(Cores.COR_PRIMARIA_COMPLEMENTAR);
 			
 			String nome = tfNome.getText();
 			String email = tfEmail.getText();
@@ -42,7 +42,7 @@ public class PainelCadastroNovoJogador extends PainelInicial {
 				
 				dispose();
 				
-				new PainelPrincipalMenuSolo();
+				new PainelPrincipalMenuSolo(central, persistencia, jogador);
 			} catch (JogadorJaExisteException e1) {
 				System.out.println(e1.getMessage());
 			}

@@ -38,13 +38,12 @@ public class Main {
 		
 		central = persistencia.recuperarCentral();
 		
-		if(central.getJogadores().isEmpty()) {
+		if(central.getJogadores().isEmpty())
 			new PainelCadastroAdm(central, persistencia);
-			
-		} else {
+		else 
 			new PainelLoginUsuario(central, persistencia);
-		}
-		
+	
+		/*
 		boolean sair = false;
 		while (!sair) {
 			
@@ -115,7 +114,7 @@ public class Main {
 					
 					persistencia.salvarCentral(central);
 					
-				} catch (NaoHaPalavrasCompativeisException | PartidaJaCadastradaException | JogadorInativoException e) {
+				} catch (NaoHaPalavrasCompativeisException| JogadorInativoException e) {
 					System.out.println(e.getMessage());
 				}
 				break;
@@ -186,7 +185,7 @@ public class Main {
 					
 					persistencia.salvarCentral(central);
 					
-				} catch (NaoHaPalavrasCompativeisException | PartidaJaCadastradaException | JogadorInativoException e) {
+				} catch (NaoHaPalavrasCompativeisException | JogadorInativoException e) {
 					System.out.println(e.getMessage());
 				}
 				break;
@@ -634,7 +633,7 @@ public class Main {
 	}
 	
 	private static void jogarSolo(CentralDeInformacoes central, Dificuldade dificuldade, Scanner input, Jogador jogador)
-						throws NaoHaPalavrasCompativeisException, PartidaJaCadastradaException, JogadorInativoException {
+						throws NaoHaPalavrasCompativeisException, JogadorInativoException {
 		
 		if (!jogador.isAtivo())
 			throw new JogadorInativoException(jogador);
@@ -689,7 +688,7 @@ public class Main {
 	
 	
 	private static void jogarDuelo(CentralDeInformacoes central, Dificuldade dificuldade, Scanner input, Jogador jogador1, Jogador jogador2)
-											throws NaoHaPalavrasCompativeisException, PartidaJaCadastradaException, JogadorInativoException {
+											throws NaoHaPalavrasCompativeisException, JogadorInativoException {
 		
 		if (!jogador1.isAtivo())
 			throw new JogadorInativoException(jogador1);
@@ -898,5 +897,7 @@ public class Main {
 		
 		jogador.redefinirSenha(senha);
 		System.out.println("Senha alterada com sucesso!");
+		 */
 	}
+	
 }

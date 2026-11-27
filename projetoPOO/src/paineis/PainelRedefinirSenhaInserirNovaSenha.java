@@ -41,7 +41,7 @@ public class PainelRedefinirSenhaInserirNovaSenha extends PainelInicial {
 				
 				dispose();
 				
-				
+				janelaOriginal.setVisible(true);
 			} catch (SenhaVaziaException e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 			}
@@ -64,7 +64,7 @@ public class PainelRedefinirSenhaInserirNovaSenha extends PainelInicial {
 	
 	// BOTÕES
 	private JLabel btVoltar;	
-	private JLabel btEnviar;
+	private JLabel btRedefinir;
 	
 	// PAINEL DE FUNDO
 	private JLabel lbFundoPainelLogin;
@@ -99,8 +99,9 @@ public class PainelRedefinirSenhaInserirNovaSenha extends PainelInicial {
 
 	@Override
 	protected void criarBotoes() {
-		btEnviar = new BotaoGrande("REDEFINIR", 410, 410, 380, 70);
-		add(btEnviar);	
+		btRedefinir = new BotaoGrande("REDEFINIR", 410, 410, 380, 70);
+		btRedefinir.addMouseListener(new OuvinteRedefinir());
+		add(btRedefinir);	
 		
 		btVoltar = new BotaoPequeno("< Voltar", 378, 170, 50, 20);
 		btVoltar.addMouseListener(new OuvinteBotaoSemFundo() {

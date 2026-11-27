@@ -35,4 +35,34 @@ public class GeradorDeRelatorios {
 		
 		doc.close();
 	}
+	
+	public static void gerarRelatorioImportacao(ResultadoImportacao resultado) throws FileNotFoundException, DocumentException {
+		Paragraph p;
+		
+		Document doc = new Document(PageSize.A4);
+		OutputStream os = new FileOutputStream("relatorioImportacao.pdf");
+		PdfWriter.getInstance(doc, os);
+		doc.open();
+		
+		p = new Paragraph("Cadastradas: " + resultado.getCadastradas());
+		doc.add(p);
+		p = new Paragraph("Editadas: " + resultado.getEditadas());
+		doc.add(p);
+		p = new Paragraph("Excluidas: " + resultado.getExcluidas());
+		doc.add(p);
+		
+		p = new Paragraph("Rejeitadas:");
+		doc.add(p);
+		if (resultado.getRejeitadas().isEmpty()) {
+			p = new Paragraph("Não houveram palavras rejeitadas.");
+			doc.add(p);
+		} else {
+			for (String s: resultado.getRejeitadas()) {
+				p = new Paragraph(s);
+				doc.add(p);
+			}
+		}
+		
+		doc.close();
+	}
 }

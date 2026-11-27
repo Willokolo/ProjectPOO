@@ -1,20 +1,35 @@
 package componentes;
 
-import java.awt.Cursor;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.io.IOException;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
+
+import com.itextpdf.text.DocumentException;
 
 import interfaces.Cores;
 import interfaces.Fontes;
 import interfaces.Icones;
+import ouvintes.OuvinteBotaoFundoVerde;
+import ouvintes.OuvinteBotaoSemFundo;
+import paineis.PainelCadastroNovoJogador;
+import paineis.PainelPrincipalMenuDuelo;
+import paineis.PainelPrincipalMenuSolo;
+import projeto.CentralDeInformacoes;
+import projeto.ExtratorPalavrasCSV;
+import projeto.GeradorDeRelatorios;
+import projeto.Jogador;
+import projeto.Persistencia;
+import projeto.ResultadoImportacao;
 
 public class BarraLateral extends Painel {
+	// ATRIBUTOS FUNCIONAIS
+	protected CentralDeInformacoes central;
+	protected Persistencia persistencia;
+	protected Jogador jogador;
 	
 	// LABELS
 	private JLabel barra;
@@ -22,9 +37,10 @@ public class BarraLateral extends Painel {
 	private JLabel lbJogadores;
 	private JLabel lbNomeJogador;
 	private JLabel lbIconeJogador;
+	private JLabel lbAdministrador;
 	
 	// CAMPOS DE TEXTO
-	private JTextField tfJogadores;
+	private JTextField tfPesquisar;
 	
 	// BOTÕES CUSTOMIZADOS
 	private JLabel btJogarSolo;
@@ -34,63 +50,19 @@ public class BarraLateral extends Painel {
 	private JLabel btEstatisticas;
 	protected JLabel btHistorico;
 	private JLabel btAddJogador;
+	private JLabel btAdministrador;
 	
-	public BarraLateral(String title) {
+	public BarraLateral(String title, CentralDeInformacoes central, Persistencia persistencia, Jogador jogador) {
 		super(title);
+		this.central = central;
+		this.persistencia = persistencia;
+		this.jogador = jogador;
+		
 		criarBotoesCustomizados();
 		criarTextos();
 		criarCamposTexto();
 		criarBarra();
 		setVisible(true);
-	}
-	
-	public class OuvinteBotaoGrande implements MouseListener{
-
-		public void mouseClicked(MouseEvent e) {
-			JComponent c = (JComponent) e.getSource();
-			c.setBackground(Cores.COR_PRIMARIA_COMPLEMENTAR);
-			JOptionPane.showMessageDialog(null, "Nada, por enquanto");
-		}
-
-		public void mousePressed(MouseEvent e) {}
-
-		public void mouseReleased(MouseEvent e) {}
-
-		public void mouseEntered(MouseEvent e) {
-			JComponent c = (JComponent) e.getSource();
-			c.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			c.setBackground(Cores.COR_BOTAO_HOVER);
-		}
-
-		public void mouseExited(MouseEvent e) {
-			JComponent c = (JComponent) e.getSource();
-			c.setBackground(Cores.COR_PRIMARIA);
-		}
-		
-	}
-	
-	private class OuvinteBotaoMedio implements MouseListener{
-
-		public void mouseClicked(MouseEvent e) {
-			JOptionPane.showMessageDialog(null, "Nada, por enquanto");
-		}
-
-		public void mousePressed(MouseEvent e) {}
-
-		public void mouseReleased(MouseEvent e) {}
-
-		public void mouseEntered(MouseEvent e) {
-			JComponent c = (JComponent) e.getSource();
-			c.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			c.setOpaque(true);
-			c.repaint();
-		}
-
-		public void mouseExited(MouseEvent e) {
-			JComponent c = (JComponent) e.getSource();
-			c.setOpaque(false);
-			c.repaint();
-		}
 		
 	}
 	
@@ -98,77 +70,137 @@ public class BarraLateral extends Painel {
 		
 		// BOTÕES GRANDES
 		btJogarSolo = new BotaoGrande("SOLO", Icones.ICONE_SOLO, 10, 370, 180, 70);
-		btJogarSolo.addMouseListener(new OuvinteBotaoGrande());
+		btJogarSolo.addMouseListener(new OuvinteBotaoFundoVerde() {
+			
+			public void mouseClicked(MouseEvent e) {
+				JComponent j = (JComponent) e.getSource();
+				j.setBackground(Cores.COR_PRIMARIA_COMPLEMENTAR);
+				
+				dispose();
+				
+				new PainelPrincipalMenuSolo(central, persistencia, jogador);
+			}
+		});
 		add(btJogarSolo);
 		
 		btJogarDuelo = new BotaoGrande("DUELO", Icones.ICONE_DUELO, 10, 450, 180, 70);
-		btJogarDuelo.addMouseListener(new OuvinteBotaoGrande());
+		btJogarDuelo.addMouseListener(new OuvinteBotaoFundoVerde() {
+			
+			public void mouseClicked(MouseEvent e) {
+				JComponent j = (JComponent) e.getSource();
+				j.setBackground(Cores.COR_PRIMARIA_COMPLEMENTAR);
+				
+				dispose();
+				
+				new PainelPrincipalMenuDuelo(central, persistencia, jogador);
+			}
+		});
 		add(btJogarDuelo);
 		
 		
 		// BOTÕES MÉDIOS
-		btLideranca = new BotaoMedio("Liderança", Icones.ICONE_LIDERANCA, 10, 250, 180, 30);
-		btLideranca.addMouseListener(new OuvinteBotaoMedio());
-		add(btLideranca);
-		
-		btMensagens = new BotaoMedio("Mensagens", Icones.ICONE_MENSAGENS, 10, 210, 180, 30);
-		btMensagens.addMouseListener(new OuvinteBotaoMedio());
-		add(btMensagens);
+		btHistorico = new BotaoMedio("Histórico", Icones.ICONE_HISTORICO, 10, 130, 180, 30);
+		btHistorico.addMouseListener(new OuvinteBotaoSemFundo() {
+			
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Nada ainda", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+		});
+		add(btHistorico);
 		
 		btEstatisticas = new BotaoMedio("Estatísticas", Icones.ICONE_ESTATISTICAS, 10, 170, 180, 30);
-		btEstatisticas.addMouseListener(new OuvinteBotaoMedio());
+		btEstatisticas.addMouseListener(new OuvinteBotaoSemFundo() {
+			
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Nada ainda", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+		});
 		add(btEstatisticas);
 		
-		btHistorico = new BotaoMedio("Histórico", Icones.ICONE_HISTORICO, 10, 130, 180, 30);
-		btHistorico.addMouseListener(new OuvinteBotaoMedio());
-		add(btHistorico);
+		btMensagens = new BotaoMedio("Mensagens", Icones.ICONE_MENSAGENS, 10, 210, 180, 30);
+		btMensagens.addMouseListener(new OuvinteBotaoSemFundo() {
+			
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Nada ainda", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+		});
+		add(btMensagens);
+		
+		btLideranca = new BotaoMedio("Liderança", Icones.ICONE_LIDERANCA, 10, 250, 180, 30);
+		btLideranca.addMouseListener(new OuvinteBotaoSemFundo() {
+			
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Nada ainda", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+		});
+		add(btLideranca);
+		
+		if (jogador.equals(central.getAdministrador())) {
+			btAdministrador = new BotaoMedio("Administrador", Icones.ICONE_LIDERANCA, 10, 290, 180, 30);
+			btAdministrador.addMouseListener(new OuvinteBotaoSemFundo() {
+				
+				public void mouseClicked(MouseEvent e) {
+					String arquivo = JOptionPane.showInputDialog(null, "Nome do arquivo (provisório)", "Erro", JOptionPane.ERROR_MESSAGE);
+					
+					try {
+						ResultadoImportacao resultado = ExtratorPalavrasCSV.lerArquivo(arquivo, central);
+						
+						GeradorDeRelatorios.gerarRelatorioImportacao(resultado);
+						
+						JOptionPane.showMessageDialog(null, "Palavras extraídas e relatório gerado", "Atualização", JOptionPane.INFORMATION_MESSAGE);
+					} catch (IOException | DocumentException e1) {
+						JOptionPane.showMessageDialog(null, "Houve um erro durante a geração do relatório", "Erro", JOptionPane.ERROR_MESSAGE);
+					} finally {
+						persistencia.salvarCentral(central);
+					}
+				}
+			});
+			add(btAdministrador);
+		}
 		
 		
 		// BOTÕES PEQUENOS
 		btAddJogador = new BotaoPequeno("+ Adicionar Novo Jogador", 10, 640, 180, 25);
-		btAddJogador.addMouseListener(new OuvinteBotaoMedio());
+		btAddJogador.addMouseListener(new OuvinteBotaoSemFundo() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+				
+				new PainelCadastroNovoJogador(central, persistencia);
+			}
+		});
 		add(btAddJogador);
 	}
 	
 	private void criarTextos() {
 		
-		// TROCAR PELA CLASSE NOVA
-		lbJogar = new JLabel("Jogar");
-		lbJogar.setBounds(10, 325, 180, 40);
-		lbJogar.setHorizontalAlignment(JLabel.CENTER);
-		lbJogar.setFont(Fontes.FONTE_GRANDE);
-		lbJogar.setForeground(Cores.COR_LETRAS);
+		
+		lbJogar = new LabelTexto(Fontes.FONTE_GRANDE, "Jogar", 10, 325, 180, 40);
 		add(lbJogar);
-		
-		lbJogadores = new JLabel("Jogadores");
-		lbJogadores.setBounds(10, 550, 180, 30);
-		lbJogadores.setHorizontalAlignment(JLabel.CENTER);
-		lbJogadores.setFont(Fontes.FONTE_MEDIA);
-		lbJogadores.setForeground(Cores.COR_LETRAS);
+
+		lbJogadores = new LabelTexto(Fontes.FONTE_MEDIA, "Jogadores", 10, 550, 180, 30);
 		add(lbJogadores);
-		
-		lbNomeJogador = new JLabel("RAFÊNIX");
-		lbNomeJogador.setBounds(10, 70, 180, 30);
-		lbNomeJogador.setHorizontalAlignment(JLabel.CENTER);
-		lbNomeJogador.setFont(Fontes.FONTE_MEDIA);
-		lbNomeJogador.setForeground(Cores.COR_LETRAS);
+
+		lbNomeJogador = new LabelTexto(Fontes.FONTE_MEDIA, jogador.getNome(), 10, 70, 180, 30);
 		add(lbNomeJogador);
 		
-		lbIconeJogador = new JLabel("RF");
-		lbIconeJogador.setBounds(75, 15, 50, 50);
+		if(jogador.equals(central.getAdministrador())) {
+			lbAdministrador = new LabelTexto(Fontes.FONTE_PEQUENA, "Administrador", 10, 90, 180, 30);
+			add(lbAdministrador);
+		}
+		
+		String icone = String.valueOf(jogador.getNome().charAt(0)) + jogador.getNome().charAt(3);
+		lbIconeJogador = new LabelTexto(Fontes.FONTE_GRANDE, icone.toUpperCase(), 75, 15, 50, 50);
 		lbIconeJogador.setBackground(Cores.COR_PRIMARIA);
-		lbIconeJogador.setOpaque(true);
 		lbIconeJogador.setForeground(Cores.COR_FUNDO_ESCURO);
-		lbIconeJogador.setFont(Fontes.FONTE_GRANDE);
-		lbIconeJogador.setHorizontalAlignment(JLabel.CENTER);
+		lbIconeJogador.setOpaque(true);
 		add(lbIconeJogador);
 	}
 	
 	private void criarCamposTexto() {
-		tfJogadores = new JTextField();
-		tfJogadores.setBounds(10, 590, 180, 40);
-		tfJogadores.setFont(Fontes.FONTE_PEQUENA);
-		add(tfJogadores);
+		tfPesquisar = new CampoPadrao("Pesquisar", 10, 590, 180, 40);
+		add(tfPesquisar);
 	}
 	
 	private void criarBarra() {
@@ -177,9 +209,5 @@ public class BarraLateral extends Painel {
 		barra.setOpaque(true);
 		barra.setBackground(Cores.COR_FUNDO_ESCURO);
 		add(barra);
-	}
-	
-	public static void main(String[] args) {
-		BarraLateral b = new BarraLateral("oi kk esqueceu de me bloquar no Java");
 	}
 }

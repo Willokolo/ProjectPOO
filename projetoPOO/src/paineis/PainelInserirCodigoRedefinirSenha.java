@@ -5,6 +5,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+import javax.mail.MessagingException;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -143,7 +144,17 @@ public class PainelInserirCodigoRedefinirSenha extends PainelInicial {
 		btEnviar.addMouseListener(new OuvinteEnviar());
 		add(btEnviar);
 		
-		btReenviarCodigo = new BotaoPequeno("--Reenviar código--", 500, 485, 200, 100);
+		btReenviarCodigo = new BotaoPequeno("--Reenviar código--", 500, 523, 200, 30);
+		btReenviarCodigo.addMouseListener(new OuvinteBotaoSemFundo() {
+			
+			public void mouseClicked(MouseEvent e) {
+				try {
+					codigo.gerarCodigo(jogador.getEmail());
+				} catch (MessagingException e1) {
+					JOptionPane.showMessageDialog(null, "Erro durante o envio do código", "Erro", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		add(btReenviarCodigo);
 	}
 

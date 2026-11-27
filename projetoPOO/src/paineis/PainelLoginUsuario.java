@@ -40,13 +40,11 @@ public class PainelLoginUsuario extends PainelInicial {
 			String login = tfLogin.getText();
 			String senha = tfSenha.getText();
 			
-			System.out.println("[" + login + "] [" + senha + "]");
-			
 			try {
-				central.fazerLogin(login, senha);
+				Jogador jogador = central.fazerLogin(login, senha);
 				dispose();
 				
-				new PainelPrincipalMenuSolo();
+				new PainelPrincipalMenuSolo(central, persistencia, jogador);
 			} catch (LoginSenhaException | JogadorInativoException e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 			}
