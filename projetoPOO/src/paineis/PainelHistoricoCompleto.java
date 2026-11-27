@@ -23,13 +23,16 @@ import componentes.LabelTexto;
 import enums.Dificuldade;
 import enums.Resultado;
 import enums.TipoDePartida;
+import exceptions.RetornoVazioException;
 import interfaces.Cores;
 import interfaces.Fontes;
 import projeto.Jogador;
+import projeto.JogoDaForca;
 import projeto.Palavra;
 import projeto.Partida;
 import projeto.PartidaDuelo;
 import projeto.PartidaSolo;
+import projeto.Tentativa;
 
 public class PainelHistoricoCompleto extends BarraLateral {
 
@@ -127,6 +130,7 @@ public class PainelHistoricoCompleto extends BarraLateral {
 				new Palavra("Cavalo", "Andar a ", Dificuldade.FACIL),
 				new Palavra("Mesa", "de comer veia de 4 pé", Dificuldade.FACIL)
 				);
+		
 		Partida partidaSolo = new PartidaSolo(new Jogador("Wilokolo", "a", "b"), new Palavra("Cavalo", "Andar a ", Dificuldade.FACIL));
 		
 		partidas = new ArrayList<Partida>();
@@ -169,10 +173,47 @@ public class PainelHistoricoCompleto extends BarraLateral {
 			texto = "DUELO";
 			tamanho = new Dimension(818, 500);
 			
+			card.add(new LabelTexto(Fontes.FONTE_GRANDE, "VS",  330, 50, 150, 50));
+			
+			try {
+				
+				Jogador vencedor = partida.getVencedor();
+				Jogador perdedor = null;
+				
+				for (Jogador jogador : partida.getJogadores()) {
+					if (!jogador.equals(vencedor)) {
+						perdedor = jogador;
+					}
+				}
+				
+				//card.add(new LabelTexto(Fontes.FONTE_GRANDE, "Wilokolo",105, 50, 200, 50));
+				//card.add(new LabelTexto(Fontes.FONTE_GRANDE, "Raf3nix", 458, 50, 200, 50));
+				card.add(new LabelTexto(Fontes.FONTE_GRANDE, vencedor.getNome(), 6, 50, 200, 50, Cores.COR_PRIMARIA));
+				card.add(new LabelTexto(Fontes.FONTE_GRANDE, perdedor.getNome(), 578, 50, 200, 50, Color.RED));
+				
+			} catch (RetornoVazioException e) {
+				//System.out.println("Oxe");
+			}
+				
+			card.add(new LabelTexto(Fontes.FONTE_GRANDE, "+3", 46, 66, 50, 50, Cores.COR_PRIMARIA));
+			card.add(new LabelTexto(Fontes.FONTE_GRANDE, "0", 728, 66, 50, 50, Color.RED));
+			
+			card.add(new LabelTexto(Fontes.FONTE_GRANDE, "GANHOU", 105, 80, 200, 50, Cores.COR_PRIMARIA));
+			card.add(new LabelTexto(Fontes.FONTE_GRANDE, "PERDEU", 458, 80, 200, 50, Color.RED));
+
+			
+			
 		} else if (tipo == TipoDePartida.SOLO) {
 			texto = "SOLO";
 			tamanho = new Dimension(818, 300);
-			
+
+			if (partida.getResultado() == Resultado.VITORIA) {
+				card.add(new LabelTexto(Fontes.FONTE_GRANDE, "VITÓRIA", 330, 50, 150, 50, Cores.COR_PRIMARIA));
+				
+			} else if (partida.getResultado() == Resultado.DERROTA) {				
+				card.add(new LabelTexto(Fontes.FONTE_GRANDE, "DERROTA", 330, 50, 150, 50, Color.RED)); 
+				
+			}
 		}
 		
 		card.setBackground(Cores.COR_FUNDO);
@@ -185,7 +226,6 @@ public class PainelHistoricoCompleto extends BarraLateral {
 		card.setMaximumSize(tamanho);
 		card.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-
 		JLabel labelTipo = new LabelTexto(Fontes.FONTE_GRANDE, texto, 0, 0, 120, 50);
 		JLabel labelDificuldade = new LabelTexto(Fontes.FONTE_GRANDE, String.valueOf(partida.getDificuldade()), 680, 0, 150, 50);
 		labelDificuldade.setAlignmentX(RIGHT_ALIGNMENT);
@@ -193,15 +233,60 @@ public class PainelHistoricoCompleto extends BarraLateral {
 		JLabel dataPartida = new LabelTexto(Fontes.FONTE_GRANDE, String.valueOf(partida.getDataHoraFormatada()), 210, 0, 400, 50);
 		dataPartida.setAlignmentX(CENTER_ALIGNMENT);
 		
-		if (partida.getResultado() == Resultado.DERROTA)
 		
 		card.add(dataPartida);
 		card.add(labelDificuldade);
 		card.add(labelTipo);
 		
+		criarLabelResultado(card, partida);
+
 		lista.add(card);
 		lista.revalidate();
 		lista.repaint();
+	}
+	
+	JPanel painelFundoVerde;
+	
+	public void criarLabelResultado(JPanel card, Partida partida) {
+		int yPainel = 93;
+		int index = 0;
+		ArrayList<JogoDaForca> jogos = partida.getRodadas();
+		
+		for (JogoDaForca jogo : jogos) {
+
+		painelFundoVerde = new JPanel();
+		painelFundoVerde.setBackground(Cores.COR_PRIMARIA_COMPLEMENTAR);
+		painelFundoVerde.setOpaque(true);
+		painelFundoVerde.setLayout(null);
+		painelFundoVerde.setAlignmentX(Component.LEFT_ALIGNMENT);
+		
+		card.add(new LabelTexto(Fontes.FONTE_GRANDE_NO_BOLD, String.valueOf(partida.getPalavras().get(0)), 330, yPainel, 150, 50), 0);
+		painelFundoVerde.setBounds(12, yPainel + 57, 794, 138);
+		
+		painelFundoVerde.add(new LabelTexto(Fontes.FONTE_GRANDE, "JOGADOR", 6, 6, 160, 35));
+		painelFundoVerde.add(new LabelTexto(Fontes.FONTE_GRANDE, "ERROS", 216, 6, 160, 35));
+		painelFundoVerde.add(new LabelTexto(Fontes.FONTE_GRANDE, "ACERTOS", 422, 6, 160, 35));
+		painelFundoVerde.add(new LabelTexto(Fontes.FONTE_GRANDE, "PONTOS", 628, 6, 160, 35));
+		
+		int y = 55;
+		
+		for (Jogador jogador: partida.getJogadores()) {				
+			
+			painelFundoVerde.add(new LabelTexto(Fontes.FONTE_GRANDE_NO_BOLD, jogador.getNome(), 6, y, 160, 35));
+			painelFundoVerde.add(new LabelTexto(Fontes.FONTE_GRANDE_NO_BOLD, String.valueOf(jogo.getErros(jogador)).replace("[", "").replace("]", ""), 
+					216, y, 160, 35));
+			painelFundoVerde.add(new LabelTexto(Fontes.FONTE_GRANDE_NO_BOLD, String.valueOf(jogo.getAcertos(jogador)).replace("[", "").replace("]", ""), 
+					216, y, 160, 35));
+			painelFundoVerde.add(new LabelTexto(Fontes.FONTE_GRANDE_NO_BOLD, String.valueOf(jogo.getPontos(jogador)),
+					216, y, 160, 35));
+			
+				y += 35;
+			
+		}
+			card.add(painelFundoVerde);
+			yPainel += 200;
+			index++;
+		}
 	}
 	
 	public static void main(String[] args) {

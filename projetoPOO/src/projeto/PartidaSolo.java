@@ -6,7 +6,7 @@ import exceptions.RetornoVazioException;
 
 public class PartidaSolo extends Partida {
 	private Jogador jogador;
-	private Resultado resultado;
+	private Resultado resultado = Resultado.DERROTA;
 	
 	public PartidaSolo(Jogador jogador, Palavra palavra) {
 		this.jogador = jogador;
