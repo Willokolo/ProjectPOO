@@ -40,7 +40,7 @@ public class ResultadoPartida extends Painel {
 	private Dificuldade dificuldade;
 	
 	private JLabel fundoEscuro;
-	private JLabel textoPerdeu;
+	private JLabel labelResultado;
 	private JLabel btJogarNovamente;
 	private JLabel btVoltarMenu;
 	
@@ -64,8 +64,8 @@ public class ResultadoPartida extends Painel {
 		} 
 		
 		if (resultado == Resultado.EMPATE) {
-			cor = Cores.COR_LETRAS;
-			texto = " EMPATOU";
+			cor = Color.YELLOW;
+			texto = "EMPATE";
 
 		} 
 		
@@ -86,11 +86,11 @@ public class ResultadoPartida extends Painel {
 		fundoEscuro = new LabelFundoEscuroCentralizado(this, 500, 250);
 		fundoEscuro.setBorder(BorderFactory.createLineBorder(cor, 10));
 
-		textoPerdeu = new LabelTexto(Fontes.FONTE_GRANDE, texto, this.getWidth() / 2 - 250, 220, 500, 100);
+		labelResultado = new LabelTexto(Fontes.FONTE_GRANDE, texto, this.getWidth() / 2 - 250, 220, 500, 100, cor);
 				
 		fundoEscuro.setOpaque(true);
 		add(fundoEscuro, 0);
-		add(textoPerdeu, 0);
+		add(labelResultado, 0);
 	}
 	
 	private void criarBotoes() {

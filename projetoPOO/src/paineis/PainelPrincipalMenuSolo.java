@@ -64,11 +64,11 @@ public class PainelPrincipalMenuSolo extends PainelPrincipalMenu {
 						break;
 						
 					case 2:
-						dificuldadeSelecionada = Dificuldade.FACIL;
+						dificuldadeSelecionada = Dificuldade.NORMAL;
 						break;
 						
 					case 3:
-						dificuldadeSelecionada = Dificuldade.FACIL;
+						dificuldadeSelecionada = Dificuldade.DIFICIL;
 						break;
 					}
 				}

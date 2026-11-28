@@ -19,6 +19,8 @@ public abstract class Partida {
 	public abstract TipoDePartida getTipo();
 	public abstract Resultado getResultado();
 	public abstract Jogador getVencedor() throws RetornoVazioException;
+	public abstract Jogador getPerdedor() throws RetornoVazioException;
+	public abstract int getPontos(Jogador jogador);
 	
 	
 	// GETS CONCRETOS

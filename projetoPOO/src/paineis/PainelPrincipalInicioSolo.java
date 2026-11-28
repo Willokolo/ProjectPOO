@@ -18,6 +18,7 @@ import componentes.CampoPadrao;
 import componentes.LabelTexto;
 import componentes.PerfilUsuario;
 import componentes.QuadroDePontos;
+import enums.Dificuldade;
 import enums.Resultado;
 import exceptions.RetornoVazioException;
 import exceptions.TentativaException;
@@ -52,10 +53,9 @@ public class PainelPrincipalInicioSolo extends BarraLateral {
 	private JLabel botaoDica;
 	
 	// PARTIDA, PALAVRA E PALPITES
+	private JLabel labelDificuldade;
 	private PartidaSolo partida;
 	private String palavraEscolhida;
-	private ArrayList<Character> letrasErradas = new ArrayList<Character>();
-	private ArrayList<Character> letrasEncontradas = new ArrayList<Character>();
 	private List<JLabel> labelsPalavra = new ArrayList<>();
 		
 	// FORCA
@@ -87,6 +87,26 @@ public class PainelPrincipalInicioSolo extends BarraLateral {
 		central.addPartida(partida);
 		persistencia.salvarCentral(central);
 		
+		Dificuldade dificuldade = palavra.getDificuldade();
+		String texto = "";
+		
+		switch (dificuldade) {
+		case FACIL:
+			texto = "FÁCIL";
+			break;
+			
+		case NORMAL:
+			texto = "NORMAL";
+			break;
+			
+		case DIFICIL:
+			texto = "DIFÍCIL";
+			break;
+		}
+		
+		labelDificuldade = new LabelTexto(Fontes.FONTE_GRANDE, "Dificuldade: " + texto, 350, 620, 400, 50);
+		add(labelDificuldade);
+		
 		palavraEscolhida = palavra.getPalavra();
 		textoDica = palavra.getDica();
 		nomeUsuario = jogador.getNome();
@@ -96,7 +116,7 @@ public class PainelPrincipalInicioSolo extends BarraLateral {
 		
 		ImageIcon original = Icones.ICONE_FORCA_ESTADO_0;
 		
-		switch(partida.getRodada().getErros(jogador)) {
+		switch(partida.getRodada().getNumErros(jogador)) {
 		case 1:
 			original = Icones.ICONE_FORCA_ESTADO_1;
 			break;
@@ -334,7 +354,7 @@ public class PainelPrincipalInicioSolo extends BarraLateral {
 					dispose();
 					new ResultadoPartida(Resultado.DERROTA,central, persistencia, jogador, partida.getDificuldade(), PainelPrincipalInicioSolo.this);
 				} finally {
-					jogador.addPontosSolo(partida.getPontos());
+					jogador.addPontosSolo(partida.getPontos(jogador));
 					persistencia.salvarCentral(central);
 				}
 				

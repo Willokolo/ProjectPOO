@@ -20,6 +20,7 @@ import componentes.CampoPadrao;
 import componentes.LabelTexto;
 import componentes.PerfilUsuario;
 import componentes.QuadroDePontos;
+import enums.Dificuldade;
 import enums.Resultado;
 import exceptions.NaoHaPalavrasCompativeisException;
 import exceptions.RetornoVazioException;
@@ -68,7 +69,10 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 
 	private List<JLabel> labelsPalavra = new ArrayList<>();
 	private List<JLabel> labelsLetrasErradas = new ArrayList<>();
-
+	
+	private JLabel labelDificuldade;
+	private JLabel labelRodada;
+	
 	private JTextField campoLetra;
 	private JLabel botaoDarPalpite;
 
@@ -99,6 +103,26 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 		jogador.addPalavraVista(palavra2);
 		jogador2.addPalavraVista(palavra2);
 		
+		Dificuldade dificuldade = palavra1.getDificuldade();
+		String texto = "";
+		
+		switch (dificuldade) {
+		case FACIL:
+			texto = "FÁCIL";
+			break;
+			
+		case NORMAL:
+			texto = "NORMAL";
+			break;
+			
+		case DIFICIL:
+			texto = "DIFÍCIL";
+			break;
+		}
+		
+		labelDificuldade = new LabelTexto(Fontes.FONTE_GRANDE, "Dificuldade: " + texto, 500, 600, 400, 50);
+		add(labelDificuldade);
+		
 		central.addPartida(partida);
 		persistencia.salvarCentral(central);
 		
@@ -109,6 +133,13 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 		rodadaAtual = partida.getRodadas().get(indiceRodada);
 		palavraEscolhida = rodadaAtual.getPalavra().getPalavra();
 		textoDica = rodadaAtual.getDica();
+		
+		if (labelRodada != null)
+			remove(labelRodada);
+		
+		labelRodada = new LabelTexto(Fontes.FONTE_GRANDE, "Rodada " + (indiceRodada + 1), 250, 25, 300, 50);
+		labelRodada.setHorizontalAlignment(JLabel.LEFT);
+		add(labelRodada);
 		
 		atualizarTela();
 	}
@@ -131,7 +162,7 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 	}
 
 	public void adicionarCampoLetra() {
-		campoLetra = new CampoPadrao("", 675, 430, 60, 70);
+		campoLetra = new CampoPadrao("", 665, 430, 60, 70);
 		campoLetra.addKeyListener(new OuvinteLimitarCaracteres(campoLetra, 1));
 		campoLetra.setFont(Fontes.FONTE_GRANDE);
 		campoLetra.setBackground(Cores.COR_FUNDO_ESCURO);
@@ -140,7 +171,7 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 	}
 
 	public void adicionarBotaoDarPalpite() {
-		botaoDarPalpite = new BotaoGrande("DAR PALPITE", 590, 540, 240, 60);
+		botaoDarPalpite = new BotaoGrande("DAR PALPITE", 580, 540, 240, 60);
 		botaoDarPalpite.addMouseListener(new OuvinteBotaoDarPalpite());
 		add(botaoDarPalpite);
 	}
@@ -168,7 +199,8 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 			remove(textoJogadorAtual);
 		}
 		
-		textoJogadorAtual = new LabelTexto(Fontes.FONTE_GRANDE, "Vez do jogador: " + rodadaAtual.getJogadorDaVez().getNome(), 160, 50, 500, 100);
+		textoJogadorAtual = new LabelTexto(Fontes.FONTE_GRANDE, "Vez do jogador: " + rodadaAtual.getJogadorDaVez().getNome(), 250, 75, 500, 50);
+		textoJogadorAtual.setHorizontalAlignment(JLabel.LEFT);
 		add(textoJogadorAtual);
 	}
 
@@ -273,7 +305,7 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 		ImageIcon original1 = Icones.ICONE_FORCA_ESTADO_0;
 		ImageIcon original2 = Icones.ICONE_FORCA_ESTADO_0;
 		
-		switch(rodadaAtual.getErros(jogador)) {
+		switch(rodadaAtual.getNumErros(jogador)) {
 		case 1:
 			original1 = Icones.ICONE_FORCA_ESTADO_1;
 			break;
@@ -299,7 +331,7 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 			break;
 		}
 		
-		switch(rodadaAtual.getErros(jogador2)) {
+		switch(rodadaAtual.getNumErros(jogador2)) {
 		case 1:
 			original2 = Icones.ICONE_FORCA_ESTADO_1;
 			break;
@@ -397,7 +429,7 @@ public class PainelPrincipalInicioDuelo extends BarraLateral {
 			resultado = Resultado.EMPATE;
 		} finally {
 			for (Jogador j : partida.getJogadores())
-				j.addPontosDuelo(partida.getPontosDuelo(j));
+				j.addPontosDuelo(partida.getPontos(j));
 			persistencia.salvarCentral(central);
 		}
 		

@@ -22,7 +22,7 @@ public class PartidaSolo extends Partida {
 	public Resultado getResultado() {
 		return resultado;
 	}
-	public int getPontos() {
+	public int getPontos(Jogador jogador) {
 		return rodadas.get(0).getPontos(jogador);
 	}
 
@@ -30,6 +30,12 @@ public class PartidaSolo extends Partida {
 		if (rodadas.get(0).estaEliminado(jogador)) {
 			resultado = Resultado.DERROTA;
 			throw new RetornoVazioException("O jogador perdeu.");
+		}
+		return jogador;
+	}
+	public Jogador getPerdedor() throws RetornoVazioException {
+		if (!rodadas.get(0).estaEliminado(jogador)) {
+			throw new RetornoVazioException("O jogador venceu");
 		}
 		return jogador;
 	}

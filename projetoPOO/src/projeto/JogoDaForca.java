@@ -70,7 +70,7 @@ public class JogoDaForca {
 	public Jogador getJogadorDaVez() {
 		return jogadores.get(indiceDaVez);
 	}
-	public int getErros(Jogador jogador) {
+	public int getNumErros(Jogador jogador) {
 		int erros = 0;
 		for (Tentativa t: tentativas) {
 			if(!t.getAcertou() && t.getJogador().equals(jogador))
@@ -87,9 +87,17 @@ public class JogoDaForca {
 	    }
 	    return acertos;
 	}
+	public ArrayList<Character> getErros(Jogador jogador) {
+	    ArrayList<Character> erros = new ArrayList<Character>();
+	    for (Tentativa t : tentativas) {
+	        if (!t.getAcertou() && t.getJogador().equals(jogador))
+	            erros.add(t.getLetra());
+	    }
+	    return erros;
+	}
 	
 	public int getPontos(Jogador jogador) {
-		int erros = getErros(jogador);
+		int erros = getNumErros(jogador);
 		
 		if (estaEliminado(jogador))
 			return -100;
@@ -168,7 +176,7 @@ public class JogoDaForca {
 	
 	// TESTA SE O JOGADOR ESTÁ ELIMINADO
 	public boolean estaEliminado(Jogador jogador) {
-		return getErros(jogador) >= MAX_ERROS;
+		return getNumErros(jogador) >= MAX_ERROS;
 	}
 	
 	// TESTA SE O JOGO ACABOU

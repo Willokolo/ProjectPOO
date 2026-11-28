@@ -13,6 +13,7 @@ import enums.Dificuldade;
 import exceptions.JogadorInativoException;
 import exceptions.LoginSenhaException;
 import exceptions.NaoHaPalavrasCompativeisException;
+import exceptions.RetornoVazioException;
 import interfaces.Cores;
 import interfaces.Fontes;
 import interfaces.Icones;
@@ -63,6 +64,7 @@ public class PainelPrincipalMenuDuelo extends PainelPrincipalMenu {
 		String nomeUsuario = jogador2.getNome();
 		
 		labelFotoUsuario2 = new PerfilUsuario(Icones.ICONE_HISTORICO, nomeUsuario, 625, 180, 150, 150);
+		labelFotoUsuario2.addMouseListener(new OuvinteAdversario());
 		add(labelFotoUsuario2);
 		
 		labelNomeUsuario2 = new LabelTexto(Fontes.FONTE_MEDIA, nomeUsuario, 625, 295, 150, 100);
@@ -97,11 +99,11 @@ public class PainelPrincipalMenuDuelo extends PainelPrincipalMenu {
 						break;
 						
 					case 2:
-						dificuldadeSelecionada = Dificuldade.FACIL;
+						dificuldadeSelecionada = Dificuldade.NORMAL;
 						break;
 						
 					case 3:
-						dificuldadeSelecionada = Dificuldade.FACIL;
+						dificuldadeSelecionada = Dificuldade.DIFICIL;
 						break;
 					}
 				}
@@ -124,27 +126,22 @@ public class PainelPrincipalMenuDuelo extends PainelPrincipalMenu {
 				return;
 			}
 			
-			String nome = JOptionPane.showInputDialog(null, "Nome do jogador", "Escolha", JOptionPane.QUESTION_MESSAGE);
-			
-			if (nome == null)
-				return;
-			else if (nome.equals(jogador.getNome())) {
-				JOptionPane.showMessageDialog(null, "Você não pode jogar contra si mesmo", "Erro", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
 			
 			try {
-				central.recuperarJogador(nome);
+				Jogador[] opcoes = central.getJogadores(jogador, true).toArray(new Jogador[0]);
+				
+				Jogador escolhido = (Jogador) JOptionPane.showInputDialog(null, "Escolha o jogador", "Jogadores", 
+						JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
 				
 				String senha = JOptionPane.showInputDialog(null, "Senha do jogador", "Inserir senha", JOptionPane.QUESTION_MESSAGE);
-				if (senha == null)
-					return;
 				
-				jogador2 = central.fazerLogin(nome, senha);
+				jogador2 = central.fazerLogin(escolhido.getNome(), senha);
 				
 				atualizarPerfilAdversario();
-			} catch (LoginSenhaException | JogadorInativoException e1) {
+			} catch (LoginSenhaException | JogadorInativoException | RetornoVazioException e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			} catch (NullPointerException e2) {
+				return;
 			}
 		}
 	}

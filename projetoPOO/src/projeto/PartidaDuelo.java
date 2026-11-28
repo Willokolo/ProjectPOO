@@ -43,10 +43,16 @@ public class PartidaDuelo extends Partida {
 		this.resultadoJogador1 = Resultado.EMPATE;
 		throw new RetornoVazioException("Houve um empate.");
 	}
+	public Jogador getPerdedor() throws RetornoVazioException {
+		Jogador vencedor = getVencedor();
+		Jogador perdedor = vencedor.equals(jogador1) ? jogador2 : jogador1;
+		
+		return perdedor;
+	}
 	public Resultado getResultado() {
 		return resultadoJogador1;
 	}
-	public int getPontosDuelo(Jogador jogador) {
+	public int getPontos(Jogador jogador) {
 		Jogador vencedor;
 		
 		try {

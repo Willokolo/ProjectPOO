@@ -1,5 +1,6 @@
 package projeto;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -9,6 +10,7 @@ import exceptions.JogadorJaExisteException;
 import exceptions.LoginSenhaException;
 import exceptions.PalavraJaExisteException;
 import exceptions.PalavraNaoExisteException;
+import exceptions.RetornoVazioException;
 
 public class CentralDeInformacoes {
 	
@@ -32,7 +34,60 @@ public class CentralDeInformacoes {
 	public Jogador getAdministrador() {
 		return administrador;
 	}
-	
+	public ArrayList<Partida> getPartidas(Jogador jogador){
+		ArrayList<Partida> partidas = new ArrayList<Partida>();
+		
+		for (Partida p: this.partidas) {
+			if (p.getJogadores().contains(jogador))
+				partidas.add(p);
+		}
+		return new ArrayList<Partida>(partidas.reversed());
+	}
+	public ArrayList<Partida> getPartidas(LocalDateTime dataInicio, LocalDateTime dataFim){
+		ArrayList<Partida> partidas = new ArrayList<Partida>();
+		for (Partida p: this.partidas) {
+			LocalDateTime data = p.getDataHora();
+			if (!data.isBefore(dataInicio) && !data.isAfter(dataFim))
+				partidas.add(p);
+		}
+		return new ArrayList<Partida>(partidas.reversed());
+	}
+	public ArrayList<Partida> getPartidas(Jogador jogador, LocalDateTime dataInicio, LocalDateTime dataFim) {
+		ArrayList<Partida> partidasJogador = getPartidas(jogador);
+		ArrayList<Partida> partidasData = getPartidas(dataInicio, dataFim);
+		
+		for (Partida p: partidasJogador) {
+			if (!partidasData.contains(p))
+				partidasData.add(p);
+		}
+		partidasData.sort(Comparator.comparing(Partida::getDataHora).reversed()); // COLOCA AS PARTIDAS EM ORDEM NOVAMENTE
+		return partidasData;
+	}
+	public ArrayList<Jogador> getJogadores(Jogador filtro, boolean filtrarInativos) throws RetornoVazioException {
+		ArrayList<Jogador> filtrados = new ArrayList<Jogador>();
+		for (Jogador j: getJogadores()) {
+			if (filtrarInativos) {
+				if (!j.equals(filtro) && j.isAtivo())
+					filtrados.add(j);
+			} else {
+				if (!j.equals(filtro))
+					filtrados.add(j);
+			}
+		}
+		
+		if (filtrados.isEmpty())
+			throw new RetornoVazioException("Não existem jogadores cadastrados para esse filtro");
+		
+		return filtrados;
+	}
+	public ArrayList<Jogador> getJogadoresAtivos(){
+		ArrayList<Jogador> filtrados = new ArrayList<Jogador>();
+		for (Jogador j: getJogadores()) {
+			if (j.isAtivo())
+				filtrados.add(j);
+		}
+		return filtrados;
+	}
 	
 	
 	
@@ -137,6 +192,11 @@ public class CentralDeInformacoes {
 		return "Nome: " + j + ", Email: " + j.getEmail();
 	}
 	
+	// ADICIONA UM AVISO AO JOGADOR
+	public void addAviso(Jogador jogador, Aviso aviso) {
+		jogador.addAviso(aviso);
+	}
+	
 	// ADICIONA UM PARTIDA
 	public void addPartida(Partida partida) {
 		partidas.add(partida);
@@ -170,6 +230,7 @@ public class CentralDeInformacoes {
 		throw new PalavraNaoExisteException();
 	}
 	
+	// DEFINE QUEM É O ADM
 	private void setAdministrador(Jogador jogador) {
 		if (administrador == null)
 			administrador = jogador;

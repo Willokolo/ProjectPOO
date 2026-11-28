@@ -2,6 +2,7 @@ package componentes;
 
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -17,12 +18,14 @@ import ouvintes.OuvinteBotaoFundoVerde;
 import ouvintes.OuvinteBotaoSemFundo;
 import paineis.PainelCadastroNovoJogador;
 import paineis.PainelHistoricoCompleto;
+import paineis.PainelOpcoesAdministrador;
 import paineis.PainelPrincipalMenuDuelo;
 import paineis.PainelPrincipalMenuSolo;
 import projeto.CentralDeInformacoes;
 import projeto.ExtratorPalavrasCSV;
 import projeto.GeradorDeRelatorios;
 import projeto.Jogador;
+import projeto.Partida;
 import projeto.Persistencia;
 import projeto.ResultadoImportacao;
 
@@ -115,7 +118,8 @@ public class BarraLateral extends Painel {
 				j.setBackground(Cores.COR_PRIMARIA_COMPLEMENTAR);
 				
 				dispose();
-				new PainelHistoricoCompleto(central, persistencia, jogador);
+				ArrayList<Partida> partidas = central.getPartidas(jogador);
+				new PainelHistoricoCompleto(central, persistencia, jogador, partidas);
 			}
 		});
 		add(btHistorico);
@@ -152,19 +156,8 @@ public class BarraLateral extends Painel {
 			btAdministrador.addMouseListener(new OuvinteBotaoSemFundo() {
 				
 				public void mouseClicked(MouseEvent e) {
-					String arquivo = JOptionPane.showInputDialog(null, "Nome do arquivo (provisório)", "Insira o nome do arquivo", JOptionPane.QUESTION_MESSAGE);
-					
-					try {
-						ResultadoImportacao resultado = ExtratorPalavrasCSV.lerArquivo(arquivo, central);
-						
-						GeradorDeRelatorios.gerarRelatorioImportacao(resultado);
-						
-						JOptionPane.showMessageDialog(null, "Palavras extraídas e relatório gerado", "Atualização", JOptionPane.INFORMATION_MESSAGE);
-					} catch (IOException | DocumentException e1) {
-						JOptionPane.showMessageDialog(null, "Houve um erro durante a geração do relatório", "Erro", JOptionPane.ERROR_MESSAGE);
-					} finally {
-						persistencia.salvarCentral(central);
-					}
+					dispose();
+					new PainelOpcoesAdministrador(central, persistencia, jogador);
 				}
 			});
 			add(btAdministrador);

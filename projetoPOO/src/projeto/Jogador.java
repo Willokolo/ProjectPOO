@@ -13,6 +13,7 @@ public class Jogador {
 	private String senha;
 	private ArrayList<Palavra> palavrasVistas;
 	private ArrayList<Tentativa> tentativas;
+	private ArrayList<Aviso> avisos;
 	private int pontosDuelo;
 	private int pontosSolo;
 	private boolean ativo;
@@ -54,6 +55,9 @@ public class Jogador {
 	public boolean isAtivo() {
 		return ativo;
 	}
+	public ArrayList<Aviso> getAvisos(){
+		return avisos;
+	}
 	
 	// ADICIONA PONTOS AO JOGADOR
 	public void addPontosSolo(int pontos) {
@@ -69,6 +73,10 @@ public class Jogador {
 	// ADICIONA UMA PALAVRA A LISTA DE PALAVRAS VISTAS
 	public void addPalavraVista(Palavra palavra) {
 		palavrasVistas.add(palavra);
+	}
+	// ADICIONA UM AVISO A LISTA
+	public void addAviso(Aviso aviso) {
+		avisos.add(aviso);
 	}
 	
 	// CHECA SE A SENHA DE ENTRADA É A MESMA SENHA SALVA
